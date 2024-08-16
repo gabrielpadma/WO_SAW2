@@ -51,32 +51,44 @@ https://templatemo.com/tm-591-villa-agency-->
     <!-- Bootstrap core JavaScript -->
     @stack('additional-scripts')
 
-
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="d-flex flex-row-reverse ">
-                    <img src="" alt="">
-                    <div class="isi-modal flex-grow-1">
+                <div class="d-flex">
+                    <img src="{{ url('assets/img/login-img.jpg') }}" class="img-fluid d-none d-md-block"
+                        style="object-position:center center;border-radius: 5px 0 0 5px;
+                        width:40%;
+                        "
+                        alt="...">
+                    <div class="isi-modal w-100">
+                        <div class="modal-body d-flex flex-column gap-3">
+                            <h4 class="text-dark">Selamat datang</h4>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label small">Email address</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp">
 
-                        <div class="modal-body">
-                            <div class="d-flex">
-                                <h5>Selamat Datang</h5>
-                                <form action="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label small">Password</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                </div>
 
-                                </form>
-
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                            <button type="button" class="btn btn-login w-100">Login</button>
+                                <button type="button" class="btn btn-primary w-100">Login</button>
+                                <div id="emailHelp" class="form-text mt-3 small text-secondary">Belum punya akun ? <a
+                                        href="#">Daftar
+                                        Akun</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 </body>
 
