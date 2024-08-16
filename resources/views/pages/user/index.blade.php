@@ -1,11 +1,33 @@
 <x-user.layout.layout>
 
+    @push('additional-header-styles')
+        <style>
+            .btn-login {
+                border-radius: 30px;
+                background-color: #34bf49;
+                color: #ffffff;
+                border: 1px solid #34bf49;
+                transition: all 0.3s;
+            }
+
+            .btn-login:hover {
+                background-color: #ffffff;
+                color: #34bf49;
+                border: 1px solid #34bf49;
+            }
+        </style>
+    @endpush
+
+
+
+
     <x-slot:title>
         Tes Judul
 
     </x-slot>
 
     <main class="main">
+
 
         <!-- About Section -->
         <section id="about" class="about section">

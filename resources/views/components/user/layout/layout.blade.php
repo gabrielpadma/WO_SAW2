@@ -19,6 +19,7 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
 
+
     <!-- Vendor CSS Files -->
     <link href="{{ url('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
@@ -27,11 +28,12 @@
     <link href="{{ url('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="{{ url('assets/css/main.css') }}" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!--TemplateMo 591 villa agency
 https://templatemo.com/tm-591-villa-agency-->
     @stack('additional-header-scripts')
+    @stack('additional-header-styles')
 </head>
 
 <body class="index-page">
@@ -48,6 +50,33 @@ https://templatemo.com/tm-591-villa-agency-->
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
     @stack('additional-scripts')
+
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="d-flex flex-row-reverse ">
+                    <img src="" alt="">
+                    <div class="isi-modal flex-grow-1">
+
+                        <div class="modal-body">
+                            <div class="d-flex">
+                                <h5>Selamat Datang</h5>
+                                <form action="">
+
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                            <button type="button" class="btn btn-login w-100">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 

@@ -35,12 +35,21 @@
                     </ul>
                 </li>
 
-                <li><button type="button" class="btn btn-primary"> <span><i
-                                class="bi bi-person-fill"></i></span>Login</button></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><button type="button" class="btn d-flex gap-2 btn-login" data-bs-toggle="modal"
+                        data-bs-target="#loginModal" id="btnLogin">
+                        <i class="bi bi-person-fill"></i><span>Login</span></button>
+
+                </li>
+
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
     </div>
+
+
+
+
+
 </header>

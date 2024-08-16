@@ -109,6 +109,8 @@
 <!-- Preloader -->
 <div id="preloader"></div>
 
+
+
 <!-- Vendor JS Files -->
 <script src="{{ url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url('assets/vendor/php-email-form/validate.js') }}"></script>
