@@ -1,3 +1,12 @@
+{{-- @push('additional-header-styles')
+    <style>
+        #btnLogout:hover {
+            color: #34bf49;
+            background-color: #f8f9fa;
+            text-decoration: underline;
+        }
+    </style>
+@endpush --}}
 <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
@@ -51,7 +60,24 @@
 
 
                 @auth
-                    <li><a href="contact.html">User</a></li>
+                    <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i
+                                class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="#">Edit account</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item" id="btnLogout"
+                                        style="background: none; border: none; padding: 10px 20px;">
+                                        Logout
+                                    </button>
+                                </form>
+
+                            </li>
+                            <li><a href="#">Dropdown 3</a></li>
+                            <li><a href="#">Dropdown 4</a></li>
+                        </ul>
+                    </li>
                 @endauth
 
                 <!-- Tampilkan pada sm ke bawah, sembunyikan pada md ke atas -->
@@ -65,5 +91,9 @@
         </nav>
 
     </div>
+
+
+
+
 
 </header>

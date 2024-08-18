@@ -29,66 +29,57 @@
 
     <!-- Main CSS File -->
     <link href="{{ url('assets/css/main.css') }}" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!--TemplateMo 591 villa agency
 https://templatemo.com/tm-591-villa-agency-->
+    <style>
+        #btnLogout:hover {
+            color: #34bf49;
+            background-color: #f8f9fa;
+            text-decoration: underline;
+        }
+    </style>
     @stack('additional-header-scripts')
     @stack('additional-header-styles')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="index-page">
-    @include('includes.user.header')
-
+    <x-user.header />
 
     {{ $slot }}
 
+    <x-user.footer />
+
+    <!-- Vendor JS Files -->
+    <script src="{{ url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/php-email-form/validate.js') }}"></script>
+    <script src="{{ url('assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ url('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+    <script src="{{ url('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+
+    <!-- Main JS File -->
+    <script src="{{ url('assets/js/main.js') }}"></script>
 
 
-
-    @include('includes.user.footer')
-
-    <!-- Scripts -->
-    <!-- Bootstrap core JavaScript -->
     @stack('additional-scripts')
 
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="d-flex">
-                    <img src="{{ url('assets/img/login-img.jpg') }}" class="img-fluid d-none d-md-block"
-                        style="object-position:center center;border-radius: 5px 0 0 5px;
-                        width:40%;
-                        "
-                        alt="...">
-                    <div class="isi-modal w-100">
-                        <div class="modal-body d-flex flex-column gap-3">
-                            <h4 class="text-dark">Selamat datang</h4>
-                            <form>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label small">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
 
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label small">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1">
-                                </div>
+    <x-user.modal-login />
 
-                                <button type="button" class="btn btn-primary w-100">Login</button>
-                                <div id="emailHelp" class="form-text mt-3 small text-secondary">Belum punya akun ? <a
-                                        href="#">Daftar
-                                        Akun</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- <livewire:auth.modal-login /> --}}
 
-
+    @if (session()->has('login'))
+        <script>
+            Swal.fire({
+                icon: '{{ session('login')['icon'] }}',
+                title: '{{ session('login')['title'] }}',
+                text: '{{ session('login')['message'] }}',
+            });
+        </script>
+    @endif
 
 </body>
 
