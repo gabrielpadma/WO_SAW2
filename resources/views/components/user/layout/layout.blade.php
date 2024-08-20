@@ -37,6 +37,36 @@ https://templatemo.com/tm-591-villa-agency-->
             background-color: #f8f9fa;
             text-decoration: underline;
         }
+
+        .btn-green {
+            background-color: #34bf49;
+            height: 50px;
+            width: 140px;
+            border-radius: 30px;
+
+        }
+
+
+
+        @media (min-width: 1200px) {
+            .navmenu #btn-login {
+                padding: 0 !important;
+            }
+        }
+
+
+
+
+        @media (min-width: 1200px) {
+
+            .navmenu a i,
+            .navmenu a:focus i {
+                font-size: 12px;
+                line-height: 0;
+                margin-left: 0px;
+                transition: 0.3s;
+            }
+        }
     </style>
     @stack('additional-header-scripts')
     @stack('additional-header-styles')

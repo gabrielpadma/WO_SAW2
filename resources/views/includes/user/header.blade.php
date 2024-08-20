@@ -52,6 +52,14 @@
 
                 @auth
                     <li><a href="contact.html">User</a></li>
+                    {{-- <li>
+                        <button type="button"
+                            class="btn d-flex gap-2 btn-login w-100 justify-content-md-center text-md-center"
+                            data-bs-toggle="modal" data-bs-target="#loginModal" id="btnLogin">
+                            <i class="bi bi-person-fill"></i><span>Login</span>
+                        </button>
+                    </li> --}}
+
                 @endauth
 
                 <!-- Tampilkan pada sm ke bawah, sembunyikan pada md ke atas -->
