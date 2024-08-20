@@ -40,8 +40,8 @@ https://templatemo.com/tm-591-villa-agency-->
 
         .btn-green {
             background-color: #34bf49;
-            height: 50px;
-            width: 140px;
+            height: 38px;
+            width: 138px;
             border-radius: 30px;
 
         }

@@ -45,7 +45,7 @@
 
                 @guest
 
-                    <li>
+                    <li class="ms-auto">
                         <button type="button"
                             class="btn d-flex gap-2 btn-login w-100 ms-auto justify-content-md-center text-md-center"
                             data-bs-toggle="modal" data-bs-target="#loginModal" id="btnLogin">
@@ -68,17 +68,16 @@
                             <span>Hey, {{ Auth::user()->name }}</span>
                             <i class="bi bi-chevron-down text-white"></i></a>
                         <ul>
+                            <li><a href="#">Ubah Password</a></li>
                             <li>
-                                <form action="{{ route('logout') }}">
+                                <form method="post" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item" id="btnLogout"
                                         style="background: none; border: none; padding: 10px 20px;">
                                         Logout
                                     </button>
                                 </form>
-
                             </li>
-                            <li><a href="#">Dropdown 3</a></li>
                             <li><a href="#">Dropdown 4</a></li>
                         </ul>
                     </li>
