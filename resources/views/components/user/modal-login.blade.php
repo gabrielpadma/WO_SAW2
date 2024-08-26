@@ -35,7 +35,7 @@
 
                                 <button type="submit" class="btn btn-primary w-100">Login</button>
                                 <div id="emailHelp" class="form-text mt-3 small text-secondary">Belum punya akun ? <a
-                                        href="#">Daftar
+                                        href="{{ route('user.index') }}">Daftar
                                         Akun</a>
                                 </div>
                             </form>
