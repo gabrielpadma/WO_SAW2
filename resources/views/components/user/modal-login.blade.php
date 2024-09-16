@@ -46,9 +46,10 @@
         </div>
     </div>
 </div>
-@if ($errors->any())
+@if ($errors->has('email') || $errors->has('password'))
     <script>
         const myModal = new bootstrap.Modal(document.getElementById('loginModal'));
         myModal.show();
     </script>
+    @dd($errors->any())
 @endif

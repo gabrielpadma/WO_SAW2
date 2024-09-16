@@ -110,6 +110,15 @@ https://templatemo.com/tm-591-villa-agency-->
             });
         </script>
     @endif
+    @if (session()->has('swal'))
+        <script>
+            Swal.fire({
+                icon: '{{ session('swal')['icon'] }}',
+                title: '{{ session('swal')['title'] }}',
+                text: '{{ session('swal')['message'] }}',
+            });
+        </script>
+    @endif
 
 </body>
 

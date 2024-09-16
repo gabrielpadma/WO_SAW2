@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class Pelanggan extends Controller
 {
@@ -13,9 +14,10 @@ class Pelanggan extends Controller
     public function index()
     {
 
-        $breadcrumbs = ['Daftar Akun' => ['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Daftar Akun']];
+        $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Daftar Akun']];
+        $title = 'Daftar Title';
 
-        return view('pages.user.daftar_akun');
+        return view('pages.user.daftar_akun', compact('breadcrumbs', 'title'));
     }
 
     /**
@@ -31,7 +33,23 @@ class Pelanggan extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Lakukan validasi
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email_daftar_akun' => 'required|email|unique:users,email|max:255',
+            'password_daftar_akun' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Simpan data ke database
+        $user = new User();
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email_daftar_akun']; // Pastikan field di database sesuai dengan input form
+        $user->password = Hash::make($validatedData['password_daftar_akun']); // Hash password sebelum menyimpan
+        $user->role = 'user';
+        $user->save(); // Simpan user ke database
+
+        // Redirect atau kembalikan respons
+        return redirect()->route('user.index')->with('swal', ['icon' => 'success', 'title' => 'Success', 'message' => 'Daftar akun berhasil']);
     }
 
     /**
