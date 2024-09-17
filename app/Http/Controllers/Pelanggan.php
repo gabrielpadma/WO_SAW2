@@ -35,18 +35,24 @@ class Pelanggan extends Controller
     {
         // Lakukan validasi
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100|min:3',
             'email_daftar_akun' => 'required|email|unique:users,email|max:255',
             'password_daftar_akun' => 'required|string|min:8|confirmed',
         ]);
 
-        // Simpan data ke database
-        $user = new User();
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email_daftar_akun']; // Pastikan field di database sesuai dengan input form
-        $user->password = Hash::make($validatedData['password_daftar_akun']); // Hash password sebelum menyimpan
-        $user->role = 'user';
-        $user->save(); // Simpan user ke database
+
+        $userData = [
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email_daftar_akun'],
+            'password' => Hash::make($validatedData['password_daftar_akun']),
+            'role' => 'user'
+        ];
+
+        $user = User::create($userData);
+
+        if (!$user) {
+            return redirect()->route('user.index')->with('swal', ['icon' => 'success', 'title' => 'Success', 'message' => 'Gagal Mendaftarkan Akun']);
+        }
 
         // Redirect atau kembalikan respons
         return redirect()->route('user.index')->with('swal', ['icon' => 'success', 'title' => 'Success', 'message' => 'Daftar akun berhasil']);
@@ -65,7 +71,13 @@ class Pelanggan extends Controller
      */
     public function edit(User $user)
     {
-        //
+
+        dd($user);
+
+        $title = 'Ubah Password';
+        $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Ubah Password']];
+
+        return view('pages.user.daftar_akun', compact('breadcrumbs', 'title'));
     }
 
     /**

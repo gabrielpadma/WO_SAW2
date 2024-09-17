@@ -68,7 +68,8 @@
                             <span>Hey, {{ Auth::user()->name }}</span>
                             <i class="bi bi-chevron-down text-white"></i></a>
                         <ul>
-                            <li><a href="#">Ubah Password</a></li>
+                            <li><a href="{{ route('user.edit', ['user' => Crypt::encryptString(Auth::user()->id)]) }}">Ubah
+                                    Password</a></li>
                             <li>
                                 <form method="post" action="{{ route('logout') }}">
                                     @csrf

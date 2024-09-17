@@ -107,31 +107,9 @@
 
                 <div class="col-lg-8">
 
-                    <form method="POST" action="{{ route('user.store') }}">
+                    <form method="POST" action="{{ route('user.update', ['user' => Crypt::decryptString()]) }}">
                         @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                id="name" name="name" aria-describedby="UserName">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Alamat Email</label>
-                            <input type="email"
-                                class="form-control @error('email_daftar_akun') is-invalid @enderror" id="email"
-                                name="email_daftar_akun" aria-describedby="email_address">
-                            @error('email_daftar_akun')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
+                        @method('PUT')
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password"
