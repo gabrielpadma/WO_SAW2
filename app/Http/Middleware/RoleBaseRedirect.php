@@ -20,6 +20,8 @@ class RoleBaseRedirect
         if (!Auth::check()) {
             if ($request->routeIs('admin.*')) {
                 return redirect('/admin/login');
+            } else {
+                return redirect('/');
             }
             // return redirect('/');
         } else {

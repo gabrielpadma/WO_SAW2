@@ -5,12 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class Pelanggan extends Controller
+
+class Pelanggan extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('log', only: ['index']),
+            new Middleware('subscribed', except: ['store']),
+        ];
+    }
+
+
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
 
@@ -71,8 +86,6 @@ class Pelanggan extends Controller
      */
     public function edit(User $user)
     {
-
-        dd($user);
 
         $title = 'Ubah Password';
         $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Ubah Password']];
