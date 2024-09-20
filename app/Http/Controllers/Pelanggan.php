@@ -15,9 +15,7 @@ class Pelanggan extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            'auth',
-            new Middleware('log', only: ['index']),
-            new Middleware('subscribed', except: ['store']),
+            new Middleware('checkAuth'),
         ];
     }
 
@@ -90,7 +88,7 @@ class Pelanggan extends Controller implements HasMiddleware
         $title = 'Ubah Password';
         $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Ubah Password']];
 
-        return view('pages.user.daftar_akun', compact('breadcrumbs', 'title'));
+        return view('pages.user.ubah_password', compact('breadcrumbs', 'title'));
     }
 
     /**
@@ -98,7 +96,26 @@ class Pelanggan extends Controller implements HasMiddleware
      */
     public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'password_daftar_akun' => 'required|string|min:8|confirmed',
+            'old_password' => 'required'
+        ], [
+
+            'password_daftar_akun.required' => 'Password harus diisi.',
+            'password_daftar_akun.min' => 'Password harus memiliki minimal 8 karakter.',
+            'password_daftar_akun.confirmed' => 'Konfirmasi password tidak cocok.',
+        ]);
+
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->withErrors(['old_password' => 'Password lama tidak sesuai.']);
+        }
+
+
+        $user->password = Hash::make($request->input('password_daftar_akun'));
+        $user->update();
+
+        return redirect('/')->with('swal', ['icon' => 'success', 'title' => 'Success', 'message' => 'Passowrd berhasil diubah']);
     }
 
     /**

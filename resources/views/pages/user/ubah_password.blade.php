@@ -47,7 +47,7 @@
         <!-- Page Title -->
         <div class="page-title light-background">
             <div class="container">
-                <h1>Daftar Akun</h1>
+                <h1>Ubah Password</h1>
                 <nav class="breadcrumbs">
                     <ol>
                         @foreach ($breadcrumbs as $crumbs)
@@ -107,11 +107,21 @@
 
                 <div class="col-lg-8">
 
-                    <form method="POST" action="{{ route('user.update', ['user' => Crypt::decryptString()]) }}">
+                    <form method="POST" action="{{ route('user.update', ['user' => Auth::user()->id]) }}">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="old_password" class="form-label">Password Lama</label>
+                            <input type="password" class="form-control @error('old_password') is-invalid @enderror"
+                                id="old_password" name="old_password">
+                            @error('old_password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password Baru</label>
                             <input type="password"
                                 class="form-control @error('password_daftar_akun') is-invalid @enderror"
                                 id="password" name="password_daftar_akun">
