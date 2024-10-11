@@ -12,24 +12,32 @@ class RoleBaseRedirect
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next): Response
     {
 
+        // Cek apakah user sudah login
+
         if (!Auth::check()) {
-            if ($request->routeIs('admin.*')) {
-                return redirect('/admin/login');
-            } else {
-                return redirect('/');
+            if ($request->routeIs('loginAdminView')) {
+                return $next($request);
             }
-            // return redirect('/');
+
+            if ($request->is('admin/*')) {
+                return redirect()->route('loginAdminView');
+            }
+            return redirect('/');
         } else {
             $role = Auth::user()->role;
-            if ($role == 'admin' && !$request->routeIs('admin.*')) {
-                return redirect('/admin');
+
+            if ($role === 'admin' && $request->routeIs('loginAdminView')) {
+                return redirect()->route('dashboard');
             }
-            if ($role == 'user' && $request->routeIs('admin.*')) {
+
+            if ($role == 'user' && $request->is('admin/*')) {
                 return redirect('/');
             }
         }

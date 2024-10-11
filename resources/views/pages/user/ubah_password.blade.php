@@ -34,13 +34,9 @@
     @endpush
 
 
-
-
     <x-slot:title>
         {{ $title }}
-
     </x-slot>
-
 
     <main class="main">
 

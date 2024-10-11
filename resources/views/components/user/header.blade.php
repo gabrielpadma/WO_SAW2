@@ -13,7 +13,7 @@
         <a href="index.html" class="logo d-flex align-items-center">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <!-- <img src="assets/img/logo.png" alt=""> -->
-            <h1 class="sitename">Active.</h1>
+            <h1 class="sitename">Alucio.</h1>
         </a>
 
         <nav id="navmenu" class="navmenu w-100">
@@ -23,10 +23,10 @@
                 <li><a href="services.html">Services</a></li>
                 <li><a href="portfolio.html">Portfolio</a></li>
 
-                <li class="dropdown"><a href="#"><span>Dropdown</span> <i
+                <li class="dropdown"><a href="#"><span>Lowongan</span> <i
                             class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
-                        <li><a href="#">Dropdown 1</a></li>
+                        <li><a href="#">Daftar Lowongan</a></li>
                         <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
@@ -37,9 +37,8 @@
                                 <li><a href="#">Deep Dropdown 5</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Dropdown 2</a></li>
-                        <li><a href="#">Dropdown 3</a></li>
-                        <li><a href="#">Dropdown 4</a></li>
+                        <li><a href="#">Pengunguman Lowongan</a></li>
+
                     </ul>
                 </li>
 

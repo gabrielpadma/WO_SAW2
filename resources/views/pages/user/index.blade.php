@@ -22,8 +22,7 @@
 
 
     <x-slot:title>
-        Tes Judul
-
+        {{ $title }}
     </x-slot>
 
     <main class="main">

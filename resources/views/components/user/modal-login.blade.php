@@ -17,7 +17,7 @@
                                     <label for="email" class="form-label small">Email address</label>
                                     <input type="email" name="email" @class(['form-control ', 'is-invalid' => $errors->has('email')]) id="email"
                                         aria-describedby="emailHelp">
-                                    @error('password')
+                                    @error('email')
                                         <div id="validationServerUsernameFeedback" class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label small">Password</label>
-                                    <input type="password" name="password"@class(['form-control ', 'is-invalid' => $errors->has('password')]) id="password">
+                                    <input type="password" name="password" @class(['form-control ', 'is-invalid' => $errors->has('password')]) id="password">
                                     @error('password')
                                         <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                             {{ $message }}
