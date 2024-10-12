@@ -10,6 +10,9 @@ class Vacancy extends Model
 {
     use HasFactory;
 
+
+    protected $guarded = ['id'];
+
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class, 'vacancy_id');
