@@ -13,7 +13,8 @@ class VacancyController extends Controller
     public function index()
     {
         $title = 'Lowongan';
-        return view('pages.vacancy.index', compact('title'));
+        $allVacancies = Vacancy::all();
+        return view('pages.vacancy.index', compact('title', 'allVacancies'));
     }
 
     /**
@@ -41,6 +42,11 @@ class VacancyController extends Controller
             'berkas_persyaratan.mimes' => 'Lampiran harus berupa file PDF, JPG, JPEG, atau PNG.',
             'berkas_persyaratan.max' => 'Ukuran file maksimal 2MB.',
         ]);
+
+        if ($request->hasFile('berkas_persyaratan')) {
+            $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
+            $validatedData['berkas_persyaratan'] = $filePath;
+        }
 
         $Vacancy = Vacancy::create($validatedData);
         if ($Vacancy) {
