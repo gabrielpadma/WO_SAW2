@@ -9,7 +9,7 @@
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Lowongan</li>
+                    <li class="breadcrumb-item active">Criteria</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -17,7 +17,7 @@
             data-bs-target="#modalTambahData">
             <i class="bi bi-plus-lg"></i>
             <span>
-                Tambah Lowongan
+                Tambah Criteria
             </span>
 
         </button>
@@ -29,36 +29,36 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Tabel Lowongan</h5>
-
+                            <h5 class="card-title">Tabel Criteria</h5>
+                            <p>Pengambil keputusan memberi bobot preferensi dari setiap kriteria dengan masing-masing
+                                jenisnya (keuntungan / benefit) atau biaya / cost </p>
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Judul Lowongan</th>
-                                        <th>Deskripsi Lowongan</th>
-                                        <th>Berkas Lowongan</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">Tanggal Dibuat</th>
+                                        <th>Simbol</th>
+                                        <th>Kriteria</th>
+                                        <th>Bobot</th>
+                                        <th>Atribut</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($allVacancies as $vacancy)
+                                    @foreach ($allCriteria as $criteria)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $vacancy->judul_lowongan }}</td>
-                                            <td>{!! $vacancy->deskripsi_lowongan !!}</td>
-                                            <td><a href="{{ Storage::url($vacancy->berkas_persyaratan) }}"
-                                                    target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                            <td>C{{ $loop->iteration }}</td>
+                                            <td>{{ $criteria->nama_criteria }}</td>
+                                            <td>{{ $criteria->bobot }}</td>
+                                            <td>{{ $criteria->jenis_criteria }}</a>
                                             </td>
-                                            <td>{{ $vacancy->created_at->format('d-m-Y H:i') }}</td>
                                             <td class="d-flex gap-1">
-                                                <a href="{{ route('vacancy.edit', ['vacancy' => $vacancy->id]) }}"
+                                                <a href="{{ route('criteria.edit', ['criterion' => $criteria->id]) }}"
                                                     class="btn btn-primary btn-circle"><i
                                                         class="bi bi-pencil-square"></i></a>
                                                 <form
-                                                    action="{{ route('vacancy.destroy', ['vacancy' => $vacancy->id]) }}"
+                                                    action="{{ route('criteria.destroy', ['criterion' => $criteria->id]) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -77,55 +77,94 @@
                         </div>
                     </div>
 
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Tabel Criteria Normalisasi</h5>
+                            <p>Bobot criteria yang sudah dinormalisasi dengan rumus Bobot Ternormalisasi bobot ke i =
+                                bobot ke i / total bobot </p>
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Simbol</th>
+                                        <th>Kriteria</th>
+                                        <th>Bobot</th>
+                                        <th>Persentase</th>
+                                        <th>Atribut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($normalizeCriterias as $criteria)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>C{{ $loop->iteration }}</td>
+                                            <td>{{ $criteria['nama_criteria'] }}</td>
+                                            <td>{{ $criteria['normalize_weight'] }}</td>
+                                            <td>{{ $criteria['normalize_precentage_weight'] }} %</td>
+                                            <td>{{ $criteria['jenis_criteria'] }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ $totalBobotNormalize }}</td>
+                                        <td>{{ $totalBobotPersen }} %</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
+
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
         </section>
 
         <x-modal title="Tambah Data Lowongan" idModal="modalTambahData">
-            <form action="{{ route('vacancy.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('criteria.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                    <label for="judul_lowongan" class="form-label">Judul Lowongan</label>
-
+                    <label for="nama_criteria" class="form-label">Nama Criteria</label>
                     <input type="text" @class([
                         'form-control ',
-                        'is-invalid' => $errors->has('judul_lowongan'),
-                    ]) id="judul_lowongan" name="judul_lowongan"
+                        'is-invalid' => $errors->has('nama_criteria'),
+                    ]) id="nama_criteria" name="nama_criteria"
                         aria-describedby="judulLowongan" required value="{{ old('judul_lowongan') }}">
-                    @error('judul_lowongan')
+                    @error('nama_criteria')
                         <div id="validationServerPasswordFeedback" class="invalid-feedback">
                             {{ $message }}
                         </div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="deskripsi_lowongan" class="form-label">Deskripsi Lowongan</label>
-                    <textarea id="deskripsi_lowongan" name="deskripsi_lowongan" required>
-                        {{ old('deskripsi_lowongan') }}
-                    </textarea>
-                    @error('deskripsi_lowongan')
-                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="mb-3 ">
-                    <label for="attachment" class="form-label">Lampiran</label>
-                    <input @class([
-                        'form-control ',
-                        'is-invalid' => $errors->has('berkas_persyaratan'),
-                    ]) type="file" id="attachment" name="berkas_persyaratan"
-                        required>
-                    <img id="attachment-preview" src="" alt="Preview Image"
-                        style="display:none; margin-top:10px; max-width: 100%; height: auto;">
-                    <embed id="pdf-preview" src="" type="application/pdf"
-                        style="display:none; margin-top:10px; width: 100%; height: 500px;" />
-                    @error('berkas_persyaratan')
+                    <label for="bobot" class="form-label">Bobot Criteria</label>
+                    <input type="text" @class(['form-control ', 'is-invalid' => $errors->has('bobot')]) id="bobot" name="bobot"
+                        aria-describedby="bobot" required value="{{ old('bobot') }}">
+                    @error('bobot')
                         <div id="validationServerPasswordFeedback" class="invalid-feedback">
                             {{ $message }}
                         </div>
                     @enderror
 
+                </div>
+                <div class="mb-3 ">
+                    <label for="attachment" class="form-label">Jenis Criteria</label>
+                    <select name="jenis_criteria" id="jenis_criteria" class="form-control">
+                        <option value="">-- Pilih Jenis Criteria --</option>
+                        @foreach (App\JenisCriteria::cases() as $criterionType)
+                            <option value="{{ $criterionType->value }}"
+                                {{ old('jenis_criteria') == $criterionType->value ? 'selected' : '' }}>
+                                {{ ucfirst($criterionType->name) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Submit</button>
             </form>

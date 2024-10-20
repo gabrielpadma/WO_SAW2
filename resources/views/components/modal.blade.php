@@ -1,6 +1,6 @@
 <!-- Modal -->
 @props(['title', 'idModal' => 'modalTambahData'])
-<div class="modal fade" id="{{ $idModal }}" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTambahData"
+<div class="modal fade" id="{{ $idModal }}" data-bs-keyboard="false" tabindex="-1" aria-labelledby="Modal Data"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
         <div class="modal-content">

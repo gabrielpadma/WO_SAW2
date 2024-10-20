@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class VacancyController extends Controller
 {
@@ -75,24 +77,86 @@ class VacancyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Vacancy $vacancy)
     {
-        //
+        $title = 'Edit Lowongan';
+        return view('pages.vacancy.edit', compact('title', 'vacancy'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Vacancy $vacancy)
     {
-        //
+
+
+        $validator = Validator::make($request->all(), [
+            'judul_lowongan' => 'required|string|max:255',
+            'deskripsi_lowongan' => 'required|string',
+            'berkas_persyaratan' => 'nullable|mimes:pdf,jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator)
+                ->with('swal', [
+                    'message' => 'Data gagal diupdate. Validasi gagal.',
+                    'icon' => 'error',
+                    'title' => 'Error'
+                ]);
+        }
+
+
+        $validatedData = $validator->validated();
+
+        if ($request->hasFile('berkas_persyaratan')) {
+            if ($vacancy->berkas_persyaratan && Storage::disk('public')->exists($vacancy->berkas_persyaratan)) {
+                Storage::disk('public')->delete($vacancy->berkas_persyaratan);
+            }
+
+            $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
+            $validatedData['berkas_persyaratan'] = $filePath;
+        } else {
+
+            unset($validatedData['berkas_persyaratan']);
+        }
+
+        $condition = $vacancy->update($validatedData);
+
+        if ($condition) {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data berhasil diupdate',
+                'icon' => 'success',
+                'title' => 'Success'
+            ]);
+        } else {
+            return redirect()->back()->withInput()->with('swal', [
+                'message' => 'Data gagal diupdate',
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Vacancy $vacancy)
     {
-        //
+        if ($vacancy->berkas_persyaratan && Storage::disk('public')->exists($vacancy->berkas_persyaratan)) {
+            Storage::disk('public')->delete($vacancy->berkas_persyaratan);
+        }
+        if ($vacancy->delete()) {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data berhasil dihapus',
+                'icon' => 'success',
+                'title' => 'Success'
+            ]);
+        } else {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data gagal dihapus',
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
     }
 }

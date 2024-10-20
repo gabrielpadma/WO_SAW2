@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\Pelanggan;
 use App\Http\Controllers\VacancyController;
 use App\Http\Middleware\RoleBaseRedirect;
@@ -25,5 +26,7 @@ Route::controller(AdminController::class)->middleware('checkAuth')->group(functi
 
 
 
+
+Route::resource('criteria', CriteriaController::class)->middleware('checkAuth');
 Route::resource('vacancy', VacancyController::class)->middleware('checkAuth');
 Route::resource('user', Pelanggan::class);
