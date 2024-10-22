@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="components-accordion.html">
+                    <a href="{{ route('sub-criteria.index') }}">
                         <i class="bi bi-circle"></i><span>Sub Criteria</span>
                     </a>
                 </li>

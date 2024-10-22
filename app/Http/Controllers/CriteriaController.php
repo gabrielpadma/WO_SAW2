@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Criteria;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CriteriaController extends Controller
 {
@@ -23,12 +25,19 @@ class CriteriaController extends Controller
 
     private function _changeToNormalizeWeight($criterias)
     {
-        $totalWeight = Criteria::all()->sum('bobot');
+        $totalWeight = $criterias->sum('bobot');
+
         return $criterias->map(function ($criteria) use ($totalWeight) {
             $normalizeWeight = round((float)$criteria->bobot / $totalWeight, 2);
-            return [...$criteria->toArray(), 'normalize_weight' => $normalizeWeight, 'normalize_precentage_weight' => round($normalizeWeight * 100, 2)];
+            return [
+                ...$criteria->toArray(),
+                'vacancy' => $criteria->vacancy,
+                'normalize_weight' => $normalizeWeight,
+                'normalize_precentage_weight' => round($normalizeWeight * 100, 2)
+            ];
         });
     }
+
 
 
 
@@ -39,14 +48,39 @@ class CriteriaController extends Controller
     {
 
         $title = 'Criteria';
-        $allCriteria = Criteria::all();
-        $totalBobotNormalize = $this->_changeToNormalizeWeight($allCriteria)->sum('normalize_weight');
-        $totalBobotPersen = $totalBobotNormalize * 100;
-        $normalizeCriterias = $this->_changeToNormalizeWeight($allCriteria);
+        $allCriteria = Criteria::join('vacancies', 'criteria.vacancy_id', '=', 'vacancies.id')
+            ->orderBy('vacancies.judul_lowongan')
+            ->select('criteria.*')
+            ->get();
+
+        $allVacancies = Vacancy::all();
 
 
-        return view('pages.criteria.index', compact('title', 'allCriteria', 'normalizeCriterias', 'totalBobotNormalize', 'totalBobotPersen'));
+        return view('pages.criteria.index', compact('title', 'allCriteria',  'allVacancies'));
     }
+
+
+    public function detailNormalisasi(Vacancy $vacancy)
+    {
+        $title = 'Normalisasi Criteria';
+
+        $vacancy->load('criterias');
+
+        $normalizeCriterias = $this->_changeToNormalizeWeight($vacancy->criterias);
+        $totalBobotNormalize = $normalizeCriterias->sum('normalize_weight');
+        $totalBobotPersen = $totalBobotNormalize * 100;
+
+        return view('pages.criteria.detail-normalisasi', compact(
+            'title',
+            'normalizeCriterias',
+            'totalBobotNormalize',
+            'totalBobotPersen',
+            'vacancy'
+        ));
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -65,6 +99,7 @@ class CriteriaController extends Controller
             'nama_criteria' => 'required|string|max:255',
             'bobot' => 'required|numeric',
             'jenis_criteria' => 'required',
+            'vacancy_id' => 'required'
         ]);
 
 
@@ -96,17 +131,52 @@ class CriteriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Criteria $criteria)
+    public function edit(Criteria $criterion)
     {
-        //
+        $title = 'Edit Criteria';
+        $allVacancies = Vacancy::all();
+        $criterion = $criterion->load(['vacancy']);
+        return view('pages.criteria.edit', compact('title', 'criterion', 'allVacancies'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Criteria $criteria)
+    public function update(Request $request, Criteria $criterion)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nama_criteria' => 'required|string|max:255',
+            'bobot' => 'required',
+            'jenis_criteria' => 'required',
+            'vacancy_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator)
+                ->with('swal', [
+                    'message' => 'Data gagal diupdate. Validasi gagal.',
+                    'icon' => 'error',
+                    'title' => 'Error'
+                ]);
+        }
+
+
+        $validatedData = $validator->validated();
+        $condition = $criterion->update(attributes: $validatedData);
+
+        if ($condition) {
+            return redirect()->route('criteria.index')->with('swal', [
+                'message' => 'Data berhasil diupdate',
+                'icon' => 'success',
+                'title' => 'Success'
+            ]);
+        } else {
+            return redirect()->back()->withInput()->with('swal', [
+                'message' => 'Data gagal diupdate',
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
     }
 
     /**

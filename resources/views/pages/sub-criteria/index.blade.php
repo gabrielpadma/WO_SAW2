@@ -5,11 +5,11 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Semau Criteria</h1>
+            <h1>Sub Criteria</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Criteria</li>
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Sub Criteria</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -17,9 +17,8 @@
             data-bs-target="#modalTambahData">
             <i class="bi bi-plus-lg"></i>
             <span>
-                Tambah Criteria
+                Tambah Sub Criteria
             </span>
-
         </button>
 
 
@@ -29,19 +28,16 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Tabel Criteria</h5>
-                            <p>Pengambil keputusan memberi bobot preferensi dari setiap kriteria dengan masing-masing
-                                jenisnya (keuntungan / benefit) atau biaya / cost </p>
+                            <h5 class="card-title">Tabel Sub Criteria</h5>
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Simbol</th>
-                                        <th>Kriteria</th>
-                                        <th>Lowongan Pekerjaan</th>
-                                        <th>Bobot</th>
-                                        <th>Atribut</th>
+                                        <th>Criteria</th>
+                                        <th>Sub Criteria</th>
+                                        <th>Nilai</th>
+
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -51,7 +47,6 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>C{{ $loop->iteration }}</td>
                                             <td>{{ $criteria->nama_criteria }}</td>
-                                            <td>{{ $criteria->vacancy->judul_lowongan }}</td>
                                             <td>{{ $criteria->bobot }}</td>
                                             <td>{{ $criteria->jenis_criteria }}</a>
                                             </td>
@@ -59,9 +54,6 @@
                                                 <a href="{{ route('criteria.edit', ['criterion' => $criteria->id]) }}"
                                                     class="btn btn-primary btn-circle"><i
                                                         class="bi bi-pencil-square"></i></a>
-                                                <a href="{{ route('detail-normalisasi', ['vacancy' => $criteria->vacancy->id]) }}"
-                                                    class="btn btn-secondary btn-circle"><i
-                                                        class="bi bi-info-circle-fill"></i></a>
                                                 <form
                                                     action="{{ route('criteria.destroy', ['criterion' => $criteria->id]) }}"
                                                     method="POST">
@@ -81,8 +73,6 @@
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </section>
@@ -90,20 +80,6 @@
         <x-modal title="Tambah Data Lowongan" idModal="modalTambahData">
             <form action="{{ route('criteria.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
-
-                <div class="mb-3 ">
-                    <label for="vacancy_id" class="form-label">Lowongan</label>
-                    <select name="vacancy_id" id="vacancy_id" class="form-control" required>
-                        <option value="">-- Pilih Lowongan --</option>
-                        @foreach ($allVacancies as $vacancy)
-                            <option value="{{ $vacancy->id }}"
-                                {{ old('vacancy_id') == $vacancy->id ? 'selected' : '' }}>
-                                {{ ucfirst($vacancy->judul_lowongan) }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <div class="mb-3">
                     <label for="nama_criteria" class="form-label">Nama Criteria</label>
                     <input type="text" @class([
@@ -117,8 +93,6 @@
                         </div>
                     @enderror
                 </div>
-
-
                 <div class="mb-3">
                     <label for="bobot" class="form-label">Bobot Criteria</label>
                     <input type="number" @class(['form-control ', 'is-invalid' => $errors->has('bobot')]) id="bobot" name="bobot"
@@ -186,37 +160,6 @@
                     });
                 });
 
-
-                document.getElementById('attachment').addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    const previewImage = document.getElementById('attachment-preview');
-                    const previewPDF = document.getElementById('pdf-preview');
-
-                    if (file) {
-                        const fileType = file.type;
-
-                        // Reset the previews
-                        previewImage.style.display = 'none';
-                        previewPDF.style.display = 'none';
-                        previewImage.src = '';
-                        previewPDF.src = '';
-
-                        if (fileType.startsWith('image/')) {
-                            // Preview for image
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                previewImage.src = e.target.result;
-                                previewImage.style.display = 'block';
-                            };
-                            reader.readAsDataURL(file);
-                        } else if (fileType === 'application/pdf') {
-                            // Preview for PDF
-                            const fileURL = URL.createObjectURL(file);
-                            previewPDF.src = fileURL;
-                            previewPDF.style.display = 'block';
-                        }
-                    }
-                });
             });
         </script>
 

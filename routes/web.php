@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\Pelanggan;
+use App\Http\Controllers\SubCriteriaController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Middleware\RoleBaseRedirect;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,12 @@ Route::controller(AdminController::class)->middleware('checkAuth')->group(functi
 
 
 
-Route::resource('criteria', CriteriaController::class)->middleware('checkAuth');
-Route::resource('vacancy', VacancyController::class)->middleware('checkAuth');
+// Route::resource('criteria', CriteriaController::class)->middleware('checkAuth');
+// Route::resource('vacancy', VacancyController::class)->middleware('checkAuth');
+Route::prefix('admin')->middleware('checkAuth')->group(function () {
+    Route::resource('criteria', CriteriaController::class);
+    Route::get('detail-normalisasi/{vacancy}', [CriteriaController::class, 'detailNormalisasi'])->name('detail-normalisasi');
+    Route::resource('vacancy', VacancyController::class);
+    Route::resource('sub-criteria', SubCriteriaController::class);
+});
 Route::resource('user', Pelanggan::class);

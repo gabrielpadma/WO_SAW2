@@ -17,4 +17,9 @@ class Vacancy extends Model
     {
         return $this->hasMany(Application::class, 'vacancy_id');
     }
+
+    public function criterias(): HasMany
+    {
+        return $this->hasMany(Criteria::class, 'vacancy_id');
+    }
 }
