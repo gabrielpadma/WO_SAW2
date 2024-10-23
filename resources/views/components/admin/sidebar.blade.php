@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('sub-criteria.index') }}">
+                    <a href="{{ route('criteria-subcriteria.index') }}">
                         <i class="bi bi-circle"></i><span>Sub Criteria</span>
                     </a>
                 </li>

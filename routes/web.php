@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('criteria', CriteriaController::class);
     Route::get('detail-normalisasi/{vacancy}', [CriteriaController::class, 'detailNormalisasi'])->name('detail-normalisasi');
     Route::resource('vacancy', VacancyController::class);
-    Route::resource('sub-criteria', SubCriteriaController::class);
+    Route::resource('criteria.sub-criteria', SubCriteriaController::class);
+    Route::get('all-criteria-subcriteria', action: [SubCriteriaController::class, 'showAll'])->name('criteria-subcriteria.index');
 });
 Route::resource('user', Pelanggan::class);
