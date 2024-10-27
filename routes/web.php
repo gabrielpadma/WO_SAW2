@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\HeroPageContentController;
 use App\Http\Controllers\Pelanggan;
 use App\Http\Controllers\SubCriteriaController;
 use App\Http\Controllers\VacancyController;
@@ -36,5 +37,6 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('vacancy', VacancyController::class);
     Route::resource('criteria.sub-criteria', SubCriteriaController::class);
     Route::get('all-criteria-subcriteria', action: [SubCriteriaController::class, 'showAll'])->name('criteria-subcriteria.index');
+    Route::resource('hero-content', HeroPageContentController::class);
 });
 Route::resource('user', Pelanggan::class);
