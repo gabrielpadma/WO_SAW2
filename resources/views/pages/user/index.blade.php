@@ -61,32 +61,34 @@
                   }
                   </script>
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_6.jpg" alt="Image" class="img-fluid">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_7.jpg" alt="Image" class="img-fluid">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_8.jpg" alt="Image" class="img-fluid">
-                                </div>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @php
+                                        $imagePath = "image_path{$i}";
+                                    @endphp
+
+                                    @if (!empty($heroData->{$imagePath}))
+                                        <div class="swiper-slide">
+                                            <img src="{{ asset('storage/' . $heroData->{$imagePath}) }}"
+                                                alt="Hero Image {{ $i }}" class="img-fluid">
+                                        </div>
+                                    @else
+                                        @continue
+                                    @endif
+                                @endfor
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>
                     </div>
                     <div class="col-lg-4 order-lg-1">
-                        <span class="section-subtitle" data-aos="fade-up">Welcome</span>
+                        <span class="section-subtitle" data-aos="fade-up">Selamat Datang</span>
                         <h1 class="mb-4" data-aos="fade-up">
-                            Excepteur sint occaecat cupidatat non proident
+                            {{ $heroData->welcome_text ?? 'Data Hero Kosong' }}
                         </h1>
                         <p data-aos="fade-up">
-                            Far far away, behind the word mountains, far from the countries
-                            Vokalia and Consonantia, there live the blind texts. Separated they
-                            live in Bookmarksgrove right at the coast of the Semantics, a large
-                            language ocean.
+                            {!! $heroData->content_text ?? 'Data Hero Kosong' !!}
                         </p>
                         <p class="mt-5" data-aos="fade-up">
-                            <a href="#" class="btn btn-get-started">Get Started</a>
+                            <a href="#" class="btn btn-get-started">Mulai</a>
                         </p>
                     </div>
                 </div>
@@ -141,11 +143,11 @@
                     <div class="col-lg-3">
                         <div class="services-item" data-aos="fade-up">
                             <div class="services-icon">
-                                <i class="bi bi-bullseye"></i>
+                                <i class="bi bi-person-circle"></i>
                             </div>
                             <div>
-                                <h3>Technology</h3>
-                                <p>Separated they live in Bookmarksgrove right at the coast</p>
+                                <h3>Konsultasi</h3>
+                                <p>Konsultasi mengenai event pernikahan</p>
                             </div>
                         </div>
                     </div>
@@ -153,11 +155,11 @@
                     <div class="col-lg-3">
                         <div class="services-item" data-aos="fade-up" data-aos-delay="100">
                             <div class="services-icon">
-                                <i class="bi bi-command"></i>
+                                <i class="bi bi-gift"></i>
                             </div>
                             <div>
-                                <h3>Web Design</h3>
-                                <p>Separated they live in Bookmarksgrove right at the coast</p>
+                                <h3>Paket Pernikahan</h3>
+                                <p>Paket pernikahan lengkap dari vendor kami</p>
                             </div>
                         </div>
                     </div>
@@ -165,11 +167,11 @@
                     <div class="col-lg-3">
                         <div class="services-item" data-aos="fade-up" data-aos-delay="200">
                             <div class="services-icon">
-                                <i class="bi bi-bar-chart"></i>
+                                <i class="bi bi-telephone"></i>
                             </div>
                             <div>
-                                <h3>Branding</h3>
-                                <p>Separated they live in Bookmarksgrove right at the coast</p>
+                                <h3>Booking</h3>
+                                <p>Proses booking muda dan cepat </p>
                             </div>
                         </div>
                     </div>

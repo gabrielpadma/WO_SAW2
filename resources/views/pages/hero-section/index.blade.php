@@ -40,41 +40,46 @@
                     <div class="card">
                         <div class="card-body pt-3">
                             <!-- Bordered Tabs -->
-                            <ul class="nav nav-tabs nav-tabs-bordered">
+                            <ul class="nav nav-tabs nav-tabs-bordered ">
 
                                 <li class="nav-item">
                                     <button class="nav-link active" data-bs-toggle="tab"
-                                        data-bs-target="#profile-overview">Hero Section</button>
+                                        data-bs-target="#hero-section">Hero Section</button>
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
-                                        Profile</button>
-                                </li>
-
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#profile-settings">Settings</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#siapa-kami">
+                                        Siapa Kami</button>
                                 </li>
 
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#profile-change-password">Change Password</button>
+                                        data-bs-target="#layanan">Layanan</button>
+                                </li>
+
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#testimonial">Testimonial</button>
                                 </li>
 
                             </ul>
                             <div class="tab-content pt-2">
-
-                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                                    <h5 class="card-title">Data Hero Section</h5>
-                                    <form>
-
+                                <div class="tab-pane fade show active hero-section" id="hero-section">
+                                    <h5 class="card-title">Setting Hero Section</h5>
+                                    <form method="post" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="row mb-3">
                                             <label for="currentPassword"
                                                 class="col-md-4 col-lg-3 col-form-label">Welcome Text</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="welcome_text" type="text" class="form-control"
-                                                    id="welcome_text">
+                                                    id="welcome_text"
+                                                    value=" {{ old('welcome_text', $HeroContent->welcome_text ?? '') }}">
+                                                @error('welcome_text')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
 
@@ -83,91 +88,139 @@
                                                 Content</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <textarea id="content_text" name="content_text" required>
-                                                {{ old('content_text') }}
+                                                {{ old('content_text', $HeroContent->content_text ?? '') }}
                                             </textarea>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="attachment" class="form-label">Gambar Hero 1</label>
-                                            <input @class([
-                                                'form-control ',
-                                                'is-invalid' => $errors->has('berkas_persyaratan'),
-                                            ]) type="file" id="attachment"
-                                                name="berkas_persyaratan" required>
-                                            <img id="attachment-preview" src="" alt="Preview Image"
-                                                style="display:none; margin-top:10px; max-width: 100%; height: auto;">
-                                            <embed id="pdf-preview" src="" type="application/pdf"
-                                                style="display:none; margin-top:10px; width: 100%; height: 500px;" />
-                                            @error('berkas_persyaratan')
+                                            <label for="image_path1" class="form-label">Gambar Hero 1</label>
+                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path1')]) type="file" id="image_path1"
+                                                name="image_path1">
+
+                                            @php
+                                                if ($HeroContent->image_path1) {
+                                                    $fileName = $HeroContent->image_path1
+                                                        ? basename($HeroContent->image_path1)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+
+                                            @if ($HeroContent->image_path1 ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $HeroContent->image_path1) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+
+                                            @error('image_path1')
                                                 <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="attachment" class="form-label">Gambar Hero 2</label>
-                                            <input @class([
-                                                'form-control ',
-                                                'is-invalid' => $errors->has('berkas_persyaratan'),
-                                            ]) type="file" id="attachment"
-                                                name="berkas_persyaratan" required>
-                                            <img id="attachment-preview" src="" alt="Preview Image"
-                                                style="display:none; margin-top:10px; max-width: 100%; height: auto;">
-                                            <embed id="pdf-preview" src="" type="application/pdf"
-                                                style="display:none; margin-top:10px; width: 100%; height: 500px;" />
-                                            @error('berkas_persyaratan')
+                                            <label for="image_path2" class="form-label">Gambar Hero 2</label>
+                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path2')]) type="file" id="image_path2"
+                                                name="image_path2">
+
+                                            @php
+                                                if ($HeroContent->image_path2) {
+                                                    $fileName = $HeroContent->image_path2
+                                                        ? basename($HeroContent->image_path2)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+                                            @if ($HeroContent->image_path2 ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $HeroContent->image_path2) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+
+
+                                            @error('image_path2')
                                                 <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="attachment" class="form-label">Gambar Hero 3</label>
-                                            <input @class([
-                                                'form-control ',
-                                                'is-invalid' => $errors->has('berkas_persyaratan'),
-                                            ]) type="file" id="attachment"
-                                                name="berkas_persyaratan" required>
-                                            <img id="attachment-preview" src="" alt="Preview Image"
-                                                style="display:none; margin-top:10px; max-width: 100%; height: auto;">
-                                            <embed id="pdf-preview" src="" type="application/pdf"
-                                                style="display:none; margin-top:10px; width: 100%; height: 500px;" />
-                                            @error('berkas_persyaratan')
+                                            <label for="image_path3" class="form-label">Gambar Hero 3</label>
+                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path3')]) type="file" id="image_path3"
+                                                name="image_path3">
+
+                                            @php
+                                                if ($HeroContent->image_path3) {
+                                                    $fileName = $HeroContent->image_path3
+                                                        ? basename($HeroContent->image_path3)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+
+                                            @if ($HeroContent->image_path3 ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $HeroContent->image_path3) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+                                            @error('image_path3')
                                                 <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="attachment" class="form-label">Gambar Hero 4</label>
-                                            <input @class([
-                                                'form-control ',
-                                                'is-invalid' => $errors->has('berkas_persyaratan'),
-                                            ]) type="file" id="attachment"
-                                                name="berkas_persyaratan" required>
-                                            <img id="attachment-preview" src="" alt="Preview Image"
-                                                style="display:none; margin-top:10px; max-width: 100%; height: auto;">
-                                            <embed id="pdf-preview" src="" type="application/pdf"
-                                                style="display:none; margin-top:10px; width: 100%; height: 500px;" />
-                                            @error('berkas_persyaratan')
+                                            <label for="image_path4" class="form-label">Gambar Hero 4</label>
+                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path4')]) type="file" id="image_path4"
+                                                name="image_path4">
+
+
+                                            @php
+                                                if ($HeroContent->image_path4) {
+                                                    $fileName = $HeroContent->image_path4
+                                                        ? basename($HeroContent->image_path4)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+
+                                            @if ($HeroContent->image_path4 ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $HeroContent->image_path4) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+                                            @error('image_path4')
                                                 <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="attachment" class="form-label">Gambar Hero 5</label>
-                                            <input @class([
-                                                'form-control ',
-                                                'is-invalid' => $errors->has('berkas_persyaratan'),
-                                            ]) type="file" id="attachment"
-                                                name="berkas_persyaratan" required>
-                                            <img id="attachment-preview" src="" alt="Preview Image"
-                                                style="display:none; margin-top:10px; max-width: 100%; height: auto;">
-                                            <embed id="pdf-preview" src="" type="application/pdf"
-                                                style="display:none; margin-top:10px; width: 100%; height: 500px;" />
-                                            @error('berkas_persyaratan')
+                                            <label for="image_path5" class="form-label">Gambar Hero 5</label>
+                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path5')]) type="file" id="image_path5"
+                                                name="image_path5">
+
+                                            @php
+                                                if ($HeroContent->image_path5) {
+                                                    $fileName = $HeroContent->image_path5
+                                                        ? basename($HeroContent->image_path5)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+
+                                            @if ($HeroContent->image_path5 ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $HeroContent->image_path5) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+                                            @error('image_path5')
                                                 <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -181,7 +234,7 @@
 
                                 </div>
 
-                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                                <div class="tab-pane fade siapa-kami pt-3" id="siapa-kami">
 
                                     <!-- Profile Edit Form -->
                                     <form>
@@ -314,7 +367,7 @@
 
                                 </div>
 
-                                <div class="tab-pane fade pt-3" id="profile-settings">
+                                <div class="tab-pane fade pt-3" id="layanan">
 
                                     <!-- Settings Form -->
                                     <form>
@@ -360,7 +413,7 @@
 
                                 </div>
 
-                                <div class="tab-pane fade pt-3" id="profile-change-password">
+                                <div class="tab-pane fade pt-3" id="testimonial">
 
                                     <form>
 

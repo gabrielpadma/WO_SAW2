@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HeroPageContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,9 @@ class AuthController extends Controller
     public function index()
     {
         $title = 'Alucia Wedding Organizer';
-        return view('pages.user.index', compact('title'));
+        $heroData = HeroPageContent::firstOrFail();
+
+        return view('pages.user.index', compact('title', 'heroData'));
     }
 
 

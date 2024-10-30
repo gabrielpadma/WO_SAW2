@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HeroPageContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HeroPageContentController extends Controller
 {
@@ -17,7 +18,7 @@ class HeroPageContentController extends Controller
     public function index()
     {
         $title = 'Pengaturan Hero Section';
-        $HeroContent = HeroPageContent::all();
+        $HeroContent = HeroPageContent::first();
 
         return view('pages.hero-section.index', compact('title', 'HeroContent'));
     }
@@ -35,7 +36,41 @@ class HeroPageContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'welcome_text' => 'required|string|max:255',
+            'content_text' => 'required|string',
+            'image_path1' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'image_path2' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'image_path3' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'image_path4' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'image_path5' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+        ]);
+
+        $heroContent = HeroPageContent::firstOrNew();
+
+        $heroContent->welcome_text = $validatedData['welcome_text'];
+        $heroContent->content_text = $validatedData['content_text'];
+
+
+        for ($i = 1; $i <= 5; $i++) {
+            $imagePath = "image_path{$i}";
+            if ($request->hasFile($imagePath)) {
+                if ($heroContent->{$imagePath}) {
+                    Storage::disk('public')->delete($heroContent->{$imagePath});
+                }
+
+                $fileName = $request->file($imagePath)->store('hero_images', 'public');
+                $heroContent->{$imagePath} = $fileName;
+            }
+        }
+
+        $heroContent->save();
+
+        return redirect()->back()->with('swal', [
+            'message' => 'Data hero berhasil diupdate',
+            'icon' => 'success',
+            'title' => 'Success'
+        ]);;
     }
 
     /**
