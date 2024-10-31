@@ -99,14 +99,14 @@
                                                 name="image_path1">
 
                                             @php
-                                                if ($HeroContent->image_path1) {
+                                                if ($HeroContent?->image_path1) {
                                                     $fileName = $HeroContent->image_path1
                                                         ? basename($HeroContent->image_path1)
                                                         : 'Tidak ada file';
                                                 }
                                             @endphp
 
-                                            @if ($HeroContent->image_path1 ?? false)
+                                            @if ($HeroContent?->image_path1 ?? false)
                                                 <p>File yang sudah diunggah: <a
                                                         href="{{ asset('storage/' . $HeroContent->image_path1) }}"
                                                         target="_blank">{{ $fileName }}</a></p>
@@ -126,13 +126,13 @@
                                                 name="image_path2">
 
                                             @php
-                                                if ($HeroContent->image_path2) {
+                                                if ($HeroContent?->image_path2) {
                                                     $fileName = $HeroContent->image_path2
                                                         ? basename($HeroContent->image_path2)
                                                         : 'Tidak ada file';
                                                 }
                                             @endphp
-                                            @if ($HeroContent->image_path2 ?? false)
+                                            @if ($HeroContent?->image_path2 ?? false)
                                                 <p>File yang sudah diunggah: <a
                                                         href="{{ asset('storage/' . $HeroContent->image_path2) }}"
                                                         target="_blank">{{ $fileName }}</a></p>
@@ -153,14 +153,14 @@
                                                 name="image_path3">
 
                                             @php
-                                                if ($HeroContent->image_path3) {
+                                                if ($HeroContent?->image_path3) {
                                                     $fileName = $HeroContent->image_path3
                                                         ? basename($HeroContent->image_path3)
                                                         : 'Tidak ada file';
                                                 }
                                             @endphp
 
-                                            @if ($HeroContent->image_path3 ?? false)
+                                            @if ($HeroContent?->image_path3 ?? false)
                                                 <p>File yang sudah diunggah: <a
                                                         href="{{ asset('storage/' . $HeroContent->image_path3) }}"
                                                         target="_blank">{{ $fileName }}</a></p>
@@ -180,14 +180,14 @@
 
 
                                             @php
-                                                if ($HeroContent->image_path4) {
+                                                if ($HeroContent?->image_path4) {
                                                     $fileName = $HeroContent->image_path4
                                                         ? basename($HeroContent->image_path4)
                                                         : 'Tidak ada file';
                                                 }
                                             @endphp
 
-                                            @if ($HeroContent->image_path4 ?? false)
+                                            @if ($HeroContent?->image_path4 ?? false)
                                                 <p>File yang sudah diunggah: <a
                                                         href="{{ asset('storage/' . $HeroContent->image_path4) }}"
                                                         target="_blank">{{ $fileName }}</a></p>
@@ -206,14 +206,14 @@
                                                 name="image_path5">
 
                                             @php
-                                                if ($HeroContent->image_path5) {
+                                                if ($HeroContent?->image_path5) {
                                                     $fileName = $HeroContent->image_path5
                                                         ? basename($HeroContent->image_path5)
                                                         : 'Tidak ada file';
                                                 }
                                             @endphp
 
-                                            @if ($HeroContent->image_path5 ?? false)
+                                            @if ($HeroContent?->image_path5 ?? false)
                                                 <p>File yang sudah diunggah: <a
                                                         href="{{ asset('storage/' . $HeroContent->image_path5) }}"
                                                         target="_blank">{{ $fileName }}</a></p>

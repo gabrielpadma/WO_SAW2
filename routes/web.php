@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\HeroPageContentController;
 use App\Http\Controllers\Pelanggan;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\PortfolioDetailController;
 use App\Http\Controllers\SubCriteriaController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Middleware\RoleBaseRedirect;
@@ -38,5 +40,7 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('criteria.sub-criteria', SubCriteriaController::class);
     Route::get('all-criteria-subcriteria', action: [SubCriteriaController::class, 'showAll'])->name('criteria-subcriteria.index');
     Route::resource('hero-content', HeroPageContentController::class);
+    Route::resource('portfolio', PortfolioController::class);
+    Route::resource('portfolio.portfolio-detail', PortfolioDetailController::class);
 });
 Route::resource('user', Pelanggan::class);
