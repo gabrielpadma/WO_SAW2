@@ -70,7 +70,7 @@ class HeroPageContentController extends Controller
             'message' => 'Data hero berhasil diupdate',
             'icon' => 'success',
             'title' => 'Success'
-        ]);;
+        ]);
     }
 
     /**

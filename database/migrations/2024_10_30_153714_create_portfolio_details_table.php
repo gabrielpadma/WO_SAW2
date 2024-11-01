@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('client_name');
             $table->date('project_date');
             $table->string('google_maps_url');
-            $table->string('detail_image1');
-            $table->string('detail_image2');
-            $table->string('detail_image3');
-            $table->string('detail_image4');
+            $table->string('detail_image1')->nullable();
+            $table->string('detail_image2')->nullable();
+            $table->string('detail_image3')->nullable();
+            $table->string('detail_image4')->nullable();
             $table->timestamps();
             $table->foreign('portfolio_id')->references('id')->on('portfolios')->onDelete('cascade');
         });

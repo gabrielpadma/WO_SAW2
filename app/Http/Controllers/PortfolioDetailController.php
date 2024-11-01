@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portfolio;
+use App\Models\PortfolioDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PortfolioDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Portfolio $portfolio)
     {
-        //
+        $title = 'Detail Portfolio' . $portfolio->portfolio_title;
+        $portfolio =  $portfolio->load(['portfolio_details']);
+
+        return view('pages.portfolio-details.index', compact('title', 'portfolio'));
     }
 
     /**
@@ -25,9 +31,44 @@ class PortfolioDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Portfolio $portfolio)
     {
-        //
+        $validatedData = $request->validate([
+            'client_name' => 'required|string|max:255',
+            'portfolio_detail_desc' => 'required|string',
+            'project_date' => 'required|date',
+            'google_maps_url' => 'required|string',
+            'detail_image1' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'detail_image2' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'detail_image3' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'detail_image4' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+        ]);
+
+        $PortfolioDetail = PortfolioDetail::firstOrNew();
+
+        $PortfolioDetail->welcome_text = $validatedData['welcome_text'];
+        $PortfolioDetail->content_text = $validatedData['content_text'];
+
+
+        for ($i = 1; $i <= 5; $i++) {
+            $imagePath = "detail_image3{$i}";
+            if ($request->hasFile($imagePath)) {
+                if ($PortfolioDetail->{$imagePath}) {
+                    Storage::disk('public')->delete($PortfolioDetail->{$imagePath});
+                }
+
+                $fileName = $request->file($imagePath)->store('portfolio-detail', 'public');
+                $PortfolioDetail->{$imagePath} = $fileName;
+            }
+        }
+
+        $PortfolioDetail->save();
+
+        return redirect()->back()->with('swal', [
+            'message' => 'Data hero berhasil diupdate',
+            'icon' => 'success',
+            'title' => 'Success'
+        ]);
     }
 
     /**

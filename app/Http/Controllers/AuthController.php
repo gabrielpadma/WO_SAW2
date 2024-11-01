@@ -12,7 +12,7 @@ class AuthController extends Controller
     public function index()
     {
         $title = 'Alucia Wedding Organizer';
-        $heroData = HeroPageContent::firstOrFail();
+        $heroData = HeroPageContent::first();
 
         return view('pages.user.index', compact('title', 'heroData'));
     }

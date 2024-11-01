@@ -12,6 +12,9 @@ use App\Http\Controllers\VacancyController;
 use App\Http\Middleware\RoleBaseRedirect;
 use Illuminate\Support\Facades\Route;
 
+
+
+
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('/login', 'authenticate')->name('loginUser');
@@ -27,8 +30,6 @@ Route::controller(AdminController::class)->middleware('checkAuth')->group(functi
     Route::get('admin/ubah-password', 'ubahPassword')->name('ubah-password-admin');
     Route::post('admin/proses-ubah-password/{user}', 'prosesUbahPassword')->name('proses-password-admin');
 });
-
-
 
 
 // Route::resource('criteria', CriteriaController::class)->middleware('checkAuth');
