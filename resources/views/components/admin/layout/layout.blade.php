@@ -61,7 +61,6 @@
     <script src="{{ url('assets/admin/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ url('assets/admin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ url('assets/admin/assets/vendor/php-email-form/validate.js') }}"></script>
-
     <!-- Template Main JS File -->
     <script src="{{ url('assets/admin/assets/js/main.js') }}"></script>
 
@@ -84,6 +83,14 @@
         </script>
     @endif
 
+    @if ($errors->any())
+        <script>
+            const myModal = new bootstrap.Modal(document.getElementById('modalTambahData'));
+            myModal.show();
+        </script>
+    @endif
+
+
 
 
     <script>
@@ -104,9 +111,6 @@
                         this.submit();
                     }
                 });
-
-
-
             });
 
 

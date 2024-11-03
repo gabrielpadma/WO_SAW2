@@ -46,6 +46,19 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group mb-3">
+                                            <label for="client_name" class="form-label">Nama Client</label>
+                                            <input type="text" @class(['form-control ', 'is-invalid' => $errors->has('client_name')]) id="client_name"
+                                                name="client_name" aria-describedby="judulLowongan" required
+                                                value="{{ old('client_name', $portfolio->client_name) }}">
+                                            @error('client_name')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3">
                                             <label for="attachment" class="form-label ">Lampiran</label>
                                             <input @class([
                                                 'form-control ',

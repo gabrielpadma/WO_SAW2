@@ -33,8 +33,8 @@ class PortfolioDetailController extends Controller
      */
     public function store(Request $request, Portfolio $portfolio)
     {
+
         $validatedData = $request->validate([
-            'client_name' => 'required|string|max:255',
             'portfolio_detail_desc' => 'required|string',
             'project_date' => 'required|date',
             'google_maps_url' => 'required|string',
@@ -46,12 +46,13 @@ class PortfolioDetailController extends Controller
 
         $PortfolioDetail = PortfolioDetail::firstOrNew();
 
-        $PortfolioDetail->welcome_text = $validatedData['welcome_text'];
-        $PortfolioDetail->content_text = $validatedData['content_text'];
-
+        $PortfolioDetail->portfolio_detail_desc = $validatedData['portfolio_detail_desc'];
+        $PortfolioDetail->project_date = $validatedData['project_date'];
+        $PortfolioDetail->google_maps_url = $validatedData['google_maps_url'];
+        $PortfolioDetail->portfolio_id = $portfolio->id;
 
         for ($i = 1; $i <= 5; $i++) {
-            $imagePath = "detail_image3{$i}";
+            $imagePath = "detail_image{$i}";
             if ($request->hasFile($imagePath)) {
                 if ($PortfolioDetail->{$imagePath}) {
                     Storage::disk('public')->delete($PortfolioDetail->{$imagePath});
@@ -65,7 +66,7 @@ class PortfolioDetailController extends Controller
         $PortfolioDetail->save();
 
         return redirect()->back()->with('swal', [
-            'message' => 'Data hero berhasil diupdate',
+            'message' => 'Data hero berhasil ditambahkan',
             'icon' => 'success',
             'title' => 'Success'
         ]);

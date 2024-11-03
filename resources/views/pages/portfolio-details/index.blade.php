@@ -2,6 +2,15 @@
     <x-slot:title>
         {{ $title }}
     </x-slot>
+
+    <style>
+        iframe {
+            height: 50%;
+            width: auto;
+        }
+    </style>
+
+
     <main id="main" class="main">
 
         <div class="pagetitle">
@@ -34,40 +43,50 @@
                         <div class="card-body">
                             <h5 class="card-title">Tabel Portfolio Details</h5>
                             <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Portfolio</th>
-                                        <th>Nama Client</th>
-                                        <th>Tanggal Project</th>
-                                        <th>Deskripsi</th>
-                                        <th>Google Maps Url</th>
-                                        <th>Detail Image 1</th>
-                                        <th>Detail Image 2</th>
-                                        <th>Detail Image 3</th>
-                                        <th>Detail Image 4</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($portfolio->portfolio_details as $detail)
+                            <div style="overflow-x: auto;">
+                                <table class="table datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $portfolio->portfolio_title }}</td>
-                                            <td>{{ $detail->client_name }}</td>
-                                            <td>{{ $detail->project_date }}</td>
-                                            <td>{{ $detail->portfolio_detai_desc }}</td>
-                                            <td>{{ $detail->detail_image1 }}</td>
-                                            <td>{{ $detail->detail_image2 }}</td>
-                                            <td>{{ $detail->detail_image3 }}</td>
-                                            <td>{{ $detail->detail_image4 }}</td>
-                                            <td class="d-flex gap-1">
-                                                <a href="{{ route('portfolio.portfolio-detail.edit', ['portfolio' => $portfolio->id, 'portfolio-detail' => $detail->id]) }}"
-                                                    class="btn btn-primary btn-circle"><i
-                                                        class="bi bi-pencil-square"></i></a>
+                                            <th>No</th>
+                                            <th>Nama Portfolio</th>
+                                            <th>Tanggal Project</th>
+                                            <th>Deskripsi</th>
+                                            <th>Google Maps Url</th>
+                                            <th>Detail Image 1</th>
+                                            <th>Detail Image 2</th>
+                                            <th>Detail Image 3</th>
+                                            <th>Detail Image 4</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($portfolio->portfolio_details as $detail)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $portfolio->portfolio_title }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($detail->project_date)->isoFormat('D MMMM Y') }}
+                                                </td>
+                                                <td>{{ $detail->portfolio_detai_desc }}</td>
+                                                <td>{!! $detail->google_maps_url !!}</td>
+                                                <td><a href="{{ Storage::url($detail->detail_image1) }}"
+                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                </td>
+                                                <td><a href="{{ Storage::url($detail->detail_image2) }}"
+                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                </td>
+                                                <td><a href="{{ Storage::url($detail->detail_image3) }}"
+                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                </td>
+                                                <td><a href="{{ Storage::url($detail->detail_image4) }}"
+                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                </td>
 
-                                                <form
+                                                <td class="d-flex gap-1">
+                                                    {{-- <a href="{{ route('portfolio.portfolio-detail.edit', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
+                                                    class="btn btn-primary btn-circle"><i
+                                                        class="bi bi-pencil-square"></i></a> --}}
+
+                                                    {{-- <form
                                                     action="{{ route('portfolio.portfolio-detail.destroy', ['portfolio' => $portfolio->id, 'portfolio-detail' => $detail->id]) }}"
                                                     method="POST">
                                                     @csrf
@@ -75,13 +94,14 @@
                                                     <button type="submit" class="btn btn-danger btn-circle btn-hapus">
                                                         <i class="bi bi-trash3"></i>
                                                     </button>
-                                                </form>
+                                                </form> --}}
 
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with stripped rows -->
 
                         </div>
@@ -93,20 +113,8 @@
 
         <x-modal title="Tambah Data Detail Portofolio" idModal="modalTambahData">
             <form action="{{ route('portfolio.portfolio-detail.store', ['portfolio' => $portfolio->id]) }}"
-                method="post">
+                method="post" enctype="multipart/form-data">
                 @csrf
-
-                <div class="mb-3">
-                    <label for="client_name" class="form-label">Nama Client</label>
-                    <input type="text" @class(['form-control ', 'is-invalid' => $errors->has('client_name')]) id="client_name" name="client_name"
-                        aria-describedby="judulLowongan" required value="{{ old('client_name') }}">
-                    @error('client_name')
-                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
                 <div class="mb-3">
                     <label for="project_date" class="form-label">Tanggal Project</label>
                     <input type="date" @class([
@@ -153,6 +161,11 @@
                         'form-control ',
                         'is-invalid' => $errors->has('detail_image1'),
                     ]) type="file" id="detail_image1" name="detail_image1">
+                    @error('detail_image1')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="detail_image2" class="form-label">Gambar Detail 2</label>
@@ -160,6 +173,11 @@
                         'form-control ',
                         'is-invalid' => $errors->has('detail_image2'),
                     ]) type="file" id="detail_image2" name="detail_image2">
+                    @error('detail_image2')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="detail_image3" class="form-label">Gambar Detail 3</label>
@@ -167,6 +185,11 @@
                         'form-control ',
                         'is-invalid' => $errors->has('detail_image3'),
                     ]) type="file" id="detail_image3" name="detail_image3">
+                    @error('detail_image3')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="detail_image4" class="form-label">Gambar Detail 4</label>
@@ -174,6 +197,11 @@
                         'form-control ',
                         'is-invalid' => $errors->has('detail_image4'),
                     ]) type="file" id="detail_image4" name="detail_image4">
+                    @error('detail_image4')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
 
@@ -182,12 +210,12 @@
         </x-modal>
 
 
-        @if ($errors->any())
+        {{-- @if ($errors->any())
             <script>
                 const myModal = new bootstrap.Modal(document.getElementById('modalTambahData'));
                 myModal.show();
             </script>
-        @endif
+        @endif --}}
 
 
 
@@ -202,6 +230,8 @@
                     menubar: false,
 
                 });
+
+
 
                 $('.btn-hapus').on('click', function(e) {
                     e.preventDefault();

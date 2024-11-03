@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('portfolio_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('portfolio_id');
-            $table->text('portfolio_detail_desc');
-            $table->string('client_name');
-            $table->date('project_date');
-            $table->string('google_maps_url');
+
             $table->string('detail_image1')->nullable();
             $table->string('detail_image2')->nullable();
             $table->string('detail_image3')->nullable();

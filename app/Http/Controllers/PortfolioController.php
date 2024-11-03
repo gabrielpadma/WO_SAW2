@@ -33,6 +33,7 @@ class PortfolioController extends Controller
 
         $validatedData = $request->validate([
             'portfolio_title' => 'required|string|max:255',
+            'client_name' => 'required|string|max:255',
             'portfolio_thumbnail' => 'required|mimes:jpeg,png,jpg|max:2048',
         ], [
             // Custom pesan kesalahan
@@ -86,6 +87,7 @@ class PortfolioController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
+            'client_name' => 'required|string|max:255',
             'portfolio_title' => 'required|string|max:255',
             'portfolio_thumbnail' => 'mimes:jpeg,png,jpg|max:2048',
         ]);

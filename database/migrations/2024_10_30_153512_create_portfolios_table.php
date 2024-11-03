@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('portfolio_title');
             $table->string('portfolio_thumbnail');
+            $table->string('client_name');
+            $table->text('google_maps_url');
+            $table->text('portfolio_detail_desc');
+            $table->date('project_date');
             $table->timestamps();
         });
     }
