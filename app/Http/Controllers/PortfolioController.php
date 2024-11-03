@@ -35,6 +35,9 @@ class PortfolioController extends Controller
             'portfolio_title' => 'required|string|max:255',
             'client_name' => 'required|string|max:255',
             'portfolio_thumbnail' => 'required|mimes:jpeg,png,jpg|max:2048',
+            'portfolio_detail_desc' => 'required|string',
+            'project_date' => 'required|date',
+            'google_maps_url' => 'required|string',
         ], [
             // Custom pesan kesalahan
             'portfolio_title.required' => 'Judul portfolio wajib diisi.',
@@ -90,6 +93,9 @@ class PortfolioController extends Controller
             'client_name' => 'required|string|max:255',
             'portfolio_title' => 'required|string|max:255',
             'portfolio_thumbnail' => 'mimes:jpeg,png,jpg|max:2048',
+            'portfolio_detail_desc' => 'required|string',
+            'project_date' => 'required|date',
+            'google_maps_url' => 'required|string',
         ]);
 
         if ($validator->fails()) {

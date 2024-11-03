@@ -21,7 +21,7 @@
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="{{ route('portfolio-user') }}">Portfolio</a></li>
 
                 <li class="dropdown"><a href="#"><span>Lowongan</span> <i
                             class="bi bi-chevron-down toggle-dropdown"></i></a>

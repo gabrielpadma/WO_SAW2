@@ -44,4 +44,9 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('portfolio', PortfolioController::class);
     Route::resource('portfolio.portfolio-detail', PortfolioDetailController::class);
 });
+
 Route::resource('user', Pelanggan::class);
+Route::controller(Pelanggan::class)->group(function () {
+    Route::get('portfolio', 'portfolio')->name('portfolio-user');
+    Route::get('portfolio-detail/{portfolio}', 'portfolioDetail')->name('portfolio-detail');
+});

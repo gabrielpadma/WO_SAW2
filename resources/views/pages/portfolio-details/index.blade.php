@@ -48,10 +48,6 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nama Portfolio</th>
-                                            <th>Tanggal Project</th>
-                                            <th>Deskripsi</th>
-                                            <th>Google Maps Url</th>
                                             <th>Detail Image 1</th>
                                             <th>Detail Image 2</th>
                                             <th>Detail Image 3</th>
@@ -63,38 +59,65 @@
                                         @foreach ($portfolio->portfolio_details as $detail)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $portfolio->portfolio_title }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($detail->project_date)->isoFormat('D MMMM Y') }}
+
+                                                <td>
+                                                    @if ($detail->detail_image1 && Storage::exists('public/' . $detail->detail_image1))
+                                                        <a href="{{ Storage::url($detail->detail_image1) }}"
+                                                            target="_blank">
+                                                            <i class="bi bi-file-earmark-text-fill"></i>
+                                                        </a>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
                                                 </td>
-                                                <td>{{ $detail->portfolio_detai_desc }}</td>
-                                                <td>{!! $detail->google_maps_url !!}</td>
-                                                <td><a href="{{ Storage::url($detail->detail_image1) }}"
-                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                <td>
+
+                                                    @if ($detail->detail_image2 && Storage::exists('public/' . $detail->detail_image2))
+                                                        <a href="{{ Storage::url($detail->detail_image2) }}"
+                                                            target="_blank">
+                                                            <i class="bi bi-file-earmark-text-fill"></i>
+                                                        </a>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
                                                 </td>
-                                                <td><a href="{{ Storage::url($detail->detail_image2) }}"
-                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                <td>
+                                                    @if ($detail->detail_image3 && Storage::exists('public/' . $detail->detail_image3))
+                                                        <a href="{{ Storage::url($detail->detail_image3) }}"
+                                                            target="_blank">
+                                                            <i class="bi bi-file-earmark-text-fill"></i>
+                                                        </a>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
                                                 </td>
-                                                <td><a href="{{ Storage::url($detail->detail_image3) }}"
-                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                <td>
+                                                    @if ($detail->detail_image4 && Storage::exists('public/' . $detail->detail_image4))
+                                                        <a href="{{ Storage::url($detail->detail_image4) }}"
+                                                            target="_blank">
+                                                            <i class="bi bi-file-earmark-text-fill"></i>
+                                                        </a>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
                                                 </td>
-                                                <td><a href="{{ Storage::url($detail->detail_image4) }}"
-                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
-                                                </td>
+
 
                                                 <td class="d-flex gap-1">
-                                                    {{-- <a href="{{ route('portfolio.portfolio-detail.edit', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
-                                                    class="btn btn-primary btn-circle"><i
-                                                        class="bi bi-pencil-square"></i></a> --}}
+                                                    <a href="{{ route('portfolio.portfolio-detail.edit', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
+                                                        class="btn btn-primary btn-circle"><i
+                                                            class="bi bi-pencil-square"></i></a>
 
-                                                    {{-- <form
-                                                    action="{{ route('portfolio.portfolio-detail.destroy', ['portfolio' => $portfolio->id, 'portfolio-detail' => $detail->id]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-circle btn-hapus">
-                                                        <i class="bi bi-trash3"></i>
-                                                    </button>
-                                                </form> --}}
+                                                    <form
+                                                        action="{{ route('portfolio.portfolio-detail.destroy', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-danger btn-circle btn-hapus">
+                                                            <i class="bi bi-trash3"></i>
+                                                        </button>
+                                                    </form>
 
                                                 </td>
                                             </tr>
@@ -115,44 +138,6 @@
             <form action="{{ route('portfolio.portfolio-detail.store', ['portfolio' => $portfolio->id]) }}"
                 method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="mb-3">
-                    <label for="project_date" class="form-label">Tanggal Project</label>
-                    <input type="date" @class([
-                        'form-control ',
-                        'is-invalid' => $errors->has('project_date'),
-                    ]) id="project_date" name="project_date"
-                        aria-describedby="judulLowongan" required value="{{ old('project_date') }}">
-                    @error('project_date')
-                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
-
-                <label for="portfolio_detail_desc" class="form-label">Deskripsi Detail</label>
-                <textarea id="portfolio_detail_desc" name="portfolio_detail_desc" required>
-                    {{ old('portfolio_detail_desc') }}
-                </textarea>
-                @error('portfolio_detail_desc')
-                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-
-                <div class="mb-3">
-                    <label for="google_maps_url" class="form-label">Lokasi Project</label>
-                    <input type="text" @class([
-                        'form-control ',
-                        'is-invalid' => $errors->has('google_maps_url'),
-                    ]) id="google_maps_url" name="google_maps_url"
-                        aria-describedby="judulLowongan" required value="{{ old('google_maps_url') }}">
-                    @error('google_maps_url')
-                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
 
 
                 <div class="mb-3">

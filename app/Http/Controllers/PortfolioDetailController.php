@@ -35,20 +35,13 @@ class PortfolioDetailController extends Controller
     {
 
         $validatedData = $request->validate([
-            'portfolio_detail_desc' => 'required|string',
-            'project_date' => 'required|date',
-            'google_maps_url' => 'required|string',
-            'detail_image1' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
-            'detail_image2' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
-            'detail_image3' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
-            'detail_image4' => 'nullable|image|mimes:jpeg,png,jpg|max:1048',
+            'detail_image1' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'detail_image2' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'detail_image3' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'detail_image4' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $PortfolioDetail = PortfolioDetail::firstOrNew();
-
-        $PortfolioDetail->portfolio_detail_desc = $validatedData['portfolio_detail_desc'];
-        $PortfolioDetail->project_date = $validatedData['project_date'];
-        $PortfolioDetail->google_maps_url = $validatedData['google_maps_url'];
         $PortfolioDetail->portfolio_id = $portfolio->id;
 
         for ($i = 1; $i <= 5; $i++) {
@@ -83,24 +76,72 @@ class PortfolioDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, Portfolio $portfolio, PortfolioDetail $portfolio_detail)
     {
-        //
+
+        $title = 'Detail Portfolio' . $portfolio->portfolio_title;
+        return view('pages.portfolio-details.edit', compact('title', 'portfolio', 'portfolio_detail'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  Portfolio $portfolio, PortfolioDetail $portfolio_detail)
     {
-        //
+        $validatedData = $request->validate([
+            'detail_image1' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'detail_image2' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'detail_image3' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'detail_image4' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $imagePath = "detail_image{$i}";
+            if ($request->hasFile($imagePath)) {
+                if ($portfolio_detail->{$imagePath}) {
+                    Storage::disk('public')->delete($portfolio_detail->{$imagePath});
+                }
+
+                $fileName = $request->file($imagePath)->store('portfolio-detail', 'public');
+                $portfolio_detail->{$imagePath} = $fileName;
+            }
+        }
+
+        $portfolio_detail->update();
+        return redirect()->route('portfolio.portfolio-detail.index', ['portfolio' => $portfolio->id])->with('swal', [
+            'message' => 'Gambar detail portfolio berhasil diubah',
+            'icon' => 'success',
+            'title' => 'Success'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Portfolio $portfolio, PortfolioDetail $portfolio_detail)
     {
-        //
+
+        for ($i = 1; $i <= 5; $i++) {
+            $imagePath = "detail_image{$i}";
+
+            if ($portfolio_detail->{$imagePath}) {
+                Storage::disk('public')->delete($portfolio_detail->{$imagePath});
+            }
+        }
+
+
+        if ($portfolio_detail->delete()) {
+            return redirect()->route('portfolio.portfolio-detail.index', ['portfolio' => $portfolio->id])->with('swal', [
+                'message' => 'Data berhasil dihapus',
+                'icon' => 'success',
+                'title' => 'Success'
+            ]);
+        } else {
+            return redirect()->route('portfolio.portfolio-detail.index', ['portfolio' => $portfolio->id])->with('swal', [
+                'message' => 'Data gagal dihapus',
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
     }
 }

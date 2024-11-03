@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portfolio;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,8 +16,29 @@ class Pelanggan extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('checkAuth'),
+            new Middleware('checkAuth', ['store', 'edit']),
         ];
+    }
+
+
+    public function portfolio()
+    {
+
+        $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Portfolio']];
+        $title = 'Portfolio';
+        $Portfolios = Portfolio::with(['portfolio_details'])->get();
+
+        return view('pages.user.portfolio', compact('breadcrumbs', 'title', 'Portfolios'));
+    }
+
+
+    public function portfolioDetail(Portfolio $portfolio)
+    {
+
+        $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Portfolio'], ['text' => 'Portfolio Detail']];
+        $title = 'Portfolio';
+        $portfolio = $portfolio->load(['portfolio_details'])->get();
+        return view('pages.user.portfolio-detail', compact('breadcrumbs', 'title', 'portfolio'));
     }
 
 

@@ -57,6 +57,55 @@
                                             @enderror
                                         </div>
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3">
+                                            <label for="project_date" class="form-label">Tanggal Project</label>
+                                            <input type="date" @class([
+                                                'form-control ',
+                                                'is-invalid' => $errors->has('project_date'),
+                                            ]) id="project_date"
+                                                name="project_date" aria-describedby="judulLowongan" required
+                                                value="{{ old('project_date', $portfolio->project_date) }}">
+                                            @error('project_date')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3">
+                                            <label for="google_maps_url" class="form-label">Lokasi Project</label>
+                                            <input type="text" @class([
+                                                'form-control ',
+                                                'is-invalid' => $errors->has('google_maps_url'),
+                                            ]) id="google_maps_url"
+                                                name="google_maps_url" aria-describedby="judulLowongan" required
+                                                value="{{ old('google_maps_url', $portfolio->google_maps_url) }}">
+                                            @error('google_maps_url')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3">
+                                            <label for="portfolio_detail_desc" class="form-label">Deskripsi
+                                                Detail</label>
+                                            <textarea id="portfolio_detail_desc" name="portfolio_detail_desc" required>
+                                            {{ old('portfolio_detail_desc', $portfolio->portfolio_detail_desc) }}
+                                        </textarea>
+                                            @error('portfolio_detail_desc')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-12">
                                         <div class="form-group mb-3">
                                             <label for="attachment" class="form-label ">Lampiran</label>
@@ -103,7 +152,7 @@
             $(document).ready(function() {
 
                 tinymce.init({
-                    selector: '#deskripsi_lowongan', // Target textarea
+                    selector: '#portfolio_detail_desc', // Target textarea
                     height: 200, // Tinggi editor
                     plugins: 'lists link image code', // Tambahkan plugin sesuai kebutuhan
                     toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',

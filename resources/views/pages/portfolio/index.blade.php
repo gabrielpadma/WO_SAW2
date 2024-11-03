@@ -30,56 +30,66 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Tabel Portfolio</h5>
-
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Judul</th>
-                                        <th>Client Name</th>
-                                        <th>Thumbnail</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($allPortfolio as $portfolio)
+                            <div style="overflow-x: auto;">
+                                <table class="table datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $portfolio->portfolio_title }}</td>
-                                            <td>{{ $portfolio->client_name }}</td>
-                                            <td><a href="{{ Storage::url($portfolio->portfolio_thumbnail) }}"
-                                                    target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
-                                            </td>
-                                            <td class="d-flex gap-1">
-                                                <a href="{{ route('portfolio.edit', ['portfolio' => $portfolio->id]) }}"
-                                                    class="btn btn-primary btn-circle"><i
-                                                        class="bi bi-pencil-square"></i></a>
-                                                <a href="{{ route('portfolio.portfolio-detail.index', ['portfolio' => $portfolio->id]) }}"
-                                                    class="btn btn-secondary btn-circle"><i
-                                                        class="bi bi-info-circle-fill"></i></a>
-                                                <form
-                                                    action="{{ route('portfolio.destroy', ['portfolio' => $portfolio->id]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-circle btn-hapus">
-                                                        <i class="bi bi-trash3"></i>
-                                                    </button>
-                                                </form>
-
-                                            </td>
+                                            <th>No</th>
+                                            <th>Judul</th>
+                                            <th>Client Name</th>
+                                            <th>Thumbnail</th>
+                                            <th>Tanggal Project</th>
+                                            <th>Lokasi Project</th>
+                                            <th>Deskripsi Project</th>
+                                            <th>Aksi</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
+                                    </thead>
 
+                                    <tbody>
+                                        @foreach ($allPortfolio as $portfolio)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $portfolio->portfolio_title }}</td>
+                                                <td>{{ $portfolio->client_name }}</td>
+                                                <td><a href="{{ Storage::url($portfolio->portfolio_thumbnail) }}"
+                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($portfolio->project_date)->isoFormat('D MMMM Y') }}
+                                                </td>
+                                                <td>{!! $portfolio->google_maps_url !!}</td>
+                                                <td>{!! $portfolio->portfolio_detail_desc !!}</td>
+                                                <td class="d-flex gap-1">
+                                                    <a href="{{ route('portfolio.edit', ['portfolio' => $portfolio->id]) }}"
+                                                        class="btn btn-primary btn-circle"><i
+                                                            class="bi bi-pencil-square"></i></a>
+                                                    <a href="{{ route('portfolio.portfolio-detail.index', ['portfolio' => $portfolio->id]) }}"
+                                                        class="btn btn-secondary btn-circle"><i
+                                                            class="bi bi-info-circle-fill"></i></a>
+                                                    <form
+                                                        action="{{ route('portfolio.destroy', ['portfolio' => $portfolio->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-danger btn-circle btn-hapus">
+                                                            <i class="bi bi-trash3"></i>
+                                                        </button>
+                                                    </form>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                                <!-- End Table with stripped rows -->
+
+                            </div>
                         </div>
+
+
                     </div>
-
-
                 </div>
-            </div>
         </section>
 
         <x-modal title="Tambah Data Portfolio" idModal="modalTambahData">
@@ -99,6 +109,49 @@
                         </div>
                     @enderror
                 </div>
+
+                <div class="mb-3">
+                    <label for="project_date" class="form-label">Tanggal Project</label>
+                    <input type="date" @class([
+                        'form-control ',
+                        'is-invalid' => $errors->has('project_date'),
+                    ]) id="project_date" name="project_date"
+                        aria-describedby="judulLowongan" required value="{{ old('project_date') }}">
+                    @error('project_date')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="portfolio_detail_desc" class="form-label">Deskripsi Detail</label>
+                    <textarea id="portfolio_detail_desc" name="portfolio_detail_desc" required>
+                    {{ old('portfolio_detail_desc') }}
+                </textarea>
+                    @error('portfolio_detail_desc')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label for="google_maps_url" class="form-label">Lokasi Project</label>
+                    <input type="text" @class([
+                        'form-control ',
+                        'is-invalid' => $errors->has('google_maps_url'),
+                    ]) id="google_maps_url" name="google_maps_url"
+                        aria-describedby="judulLowongan" required value="{{ old('google_maps_url') }}">
+                    @error('google_maps_url')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
 
 
 
@@ -149,6 +202,19 @@
 
         <script>
             $(document).ready(function() {
+
+
+
+                tinymce.init({
+                    selector: '#portfolio_detail_desc',
+                    height: 200,
+                    plugins: 'lists link image code',
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
+                    menubar: false,
+
+                });
+
+
 
                 $('.btn-hapus').on('click', function(e) {
                     e.preventDefault();
