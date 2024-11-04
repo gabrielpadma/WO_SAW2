@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Portfolio extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function portfolio_details(): HasMany
+    public function portfolio_details(): HasOne
     {
-        return $this->hasMany(PortfolioDetail::class, 'portfolio_id');
+        return $this->hasOne(PortfolioDetail::class, 'portfolio_id');
     }
 }

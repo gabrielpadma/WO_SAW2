@@ -1,16 +1,15 @@
 <footer id="footer" class="footer light-background">
     <div class="container">
         <div class="row g-4">
-            <div class="col-md-6 col-lg-3 mb-3 mb-md-0">
+            <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
                 <div class="widget">
                     <h3 class="widget-heading">About Us</h3>
                     <p class="mb-4">
-                        There live the blind texts. Separated they live in Bookmarksgrove
-                        right at the coast of the Semantics, a large language ocean.
+                        Alucia Wedding hadir untuk mewujudkan impian pernikahan Anda dengan layanan penuh kehangatan dan
+                        profesionalisme. Kami percaya setiap pasangan berhak merayakan cinta mereka dengan cara yang
+                        istimewa dan penuh keindahan.
                     </p>
-                    <p class="mb-0">
-                        <a href="#" class="btn-learn-more">Learn more</a>
-                    </p>
+
                 </div>
             </div>
             <div class="col-md-6 col-lg-3 ps-lg-5 mb-3 mb-md-0">
@@ -28,21 +27,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3 pl-lg-5">
-                <div class="widget">
-                    <h3 class="widget-heading">Recent Posts</h3>
-                    <ul class="list-unstyled footer-blog-entry">
-                        <li>
-                            <span class="d-block date">May 3, 2020</span>
-                            <a href="#">There live the Blind Texts</a>
-                        </li>
-                        <li>
-                            <span class="d-block date">May 3, 2020</span>
-                            <a href="#">Separated they live in Bookmarksgrove right</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
             <div class="col-md-6 col-lg-3 pl-lg-5">
                 <div class="widget">
                     <h3 class="widget-heading">Connect</h3>
@@ -53,38 +38,15 @@
                         <li>
                             <a href="#"><span class="bi bi-twitter-x"></span></a>
                         </li>
-                        <li>
-                            <a href="#"><span class="bi bi-linkedin"></span></a>
-                        </li>
+
                         <li>
                             <a href="#"><span class="bi bi-google"></span></a>
                         </li>
-                        <li>
-                            <a href="#"><span class="bi bi-google-play"></span></a>
-                        </li>
+
                     </ul>
                 </div>
 
-                <div class="widget">
-                    <div class="footer-subscribe">
-                        <h3 class="widget-heading">Subscribe</h3>
-                        <form action="forms/newsletter.php" method="post" class="php-email-form">
-                            <div class="mb-2">
-                                <input type="text" class="form-control" name="email"
-                                    placeholder="Enter your email">
 
-                                <button type="submit" class="btn btn-link">
-                                    <span class="bi bi-arrow-right"></span>
-                                </button>
-                            </div>
-                            <div class="loading">Loading</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">
-                                Your subscription request has been sent. Thank you!
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
 

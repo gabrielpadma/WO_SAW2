@@ -37,7 +37,8 @@ class Pelanggan extends Controller implements HasMiddleware
 
         $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Portfolio'], ['text' => 'Portfolio Detail']];
         $title = 'Portfolio';
-        $portfolio = $portfolio->load(['portfolio_details'])->get();
+        $portfolio = $portfolio->load(['portfolio_details']);
+
         return view('pages.user.portfolio-detail', compact('breadcrumbs', 'title', 'portfolio'));
     }
 

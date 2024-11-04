@@ -15,6 +15,10 @@
                 color: #34bf49;
                 border: 1px solid #34bf49;
             }
+
+            iframe {
+                width: 100%;
+            }
         </style>
     @endpush
 
@@ -35,7 +39,8 @@
                 <nav class="breadcrumbs">
                     <ol>
                         <li><a href="index.html">Home</a></li>
-                        <li class="current">Portfolio Details</li>
+                        <li><a href="#">Portofolio Details</a></li>
+                        <li class="current">{{ $portfolio->portfolio_title }}</li>
                     </ol>
                 </nav>
             </div>
@@ -66,23 +71,32 @@
                   }
                 }
               </script>
-                    <div class="swiper-wrapper align-items-center">
+                    <div class="swiper-wrapper align-items-center" style="max-height: 400px">
+                        @php
+                            $images = [];
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/portfolio/app-1.jpg" alt="">
-                        </div>
+                            for ($i = 1; $i <= 4; $i++) {
+                                $image = 'detail_image' . $i;
+                                $imagePath = $portfolio->portfolio_details->$image ?? null;
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/portfolio/product-1.jpg" alt="">
-                        </div>
+                                if ($imagePath && Storage::exists('public/' . $imagePath)) {
+                                    $images[] = $imagePath;
+                                }
+                            }
+                        @endphp
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/portfolio/branding-1.jpg" alt="">
-                        </div>
+                        @foreach ($images as $imagePath)
+                            <div class="swiper-slide">
+                                <img src="{{ Storage::url($imagePath) }}" alt="Portfolio Image">
+                            </div>
+                        @endforeach
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/portfolio/books-1.jpg" alt="">
-                        </div>
+                        @if (count($images) === 0)
+                            <div class="swiper-slide">
+                                <img src="{{ asset('images/placeholder.jpg') }}" alt="No Images Available">
+                            </div>
+                        @endif
+
 
                     </div>
                     <div class="swiper-button-prev"></div>
@@ -94,59 +108,21 @@
 
                     <div class="col-lg-8" data-aos="fade-up">
                         <div class="portfolio-description">
-                            <h2>This is an example of portfolio details</h2>
-                            <p>
-                                Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi
-                                labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque
-                                itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur
-                                dignissimos. Sequi nulla at esse enim cum deserunt eius.
-                            </p>
-                            <p>
-                                Amet consequatur qui dolore veniam voluptatem voluptatem sit. Non aspernatur atque natus
-                                ut cum nam et. Praesentium error dolores rerum minus sequi quia veritatis eum. Eos et
-                                doloribus doloremque nesciunt molestiae laboriosam.
-                            </p>
-
-                            <div class="testimonial-item">
-                                <p>
-                                    <i class="bi bi-quote quote-icon-left"></i>
-                                    <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum
-                                        quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat
-                                        irure amet legam anim culpa.</span>
-                                    <i class="bi bi-quote quote-icon-right"></i>
-                                </p>
-                                <div>
-                                    <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img"
-                                        alt="">
-                                    <h3>Sara Wilsson</h3>
-                                    <h4>Designer</h4>
-                                </div>
-                            </div>
-
-                            <p>
-                                Impedit ipsum quae et aliquid doloribus et voluptatem quasi. Perspiciatis occaecati
-                                earum et magnam animi. Quibusdam non qui ea vitae suscipit vitae sunt. Repudiandae
-                                incidunt cumque minus deserunt assumenda tempore. Delectus voluptas necessitatibus est.
-                            </p>
-
-                            <p>
-                                Sunt voluptatum sapiente facilis quo odio aut ipsum repellat debitis. Molestiae et autem
-                                libero. Explicabo et quod necessitatibus similique quis dolor eum. Numquam eaque
-                                praesentium rem et qui nesciunt.
-                            </p>
-
+                            {!! $portfolio->portfolio_detail_desc !!}
                         </div>
                     </div>
 
-                    <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="portfolio-info">
                             <h3>Project information</h3>
                             <ul>
-                                <li><strong>Category</strong> Web design</li>
-                                <li><strong>Client</strong> ASU Company</li>
-                                <li><strong>Project date</strong> 01 March, 2020</li>
-                                <li><strong>Project URL</strong> <a href="#">www.example.com</a></li>
-                                <li><a href="#" class="btn-visit align-self-start">Visit Website</a></li>
+                                <li><strong>Title</strong> {{ $portfolio->portfolio_title }}</li>
+                                <li><strong>Client</strong> {{ $portfolio->client_name }}</li>
+                                <li><strong>Project
+                                        date</strong>{{ \Carbon\Carbon::parse($portfolio->project_date)->format('d, F Y') }}
+                                </li>
+                                <li><strong>Project Location</strong> <a href="#">{!! $portfolio->google_maps_url !!}</a></li>
+
                             </ul>
                         </div>
                     </div>
