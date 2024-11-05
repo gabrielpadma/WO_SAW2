@@ -16,22 +16,46 @@
 
         <section class="section profile">
             <div class="row">
-
-
                 <div class="col-xl-12">
+                    @php
+                        $errorsHeroSection = collect($errors->keys())->contains(function ($key) {
+                            return str_starts_with($key, 'welcome_text') ||
+                                str_starts_with($key, 'content_text') ||
+                                str_starts_with($key, 'image_path1') ||
+                                str_starts_with($key, 'image_path2') ||
+                                str_starts_with($key, 'image_path3') ||
+                                str_starts_with($key, 'image_path4') ||
+                                str_starts_with($key, 'image_path5');
+                        });
 
+                        $errorsTabPaneAbout = collect($errors->keys())->contains(function ($key) {
+                            return str_starts_with($key, 'mission') ||
+                                str_starts_with($key, 'mission_title') ||
+                                str_starts_with($key, 'mission_desc') ||
+                                str_starts_with($key, 'mission_image') ||
+                                str_starts_with($key, 'why_us_title') ||
+                                str_starts_with($key, 'why_us_desc') ||
+                                str_starts_with($key, 'why_us_image') ||
+                                str_starts_with($key, 'total_project') ||
+                                str_starts_with($key, 'total_vendor') ||
+                                str_starts_with($key, 'team_members');
+                        });
+
+                        $defaultTab = !$errorsHeroSection && !$errorsTabPaneAbout;
+                    @endphp
                     <div class="card">
                         <div class="card-body pt-3">
                             <!-- Bordered Tabs -->
                             <ul class="nav nav-tabs nav-tabs-bordered ">
 
                                 <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab"
+                                    <button @class(['nav-link', 'active' => $defaultTab]) data-bs-toggle="tab"
                                         data-bs-target="#hero-section">Hero Section</button>
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#about-us">
+                                    <button @class(['nav-link', 'active' => $errorsTabPaneAbout]) data-bs-toggle="tab"
+                                        data-bs-target="#about-us">
                                         About Us</button>
                                 </li>
 
@@ -47,8 +71,14 @@
 
                             </ul>
                             <div class="tab-content pt-2">
-                                <div class="tab-pane fade show active hero-section {{ $errors->any() ? 'show active' : '' }} "
-                                    id="hero-section">
+
+                                <div @class([
+                                    'tab-pane',
+                                    'fade',
+                                    'hero-section',
+                                    'show' => $defaultTab,
+                                    'active' => $defaultTab,
+                                ]) id="hero-section">
                                     <h5 class="card-title">Setting Hero Section</h5>
                                     <form method="post" enctype="multipart/form-data">
                                         @csrf
@@ -217,9 +247,14 @@
                                     </form>
 
                                 </div>
-
-                                <div class="tab-pane fade about-us pt-3 {{ $errors->any() ? 'show active' : '' }}"
-                                    id="about-us">
+                                <div @class([
+                                    'tab-pane',
+                                    'fade',
+                                    'hero-section',
+                                    'pt-3',
+                                    'show' => $errorsTabPaneAbout,
+                                    'active' => $errorsTabPaneAbout,
+                                ]) id="about-us">
                                     <h5 class="card-title">Setting About Us</h5>
                                     <form method="post" action="{{ route('about-us.store') }}"
                                         enctype="multipart/form-data">
@@ -255,7 +290,7 @@
 
                                         <div class="row mb-3">
                                             <label for="mission_desc"
-                                                class="col-md-4 col-lg-3 col-form-label">Deskripsi Missi</label>
+                                                class="col-md-4 col-lg-3 col-form-label">Deskripsi Misi</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <textarea name="mission_desc" class="form-control" id="mission_desc" style="height: 100px">{{ old('mission_desc', $AboutUs?->mission_desc) }}</textarea>
                                             </div>
@@ -408,96 +443,10 @@
                                     </form><!-- End Profile Edit Form -->
 
                                 </div>
-
-                                <div class="tab-pane fade pt-3" id="layanan">
-
-                                    <!-- Settings Form -->
-                                    <form>
-
-                                        <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
-                                                Notifications</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="changesMade"
-                                                        checked>
-                                                    <label class="form-check-label" for="changesMade">
-                                                        Changes made to your account
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="newProducts"
-                                                        checked>
-                                                    <label class="form-check-label" for="newProducts">
-                                                        Information on new products and services
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="proOffers">
-                                                    <label class="form-check-label" for="proOffers">
-                                                        Marketing and promo offers
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="securityNotify" checked disabled>
-                                                    <label class="form-check-label" for="securityNotify">
-                                                        Security alerts
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </div>
-                                    </form><!-- End settings Form -->
-
-                                </div>
-
-                                <div class="tab-pane fade pt-3" id="testimonial">
-
-                                    <form>
-
-                                        <div class="row mb-3">
-                                            <label for="currentPassword"
-                                                class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="password" type="password" class="form-control"
-                                                    id="currentPassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
-                                                Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="newpassword" type="password" class="form-control"
-                                                    id="newPassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="renewPassword"
-                                                class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="renewpassword" type="password" class="form-control"
-                                                    id="renewPassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Change Password</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-
                             </div><!-- End Bordered Tabs -->
 
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>

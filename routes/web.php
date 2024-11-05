@@ -9,6 +9,7 @@ use App\Http\Controllers\Pelanggan;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PortfolioDetailController;
 use App\Http\Controllers\SubCriteriaController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Middleware\RoleBaseRedirect;
 use Illuminate\Support\Facades\Route;
@@ -45,10 +46,12 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('portfolio', PortfolioController::class);
     Route::resource('portfolio.portfolio-detail', PortfolioDetailController::class);
     Route::resource('about-us', AboutUsController::class);
+    Route::resource('testimonial', TestimonialController::class);
 });
 
 Route::resource('user', Pelanggan::class);
 Route::controller(Pelanggan::class)->group(function () {
     Route::get('portfolio', 'portfolio')->name('portfolio-user');
+    Route::get('about-us', 'aboutUs')->name('about-us');
     Route::get('portfolio-detail/{portfolio}', 'portfolioDetail')->name('portfolio-detail');
 });

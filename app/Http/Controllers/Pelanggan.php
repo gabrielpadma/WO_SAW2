@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutUs;
 use App\Models\Portfolio;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,17 @@ class Pelanggan extends Controller implements HasMiddleware
 
         return view('pages.user.portfolio', compact('breadcrumbs', 'title', 'Portfolios'));
     }
+
+    public function aboutUs()
+    {
+
+        $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'About-Us']];
+        $title = 'About Us';
+        $AboutUs = AboutUs::first();
+
+        return view('pages.user.about-us', compact('breadcrumbs', 'title', 'AboutUs'));
+    }
+
 
 
     public function portfolioDetail(Portfolio $portfolio)

@@ -130,8 +130,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="icons-boxicons.html">
-                        <i class="bi bi-circle"></i><span>Tentang Kami</span>
+                    <a href="{{ route('testimonial.index') }}">
+                        <i class="bi bi-circle"></i><span>Testimonials</span>
                     </a>
                 </li>
                 <li>

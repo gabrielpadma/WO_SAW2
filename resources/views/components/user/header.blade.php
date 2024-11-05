@@ -18,8 +18,8 @@
 
         <nav id="navmenu" class="navmenu w-100">
             <ul>
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="{{ url('/') }}" class="active">Home</a></li>
+                <li><a href="{{ route('about-us') }}">About</a></li>
                 <li><a href="services.html">Services</a></li>
                 <li><a href="{{ route('portfolio-user') }}">Portfolio</a></li>
 
