@@ -16,26 +16,9 @@
 
         <section class="section profile">
             <div class="row">
-                <div class="col-xl-4">
 
-                    <div class="card">
-                        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                            <h2>Kevin Anderson</h2>
-                            <h3>Web Designer</h3>
-                            <div class="social-links mt-2">
-                                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-xl-8">
+                <div class="col-xl-12">
 
                     <div class="card">
                         <div class="card-body pt-3">
@@ -48,8 +31,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#siapa-kami">
-                                        Siapa Kami</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#about-us">
+                                        About Us</button>
                                 </li>
 
                                 <li class="nav-item">
@@ -64,7 +47,8 @@
 
                             </ul>
                             <div class="tab-content pt-2">
-                                <div class="tab-pane fade show active hero-section" id="hero-section">
+                                <div class="tab-pane fade show active hero-section {{ $errors->any() ? 'show active' : '' }} "
+                                    id="hero-section">
                                     <h5 class="card-title">Setting Hero Section</h5>
                                     <form method="post" enctype="multipart/form-data">
                                         @csrf
@@ -234,134 +218,192 @@
 
                                 </div>
 
-                                <div class="tab-pane fade siapa-kami pt-3" id="siapa-kami">
-
-                                    <!-- Profile Edit Form -->
-                                    <form>
+                                <div class="tab-pane fade about-us pt-3 {{ $errors->any() ? 'show active' : '' }}"
+                                    id="about-us">
+                                    <h5 class="card-title">Setting About Us</h5>
+                                    <form method="post" action="{{ route('about-us.store') }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
                                         <div class="row mb-3">
-                                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
-                                                Image</label>
+                                            <label for="mission" class="col-md-4 col-lg-3 col-form-label">Misi
+                                                Kami</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <img src="assets/img/profile-img.jpg" alt="Profile">
-                                                <div class="pt-2">
-                                                    <a href="#" class="btn btn-primary btn-sm"
-                                                        title="Upload new profile image"><i
-                                                            class="bi bi-upload"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"
-                                                        title="Remove my profile image"><i
-                                                            class="bi bi-trash"></i></a>
+                                                <input name="mission" type="text" class="form-control"
+                                                    id="mission" value="{{ old('mission', $AboutUs?->mission) }}">
+                                            </div>
+                                            @error('mission')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
                                                 </div>
+                                            @enderror
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="mission_title" class="col-md-4 col-lg-3 col-form-label">Judul
+                                                Misi
+                                                Kami</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="mission_title" type="text" class="form-control"
+                                                    id="mission_title"
+                                                    value="{{ old('mission_title', $AboutUs?->mission_title) }}">
                                             </div>
+                                            @error('mission_title')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full
-                                                Name</label>
+                                            <label for="mission_desc"
+                                                class="col-md-4 col-lg-3 col-form-label">Deskripsi Missi</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control"
-                                                    id="fullName" value="Kevin Anderson">
+                                                <textarea name="mission_desc" class="form-control" id="mission_desc" style="height: 100px">{{ old('mission_desc', $AboutUs?->mission_desc) }}</textarea>
                                             </div>
+                                            @error('mission_desc')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <label for="mission_image" class="form-label">Gambar Misi</label>
+                                            <input @class([
+                                                'form-control ',
+                                                'is-invalid' => $errors->has('mission_image'),
+                                            ]) type="file" id="mission_image"
+                                                name="mission_image">
+
+                                            @php
+                                                if ($AboutUs?->mission_image) {
+                                                    $fileName = $AboutUs->mission_image
+                                                        ? basename($AboutUs->mission_image)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+
+                                            @if ($AboutUs?->mission_image ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $AboutUs->mission_image) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+
+                                            @error('mission_image')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <label for="why_us_title" class="col-md-4 col-lg-3 col-form-label">Why
+                                                Us</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="why_us_title" type="text" class="form-control"
+                                                    id="why_us_title"
+                                                    value="{{ old('why_us_title', $AboutUs?->why_us_title) }}">
+                                            </div>
+                                            @error('why_us_title')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="about"
-                                                class="col-md-4 col-lg-3 col-form-label">About</label>
+                                            <label for="why_us_desc"
+                                                class="col-md-4 col-lg-3 col-form-label">Deskripsi Why Us</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                                                <textarea name="why_us_desc" class="form-control" id="why_us_desc" style="height: 100px">{{ old('why_us_desc', $AboutUs?->why_us_desc) }}</textarea>
                                             </div>
+                                            @error('why_us_desc')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="company"
-                                                class="col-md-4 col-lg-3 col-form-label">Company</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="company" type="text" class="form-control"
-                                                    id="company" value="Lueilwitz, Wisoky and Leuschke">
-                                            </div>
+                                            <label for="why_us_image" class="form-label">Gambar Why Us</label>
+                                            <input @class([
+                                                'form-control ',
+                                                'is-invalid' => $errors->has('why_us_image', $AboutUs?->why_us_image),
+                                            ]) type="file" id="why_us_image"
+                                                name="why_us_image">
+
+                                            @php
+                                                if ($AboutUs?->why_us_image) {
+                                                    $fileName = $AboutUs->why_us_image
+                                                        ? basename($AboutUs->why_us_image)
+                                                        : 'Tidak ada file';
+                                                }
+                                            @endphp
+
+                                            @if ($AboutUs?->why_us_image ?? false)
+                                                <p>File yang sudah diunggah: <a
+                                                        href="{{ asset('storage/' . $AboutUs->why_us_image) }}"
+                                                        target="_blank">{{ $fileName }}</a></p>
+                                            @else
+                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
+                                            @endif
+
+                                            @error('why_us_image')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="job" type="text" class="form-control"
-                                                    id="Job" value="Web Designer">
-                                            </div>
-                                        </div>
 
                                         <div class="row mb-3">
-                                            <label for="Country"
-                                                class="col-md-4 col-lg-3 col-form-label">Country</label>
+                                            <label for="total_project" class="col-md-4 col-lg-3 col-form-label">Total
+                                                Project</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="country" type="text" class="form-control"
-                                                    id="Country" value="USA">
+                                                <input name="total_project" type="number" class="form-control"
+                                                    id="total_project"
+                                                    value="{{ old('total_project', $AboutUs?->total_project) }}">
                                             </div>
+                                            @error('total_project')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-
                                         <div class="row mb-3">
-                                            <label for="Address"
-                                                class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                            <label for="total_vendor" class="col-md-4 col-lg-3 col-form-label">Total
+                                                Vendor</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="address" type="text" class="form-control"
-                                                    id="Address" value="A108 Adam Street, New York, NY 535022">
+                                                <input name="total_vendor" type="number" class="form-control"
+                                                    id="total_vendor"
+                                                    value="{{ old('total_vendor', $AboutUs?->total_vendor) }}">
                                             </div>
+                                            @error('total_vendor')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-
                                         <div class="row mb-3">
-                                            <label for="Phone"
-                                                class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                            <label for="team_members" class="col-md-4 col-lg-3 col-form-label">Total
+                                                Team Members</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" class="form-control"
-                                                    id="Phone" value="(436) 486-3538 x29071">
+                                                <input name="team_members" type="number" class="form-control"
+                                                    id="team_members"
+                                                    value="{{ old('team_members', $AboutUs?->team_members) }}">
                                             </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Email"
-                                                class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="email" type="email" class="form-control"
-                                                    id="Email" value="k.anderson@example.com">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="twitter" type="text" class="form-control"
-                                                    id="Twitter" value="https://twitter.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="facebook" type="text" class="form-control"
-                                                    id="Facebook" value="https://facebook.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="instagram" type="text" class="form-control"
-                                                    id="Instagram" value="https://instagram.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="linkedin" type="text" class="form-control"
-                                                    id="Linkedin" value="https://linkedin.com/#">
-                                            </div>
+                                            @error('team_members')
+                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
                                         </div>
                                     </form><!-- End Profile Edit Form -->
 
@@ -473,6 +515,22 @@
 
                 tinymce.init({
                     selector: '#content_text',
+                    height: 200,
+                    plugins: 'lists link image code',
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
+                    menubar: false,
+
+                });
+                tinymce.init({
+                    selector: '#mission_desc',
+                    height: 200,
+                    plugins: 'lists link image code',
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
+                    menubar: false,
+
+                });
+                tinymce.init({
+                    selector: '#why_us_desc',
                     height: 200,
                     plugins: 'lists link image code',
                     toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',

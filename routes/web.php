@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
@@ -43,6 +44,7 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('hero-content', HeroPageContentController::class);
     Route::resource('portfolio', PortfolioController::class);
     Route::resource('portfolio.portfolio-detail', PortfolioDetailController::class);
+    Route::resource('about-us', AboutUsController::class);
 });
 
 Route::resource('user', Pelanggan::class);
