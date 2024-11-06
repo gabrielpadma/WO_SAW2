@@ -3,7 +3,7 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
                 <div class="widget">
-                    <h3 class="widget-heading">About Us</h3>
+                    <h3 class="widget-heading">Tentang Kami</h3>
                     <p class="mb-4">
                         Alucia Wedding hadir untuk mewujudkan impian pernikahan Anda dengan layanan penuh kehangatan dan
                         profesionalisme. Kami percaya setiap pasangan berhak merayakan cinta mereka dengan cara yang
@@ -17,12 +17,12 @@
                     <h3 class="widget-heading">Navigation</h3>
                     <ul class="list-unstyled float-start me-5">
                         <li><a href="#">Overview</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
                         <li><a href="#">Find Buyers</a></li>
                     </ul>
                     <ul class="list-unstyled float-start">
                         <li><a href="#">Overview</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
                         <li><a href="#">Services</a></li>
                     </ul>
                 </div>

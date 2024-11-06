@@ -19,8 +19,8 @@
         <nav id="navmenu" class="navmenu w-100">
             <ul>
                 <li><a href="{{ url('/') }}" class="active">Home</a></li>
-                <li><a href="{{ route('about-us') }}">About</a></li>
-                <li><a href="services.html">Services</a></li>
+                <li><a href="{{ route('about-us') }}">Tentang Kami</a></li>
+                <li><a href="services.html">Layanan</a></li>
                 <li><a href="{{ route('portfolio-user') }}">Portfolio</a></li>
 
                 <li class="dropdown"><a href="#"><span>Lowongan</span> <i

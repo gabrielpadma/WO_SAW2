@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutUs;
 use App\Models\HeroPageContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,8 @@ class AuthController extends Controller
     {
         $title = 'Alucia Wedding Organizer';
         $heroData = HeroPageContent::first();
-
-        return view('pages.user.index', compact('title', 'heroData'));
+        $AboutUs = AboutUs::first();
+        return view('pages.user.index', compact('title', 'heroData', 'AboutUs'));
     }
 
 

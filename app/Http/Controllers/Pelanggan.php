@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
 use App\Models\Portfolio;
+use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,6 +30,7 @@ class Pelanggan extends Controller implements HasMiddleware
         $title = 'Portfolio';
         $Portfolios = Portfolio::with(['portfolio_details'])->get();
 
+
         return view('pages.user.portfolio', compact('breadcrumbs', 'title', 'Portfolios'));
     }
 
@@ -38,8 +40,8 @@ class Pelanggan extends Controller implements HasMiddleware
         $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'About-Us']];
         $title = 'About Us';
         $AboutUs = AboutUs::first();
-
-        return view('pages.user.about-us', compact('breadcrumbs', 'title', 'AboutUs'));
+        $Testimonials = Testimonial::get();
+        return view('pages.user.about-us', compact('breadcrumbs', 'title', 'AboutUs', 'Testimonials'));
     }
 
 

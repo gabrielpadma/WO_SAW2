@@ -15,6 +15,12 @@
                 color: #34bf49;
                 border: 1px solid #34bf49;
             }
+
+            .cover-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         </style>
     @endpush
 
@@ -69,7 +75,7 @@
                                     @if (!empty($heroData->{$imagePath}))
                                         <div class="swiper-slide">
                                             <img src="{{ asset('storage/' . $heroData->{$imagePath}) }}"
-                                                alt="Hero Image {{ $i }}" class="img-fluid">
+                                                alt="Hero Image {{ $i }}" class="img-fluid cover-image">
                                         </div>
                                     @else
                                         @continue
@@ -104,28 +110,21 @@
                         <div class="col-sm-12 col-md-5 col-lg-4 col-xl-4 order-lg-2 offset-xl-1 mb-4">
                             <div class="img-wrap text-center text-md-left" data-aos="fade-up" data-aos-delay="100">
                                 <div class="img">
-                                    <img src="assets/img/img_v_3.jpg" alt="circle image" class="img-fluid">
+                                    <img src="{{ Storage::url($AboutUs->mission_image) }}" alt="circle image"
+                                        class="img-fluid">
                                 </div>
                             </div>
                         </div>
 
                         <div class="offset-md-0 offset-lg-1 col-sm-12 col-md-5 col-lg-5 col-xl-4" data-aos="fade-up">
                             <div class="px-3">
-                                <span class="content-subtitle">Our Mission</span>
+                                <span class="content-subtitle">Misi Kami</span>
                                 <h2 class="content-title text-start">
-                                    The Big Oxmox advised her not to do so, because there were
-                                    thousands.
+                                    {{ $AboutUs->mission_title }}
                                 </h2>
-                                <p class="lead">
-                                    A small river named Duden flows by their place and supplies it
-                                    with the necessary regelialia. It is a paradisematic country.
-                                </p>
-                                <p class="mb-5">
-                                    The Big Oxmox advised her not to do so, because there were
-                                    thousands of bad Commas, wild Question Marks and devious Semikoli.
-                                </p>
+                                {!! $AboutUs->mission_desc !!}
                                 <p>
-                                    <a href="#" class="btn-get-started">Get Started</a>
+                                    <a href="{{ route('about-us') }}" class="btn-get-started">Get Started</a>
                                 </p>
                             </div>
                         </div>
@@ -189,47 +188,41 @@
 
                     <div class="col-lg-5">
                         <div class="images-overlap">
-                            <img src="assets/img/img_v_1.jpg" alt="student" class="img-fluid img-1" data-aos="fade-up">
+                            <img src="{{ Storage::url($AboutUs->why_us_image) }}" alt="student" class="img-fluid img-1"
+                                data-aos="fade-up">
                         </div>
                     </div>
 
                     <div class="col-lg-4 ps-lg-5">
-                        <span class="content-subtitle">Why Us</span>
-                        <h2 class="content-title">Far far away Behind the Word Mountains</h2>
-                        <p class="lead">
-                            Far far away, behind the word mountains, far from the countries
-                            Vokalia and Consonantia.
-                        </p>
-                        <p class="mb-5">
-                            There live the blind texts. Separated they live in Bookmarksgrove
-                            right at the coast of the Semantics, a large language ocean.
-                        </p>
+                        <span class="content-subtitle">Kenapa Memilih Kami</span>
+                        <h2 class="content-title">{{ $AboutUs->why_us_title }}</h2>
+                        {!! $AboutUs->why_us_desc !!}
                         <div class="row mb-5 count-numbers">
 
                             <!-- Start Stats Item -->
                             <div class="col-4 counter" data-aos="fade-up" data-aos-delay="100">
                                 <span data-purecounter-separator="true" data-purecounter-start="0"
-                                    data-purecounter-end="3919" data-purecounter-duration="1"
+                                    data-purecounter-end="{{ $AboutUs->total_project }}" data-purecounter-duration="1"
                                     class="purecounter number"></span>
-                                <span class="d-block">Coffee</span>
+                                <span class="d-block">Total Project</span>
                             </div>
                             <!-- End Stats Item -->
 
                             <!-- Start Stats Item -->
                             <div class="col-4 counter" data-aos="fade-up" data-aos-delay="200">
                                 <span data-purecounter-separator="true" data-purecounter-start="0"
-                                    data-purecounter-end="2831" data-purecounter-duration="1"
+                                    data-purecounter-end="{{ $AboutUs->total_vendor }}" data-purecounter-duration="1"
                                     class="purecounter number"></span>
-                                <span class="d-block">Codes</span>
+                                <span class="d-block">Total Vendor</span>
                             </div>
                             <!-- End Stats Item -->
 
                             <!-- Start Stats Item -->
                             <div class="col-4 counter" data-aos="fade-up" data-aos-delay="300">
                                 <span data-purecounter-separator="true" data-purecounter-start="0"
-                                    data-purecounter-end="1914" data-purecounter-duration="1"
+                                    data-purecounter-end="{{ $AboutUs->team_members }}" data-purecounter-duration="1"
                                     class="purecounter number"></span>
-                                <span class="d-block">Projects</span>
+                                <span class="d-block">Anggota Team</span>
                             </div>
                             <!-- End Stats Item -->
 
