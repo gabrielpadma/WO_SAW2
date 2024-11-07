@@ -18,8 +18,9 @@
 
             .cover-image {
                 width: 100%;
-                height: 100%;
                 object-fit: cover;
+                background-size: cover;
+                background-position: center;
             }
         </style>
     @endpush
@@ -40,7 +41,7 @@
             <div class="container">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-lg-7 mb-5 mb-lg-0 order-lg-2" data-aos="fade-up" data-aos-delay="400">
-                        <div class="swiper init-swiper">
+                        <div class="swiper init-swiper" style="max-height: 500px;">
                             <script type="application/json" class="swiper-config">
                   {
                     "loop": true,
@@ -107,11 +108,12 @@
             <div class="container">
                 <div class="content">
                     <div class="row justify-content-center">
-                        <div class="col-sm-12 col-md-5 col-lg-4 col-xl-4 order-lg-2 offset-xl-1 mb-4">
+                        <div
+                            class="col-sm-12 col-md-5 col-lg-4 col-xl-4 order-lg-2 offset-xl-1 mb-4 d-flex align-items-center">
                             <div class="img-wrap text-center text-md-left" data-aos="fade-up" data-aos-delay="100">
                                 <div class="img">
                                     <img src="{{ Storage::url($AboutUs->mission_image) }}" alt="circle image"
-                                        class="img-fluid">
+                                        style="background-size:cover;background-position:center;" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -187,9 +189,9 @@
                 <div class="row gy-4 justify-content-center">
 
                     <div class="col-lg-5">
-                        <div class="images-overlap">
+                        <div class="images-overlap d-flex justify-content-center">
                             <img src="{{ Storage::url($AboutUs->why_us_image) }}" alt="student" class="img-fluid img-1"
-                                data-aos="fade-up">
+                                style="background-size: cover" data-aos="fade-up">
                         </div>
                     </div>
 
@@ -234,253 +236,8 @@
             </div>
         </section><!-- /Stats Section -->
 
-        <!-- Blog Posts Section -->
-        <section id="blog-posts" class="blog-posts section">
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <p>Recent Posts</p>
-                <h2>Blog Posts</h2>
-            </div><!-- End Section Title -->
-            <div class="container">
 
-                <div class="row gy-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="post-entry" data-aos="fade-up" data-aos-delay="100">
-                            <a href="#" class="thumb d-block"><img src="assets/img/img_h_4.jpg" alt="Image"
-                                    class="img-fluid rounded"></a>
 
-                            <div class="post-content">
-                                <div class="meta">
-                                    <a href="#" class="cat">Development</a> •
-                                    <span class="date">July 20, 2020</span>
-                                </div>
-                                <h3><a href="#">There live the blind texts they live</a></h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries
-                                    Vokalia and Consonantia, there live the blind texts.
-                                </p>
-
-                                <div class="d-flex author align-items-center">
-                                    <div class="pic">
-                                        <img src="assets/img/team/team-3.jpg" alt="Image"
-                                            class="img-fluid rounded-circle">
-                                    </div>
-                                    <div class="author-name">
-                                        <strong class="d-block">Winston Gold</strong>
-                                        <span class="">Lead Product Designer</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="post-entry" data-aos="fade-up" data-aos-delay="200">
-                            <a href="#" class="thumb d-block"><img src="assets/img/img_h_2.jpg" alt="Image"
-                                    class="img-fluid rounded"></a>
-
-                            <div class="post-content">
-                                <div class="meta">
-                                    <a href="#" class="cat">Development</a> •
-                                    <span class="date">July 20, 2020</span>
-                                </div>
-                                <h3><a href="#">There live the blind texts they live</a></h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries
-                                    Vokalia and Consonantia, there live the blind texts.
-                                </p>
-
-                                <div class="d-flex author align-items-center">
-                                    <div class="pic">
-                                        <img src="assets/img/team/team-2.jpg" alt="Image"
-                                            class="img-fluid rounded-circle">
-                                    </div>
-                                    <div class="author-name">
-                                        <strong class="d-block">Winston Gold</strong>
-                                        <span class="">Lead Product Designer</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="post-entry" data-aos="fade-up" data-aos-delay="300">
-                            <a href="#" class="thumb d-block"><img src="assets/img/img_h_3.jpg" alt="Image"
-                                    class="img-fluid rounded"></a>
-
-                            <div class="post-content">
-                                <div class="meta">
-                                    <a href="#" class="cat">Development</a> •
-                                    <span class="date">July 20, 2020</span>
-                                </div>
-                                <h3><a href="#">There live the blind texts they live</a></h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries
-                                    Vokalia and Consonantia, there live the blind texts.
-                                </p>
-
-                                <div class="d-flex author align-items-center">
-                                    <div class="pic">
-                                        <img src="assets/img/team/team-1.jpg" alt="Image"
-                                            class="img-fluid rounded-circle">
-                                    </div>
-                                    <div class="author-name">
-                                        <strong class="d-block">Winston Gold</strong>
-                                        <span class="">Lead Product Designer</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section><!-- /Blog Posts Section -->
-
-        <!-- Tabs Section -->
-        <section id="tabs" class="tabs section light-background">
-
-            <div class="container">
-                <div class="row gap-x-lg-4 justify-content-between">
-                    <div class="col-lg-4 js-custom-dots">
-                        <a href="#" class="service-item link horizontal d-flex active" data-aos="fade-left"
-                            data-aos-delay="0">
-                            <div class="service-icon color-1 mb-4">
-                                <i class="bi bi-alarm"></i>
-                            </div>
-                            <!-- /.icon -->
-                            <div class="service-contents">
-                                <h3>Modern and clean design</h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries .
-                                </p>
-                            </div>
-                            <!-- /.service-contents-->
-                        </a>
-                        <!-- /.service -->
-
-                        <a href="#" class="service-item link horizontal d-flex" data-aos="fade-left"
-                            data-aos-delay="100">
-                            <div class="service-icon color-2 mb-4">
-                                <i class="bi bi-bag-check"></i>
-                            </div>
-                            <!-- /.icon -->
-                            <div class="service-contents">
-                                <h3>Sell Products</h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries .
-                                </p>
-                            </div>
-                            <!-- /.service-contents-->
-                        </a>
-                        <!-- /.service -->
-
-                        <a href="#" class="service-item link horizontal d-flex" data-aos="fade-left"
-                            data-aos-delay="200">
-                            <div class="service-icon color-3 mb-4">
-                                <i class="bi bi-briefcase"></i>
-                            </div>
-                            <!-- /.icon -->
-                            <div class="service-contents">
-                                <h3>Success Every Day</h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries .
-                                </p>
-                            </div>
-                            <!-- /.service-contents-->
-                        </a>
-                        <!-- /.service -->
-
-                        <a href="#" class="service-item link horizontal d-flex" data-aos="fade-left"
-                            data-aos-delay="300">
-                            <div class="service-icon color-4 mb-4">
-                                <i class="bi bi-easel"></i>
-                            </div>
-                            <!-- /.icon -->
-                            <div class="service-contents">
-                                <h3>Bring Ideas to Life</h3>
-                                <p>
-                                    Far far away, behind the word mountains, far from the countries .
-                                </p>
-                            </div>
-                            <!-- /.service-contents-->
-                        </a>
-                        <!-- /.service -->
-                    </div>
-
-                    <div class="col-lg-8">
-                        <div class="swiper init-swiper-tabs">
-                            <script type="application/json" class="swiper-config">
-                  {
-                    "loop": true,
-                    "speed": 600,
-                    "autoHeight": true,
-                    "autoplay": {
-                      "delay": 5000
-                    },
-                    "slidesPerView": "auto",
-                    "pagination": {
-                      "el": ".swiper-pagination",
-                      "type": "bullets",
-                      "clickable": true
-                    },
-                    "breakpoints": {
-                      "320": {
-                        "slidesPerView": 1,
-                        "spaceBetween": 40
-                      },
-                      "1200": {
-                        "slidesPerView": 1,
-                        "spaceBetween": 1
-                      }
-                    }
-                  }
-                  </script>
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_1.jpg" alt="Image" class="img-fluid">
-                                    <div class="p-4">
-                                        <h3 class="text-black h5 mb-3">Modern and clean design</h3>
-                                        <div class="row">
-                                            <div class="col-lg-8">
-                                                <p>
-                                                    Far far away, behind the word mountains, far from the
-                                                    countries Vokalia and Consonantia, there live the blind
-                                                    texts. Separated they live in Bookmarksgrove right at the
-                                                    coast of the Semantics, a large language ocean.
-                                                </p>
-                                                <p>
-                                                    A small river named Duden flows by their place and
-                                                    supplies it with the necessary regelialia. It is a
-                                                    paradisematic country, in which roasted parts of sentences
-                                                    fly into your mouth.
-                                                </p>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <ul class="list-unstyled list-check">
-                                                    <li>Far far away, behind the word</li>
-                                                    <li>Far from the countries Vokalia</li>
-                                                    <li>Separated they live in Bookmarksgrove</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_2.jpg" alt="Image" class="img-fluid">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_3.jpg" alt="Image" class="img-fluid">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="assets/img/img_h_4.jpg" alt="Image" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section><!-- /Tabs Section -->
 
         <!-- Services 2 Section -->
         <section id="services-2" class="services-2 section">
@@ -628,83 +385,6 @@
             </div>
 
         </section><!-- /Pricing Section -->
-
-        <!-- Faq Section -->
-        <section id="faq" class="faq section">
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <p>Plans</p>
-                <h2>Frequently Asked Questions</h2>
-            </div><!-- End Section Title -->
-
-            <div class="container" data-aos="fade-up">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="custom-accordion" id="accordion-faq">
-                            <div class="accordion-item">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse-faq-1">
-                                        How to download and register?
-                                    </button>
-                                </h2>
-
-                                <div id="collapse-faq-1" class="collapse show" aria-labelledby="headingOne"
-                                    data-parent="#accordion-faq">
-                                    <div class="accordion-body">
-                                        Far far away, behind the word mountains, far from the countries
-                                        Vokalia and Consonantia, there live the blind texts. Separated
-                                        they live in Bookmarksgrove right at the coast of the Semantics,
-                                        a large language ocean.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .accordion-item -->
-
-                            <div class="accordion-item">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse-faq-2">
-                                        How to create your paypal account?
-                                    </button>
-                                </h2>
-                                <div id=" collapse-faq-2" class="collapse" aria-labelledby="headingTwo"
-                                    data-parent="#accordion-faq">
-                                    <div class="accordion-body">
-                                        A small river named Duden flows by their place and supplies it
-                                        with the necessary regelialia. It is a paradisematic country, in
-                                        which roasted parts of sentences fly into your mouth.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .accordion-item -->
-
-                            <div class="accordion-item">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse-faq-3">
-                                        How to link your paypal and bank account?
-                                    </button>
-                                </h2>
-
-                                <div id="collapse-faq-3" class="collapse" aria-labelledby="headingThree"
-                                    data-parent="#accordion-faq">
-                                    <div class="accordion-body">
-                                        When she reached the first hills of the Italic Mountains, she
-                                        had a last view back on the skyline of her hometown
-                                        Bookmarksgrove, the headline of Alphabet Village and the subline
-                                        of her own road, the Line Lane. Pityful a rethoric question ran
-                                        over her cheek, then she continued her way.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .accordion-item -->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section><!-- /Faq Section -->
 
         <!-- Testimonials Section -->
         <section id="testimonials" class="testimonials section">

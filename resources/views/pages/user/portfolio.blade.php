@@ -75,6 +75,11 @@
 
         <!-- Testimonials Section -->
         <section id="testimonials" class="testimonials section">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <p>Happy Couples</p>
+                <h2>Testimonials</h2>
+            </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up">
                 <div class="row justify-content-center">
@@ -106,54 +111,20 @@
                     }
                   </script>
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="testimonial mx-auto">
-                                        <figure class="img-wrap">
-                                            <img src="assets/img/testimonials/testimonials-1.jpg" alt="Image"
-                                                class="img-fluid">
-                                        </figure>
-                                        <h3 class="name">Adam Aderson</h3>
-                                        <blockquote>
-                                            <p>
-                                                “There live the blind texts. Separated they live in
-                                                Bookmarksgrove right at the coast of the Semantics, a large
-                                                language ocean.”
-                                            </p>
-                                        </blockquote>
+                                @foreach ($Testimonials as $item)
+                                    <div class="swiper-slide">
+                                        <div class="testimonial mx-auto">
+                                            <figure class="img-wrap">
+                                                <img src="{{ Storage::url($item->testimonial_image) }}" alt="Image"
+                                                    class="img-fluid">
+                                            </figure>
+                                            <h3 class="name">{{ $item->testimonial_customer_name }}</h3>
+                                            <blockquote>
+                                                {!! $item->testimonial_desc !!}
+                                            </blockquote>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="testimonial mx-auto">
-                                        <figure class="img-wrap">
-                                            <img src="assets/img/testimonials/testimonials-2.jpg" alt="Image"
-                                                class="img-fluid">
-                                        </figure>
-                                        <h3 class="name">Lukas Devlin</h3>
-                                        <blockquote>
-                                            <p>
-                                                “There live the blind texts. Separated they live in
-                                                Bookmarksgrove right at the coast of the Semantics, a large
-                                                language ocean.”
-                                            </p>
-                                        </blockquote>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="testimonial mx-auto">
-                                        <figure class="img-wrap">
-                                            <img src="assets/img/testimonials/testimonials-3.jpg" alt="Image"
-                                                class="img-fluid">
-                                        </figure>
-                                        <h3 class="name">Kayla Bryant</h3>
-                                        <blockquote>
-                                            <p>
-                                                “There live the blind texts. Separated they live in
-                                                Bookmarksgrove right at the coast of the Semantics, a large
-                                                language ocean.”
-                                            </p>
-                                        </blockquote>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>

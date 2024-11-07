@@ -134,11 +134,7 @@
                         <i class="bi bi-circle"></i><span>Testimonials</span>
                     </a>
                 </li>
-                <li>
-                    <a href="icons-boxicons.html">
-                        <i class="bi bi-circle"></i><span>Layanan</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="icons-boxicons.html">
                         <i class="bi bi-circle"></i><span>Paket Pernikahan</span>
