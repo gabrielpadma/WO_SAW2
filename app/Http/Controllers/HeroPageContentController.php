@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
 use App\Models\HeroPageContent;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,7 +22,8 @@ class HeroPageContentController extends Controller
         $title = 'Pengaturan Hero Section';
         $HeroContent = HeroPageContent::first();
         $AboutUs = AboutUs::first();
-        return view('pages.hero-section.index', compact('title', 'HeroContent', 'AboutUs'));
+        $Service = Service::first();
+        return view('pages.hero-section.index', compact('title', 'HeroContent', 'AboutUs', 'Service'));
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Http\Controllers\HeroPageContentController;
 use App\Http\Controllers\Pelanggan;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PortfolioDetailController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SubCriteriaController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\VacancyController;
@@ -47,6 +48,7 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('portfolio.portfolio-detail', PortfolioDetailController::class);
     Route::resource('about-us', AboutUsController::class);
     Route::resource('testimonial', TestimonialController::class);
+    Route::resource('services', ServiceController::class);
 });
 
 Route::resource('user', Pelanggan::class);

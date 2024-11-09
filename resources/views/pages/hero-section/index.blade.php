@@ -41,7 +41,23 @@
                                 str_starts_with($key, 'team_members');
                         });
 
-                        $defaultTab = !$errorsHeroSection && !$errorsTabPaneAbout;
+                        $errorsTabPaneService = collect($errors->keys())->contains(function ($key) {
+                            return str_starts_with($key, 'service_title') ||
+                                str_starts_with($key, 'service_desc') ||
+                                str_starts_with($key, 'icon_service_1') ||
+                                str_starts_with($key, 'service_text_1') ||
+                                str_starts_with($key, 'icon_service_2') ||
+                                str_starts_with($key, 'service_text_2') ||
+                                str_starts_with($key, 'service_text_3') ||
+                                str_starts_with($key, 'icon_service_3') ||
+                                str_starts_with($key, 'service_text_4') ||
+                                str_starts_with($key, 'icon_service_5') ||
+                                str_starts_with($key, 'service_text_5') ||
+                                str_starts_with($key, 'icon_service_6') ||
+                                str_starts_with($key, 'service_text_6');
+                        });
+
+                        $defaultTab = !$errorsHeroSection && !$errorsTabPaneAbout && !$errorsTabPaneService;
                     @endphp
                     <div class="card">
                         <div class="card-body pt-3">
@@ -60,8 +76,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#layanan">Layanan</button>
+                                    <button @class(['nav-link', 'active' => $errorsTabPaneService]) data-bs-toggle="tab"
+                                        data-bs-target="#service">Layanan</button>
                                 </li>
 
 
@@ -445,20 +461,21 @@
                                     'tab-pane',
                                     'fade',
                                     'service',
-                                    'show' => $defaultTab,
-                                    'active' => $defaultTab,
+                                    'show' => $errorsTabPaneService,
+                                    'active' => $errorsTabPaneService,
                                 ]) id="service">
                                     <h5 class="card-title">Setting Layanan</h5>
-                                    <form method="post">
+                                    <form method="post" action="{{ route('services.store') }}">
                                         @csrf
                                         <div class="row mb-3">
-                                            <label for="currentPassword"
-                                                class="col-md-4 col-lg-3 col-form-label">Judul Layanan</label>
+                                            <label for="service_title" class="col-md-4 col-lg-3 col-form-label">Judul
+                                                Layanan</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="service_title" type="text" class="form-control"
                                                     id="service_title"
-                                                    value=" {{ old('service_title', $HeroContent->service_title ?? '') }}">
-                                                @error('welcome_text')
+                                                    value=" {{ old('service_title', $Service->service_title ?? '') }}"
+                                                    required>
+                                                @error('service_title')
                                                     <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -472,128 +489,178 @@
                                             </label>
                                             <div class="col-md-8 col-lg-9">
                                                 <textarea id="service_desc" name="service_desc" required>
-                                                {{ old('service_desc', $HeroContent->service_desc ?? '') }}
+                                                {{ old('service_desc', $Service->service_desc ?? '') }}
                                             </textarea>
+                                                @error('service_desc')
+                                                    <div id="validationServerPasswordFeedback"
+                                                        class="text-sm text-danger">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="icon_service_1" class="form-label">Service Icon 1</label>
-                                            <input name="service_title" type="text" class="form-control"
-                                                id="service_title"
-                                                value=" {{ old('service_title', $HeroContent->service_title ?? '') }}">
-                                            @error('image_path1')
-                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+                                            <div class="col-md-6">
+                                                <label for="icon_service_1" class="form-label">Service Icon 1</label>
+                                                <input name="icon_service_1" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_service_1"
+                                                    value=" {{ old('icon_service_1', $Service->icon_service_1 ?? '') }}">
+                                                @error('icon_service_1')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="service_text_1" class="form-label">Service Text 1</label>
+                                                <input name="service_text_1" type="text" class="form-control"
+                                                    id="service_text_1"
+                                                    value=" {{ old('service_text_1', $Service->service_text_1 ?? '') }}">
+                                                @error('service_text_1')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="icon_service_2" class="form-label">Service Icon 2</label>
+                                                <input name="icon_service_2" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_service_2"
+                                                    value=" {{ old('icon_service_2', $Service->icon_service_2 ?? '') }}">
+                                                @error('icon_service_2')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="service_text_2" class="form-label">Service Text 2</label>
+                                                <input name="service_text_2" type="text" class="form-control"
+                                                    id="service_text_2"
+                                                    value=" {{ old('service_text_2', $Service->service_text_2 ?? '') }}">
+                                                @error('service_text_2')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="icon_service_3" class="form-label">Service Icon 3</label>
+                                                <input name="icon_service_3" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_service_3"
+                                                    value=" {{ old('icon_service_3', $Service->icon_service_3 ?? '') }}">
+                                                @error('icon_service_3')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="service_text_3" class="form-label">Service Text 3</label>
+                                                <input name="service_text_3" type="text" class="form-control"
+                                                    id="service_text_3"
+                                                    value=" {{ old('service_text_3', $Service->service_text_3 ?? '') }}">
+                                                @error('service_text_3')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="image_path2" class="form-label">Gambar Hero 2</label>
-                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path2')]) type="file" id="image_path2"
-                                                name="image_path2">
+                                            <div class="col-md-6">
+                                                <label for="icon_service_4" class="form-label">Service Icon 4</label>
+                                                <input name="icon_service_4" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_service_4"
+                                                    value=" {{ old('icon_service_4', $Service->icon_service_4 ?? '') }}">
+                                                @error('icon_service_4')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
 
-                                            @php
-                                                if ($HeroContent?->image_path2) {
-                                                    $fileName = $HeroContent->image_path2
-                                                        ? basename($HeroContent->image_path2)
-                                                        : 'Tidak ada file';
-                                                }
-                                            @endphp
-                                            @if ($HeroContent?->image_path2 ?? false)
-                                                <p>File yang sudah diunggah: <a
-                                                        href="{{ asset('storage/' . $HeroContent->image_path2) }}"
-                                                        target="_blank">{{ $fileName }}</a></p>
-                                            @else
-                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
-                                            @endif
+                                            <div class="col-md-6">
+                                                <label for="service_text_4" class="form-label">Service Text 4</label>
+                                                <input name="service_text_4" type="text" class="form-control"
+                                                    id="service_text_4"
+                                                    value=" {{ old('service_text_4', $Service->service_text_4 ?? '') }}">
+                                                @error('service_text_4')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
 
-
-                                            @error('image_path2')
-                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="image_path3" class="form-label">Gambar Hero 3</label>
-                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path3')]) type="file" id="image_path3"
-                                                name="image_path3">
+                                            <div class="col-md-6">
+                                                <label for="icon_service_5" class="form-label">Service Icon 5</label>
+                                                <input name="icon_service_5" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_service_5"
+                                                    value=" {{ old('icon_service_5', $Service->icon_service_5 ?? '') }}">
+                                                @error('icon_service_5')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
 
-                                            @php
-                                                if ($HeroContent?->image_path3) {
-                                                    $fileName = $HeroContent->image_path3
-                                                        ? basename($HeroContent->image_path3)
-                                                        : 'Tidak ada file';
-                                                }
-                                            @endphp
+                                            <div class="col-md-6">
+                                                <label for="service_text_5" class="form-label">Service Text 5</label>
+                                                <input name="service_text_5" type="text" class="form-control"
+                                                    id="service_text_5"
+                                                    value=" {{ old('service_text_5', $Service->service_text_5 ?? '') }}">
+                                                @error('service_text_5')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
 
-                                            @if ($HeroContent?->image_path3 ?? false)
-                                                <p>File yang sudah diunggah: <a
-                                                        href="{{ asset('storage/' . $HeroContent->image_path3) }}"
-                                                        target="_blank">{{ $fileName }}</a></p>
-                                            @else
-                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
-                                            @endif
-                                            @error('image_path3')
-                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                         </div>
+
                                         <div class="row mb-3">
-                                            <label for="image_path4" class="form-label">Gambar Hero 4</label>
-                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path4')]) type="file" id="image_path4"
-                                                name="image_path4">
+                                            <div class="col-md-6">
+                                                <label for="icon_service_6" class="form-label">Service Icon 6</label>
+                                                <input name="icon_service_6" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_service_6"
+                                                    value=" {{ old('icon_service_6', $Service->icon_service_6 ?? '') }}">
+                                                @error('icon_service_6')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
 
+                                            <div class="col-md-6">
+                                                <label for="service_text_6" class="form-label">Service Text 6</label>
+                                                <input name="service_text_6" type="text" class="form-control"
+                                                    id="service_text_6"
+                                                    value=" {{ old('service_text_6', $Service->service_text_6 ?? '') }}">
+                                                @error('service_text_6')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
 
-                                            @php
-                                                if ($HeroContent?->image_path4) {
-                                                    $fileName = $HeroContent->image_path4
-                                                        ? basename($HeroContent->image_path4)
-                                                        : 'Tidak ada file';
-                                                }
-                                            @endphp
-
-                                            @if ($HeroContent?->image_path4 ?? false)
-                                                <p>File yang sudah diunggah: <a
-                                                        href="{{ asset('storage/' . $HeroContent->image_path4) }}"
-                                                        target="_blank">{{ $fileName }}</a></p>
-                                            @else
-                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
-                                            @endif
-                                            @error('image_path4')
-                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                         </div>
-                                        <div class="row mb-3">
-                                            <label for="image_path5" class="form-label">Gambar Hero 5</label>
-                                            <input @class(['form-control ', 'is-invalid' => $errors->has('image_path5')]) type="file" id="image_path5"
-                                                name="image_path5">
 
-                                            @php
-                                                if ($HeroContent?->image_path5) {
-                                                    $fileName = $HeroContent->image_path5
-                                                        ? basename($HeroContent->image_path5)
-                                                        : 'Tidak ada file';
-                                                }
-                                            @endphp
-
-                                            @if ($HeroContent?->image_path5 ?? false)
-                                                <p>File yang sudah diunggah: <a
-                                                        href="{{ asset('storage/' . $HeroContent->image_path5) }}"
-                                                        target="_blank">{{ $fileName }}</a></p>
-                                            @else
-                                                <p class="text-sm text-danger">* Tidak ada file yang diunggah.</p>
-                                            @endif
-                                            @error('image_path5')
-                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
 
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -609,14 +676,6 @@
                 </div>
             </div>
         </section>
-
-        @if ($errors->any())
-            <script>
-                const myModal = new bootstrap.Modal(document.getElementById('modalTambahData'));
-                myModal.show();
-            </script>
-        @endif
-
 
         <script>
             $(document).ready(function() {
@@ -639,6 +698,15 @@
                 });
                 tinymce.init({
                     selector: '#why_us_desc',
+                    height: 200,
+                    plugins: 'lists link image code',
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
+                    menubar: false,
+
+                });
+
+                tinymce.init({
+                    selector: '#service_desc',
                     height: 200,
                     plugins: 'lists link image code',
                     toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
