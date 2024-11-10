@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
 use App\Models\Portfolio;
+use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,6 +43,14 @@ class Pelanggan extends Controller implements HasMiddleware
         $AboutUs = AboutUs::first();
         $Testimonials = Testimonial::get();
         return view('pages.user.about-us', compact('breadcrumbs', 'title', 'AboutUs', 'Testimonials'));
+    }
+
+
+    public function ourServices()
+    {
+        $Service = Service::first();
+        $title = 'Layanan Kami';
+        return view('pages.user.our-services', compact('title', 'Service'));
     }
 
 

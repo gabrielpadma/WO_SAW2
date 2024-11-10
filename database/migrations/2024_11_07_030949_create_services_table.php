@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('service_title');
             $table->text('service_desc');
+            $table->string('icon_title_1')->nullable();
+            $table->string('icon_title_2')->nullable();
+            $table->string('icon_title_3')->nullable();
+            $table->string('icon_title_4')->nullable();
+            $table->string('icon_title_5')->nullable();
+            $table->string('icon_title_6')->nullable();
             $table->string('icon_service_1')->nullable();
             $table->string('service_text_1')->nullable();
             $table->string('icon_service_2')->nullable();

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
 use App\Models\HeroPageContent;
+use App\Models\Service;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +17,9 @@ class AuthController extends Controller
         $title = 'Alucia Wedding Organizer';
         $heroData = HeroPageContent::first();
         $AboutUs = AboutUs::first();
-        return view('pages.user.index', compact('title', 'heroData', 'AboutUs'));
+        $Service = Service::first();
+        $Testimonials = Testimonial::get();
+        return view('pages.user.index', compact('title', 'heroData', 'AboutUs', 'Service', 'Testimonials'));
     }
 
 

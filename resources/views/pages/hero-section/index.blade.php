@@ -54,7 +54,13 @@
                                 str_starts_with($key, 'icon_service_5') ||
                                 str_starts_with($key, 'service_text_5') ||
                                 str_starts_with($key, 'icon_service_6') ||
-                                str_starts_with($key, 'service_text_6');
+                                str_starts_with($key, 'service_text_6') ||
+                                str_starts_with($key, 'icon_title_1') ||
+                                str_starts_with($key, 'icon_title_2') ||
+                                str_starts_with($key, 'icon_title_3') ||
+                                str_starts_with($key, 'icon_title_4') ||
+                                str_starts_with($key, 'icon_title_5') ||
+                                str_starts_with($key, 'icon_title_6');
                         });
 
                         $defaultTab = !$errorsHeroSection && !$errorsTabPaneAbout && !$errorsTabPaneService;
@@ -501,7 +507,7 @@
                                         </div>
 
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="icon_service_1" class="form-label">Service Icon 1</label>
                                                 <input name="icon_service_1" type="text" class="form-control"
                                                     placeholder="Icon menggunakan bootstrap icon" id="icon_service_1"
@@ -513,7 +519,20 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <label for="icon_title_1" class="form-label">Judul Icon 1</label>
+                                                <input name="icon_title_1" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_title_1"
+                                                    value=" {{ old('icon_title_1', $Service->icon_title_1 ?? '') }}">
+                                                @error('icon_title_1')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+
+                                            <div class="col-md-4">
                                                 <label for="service_text_1" class="form-label">Service Text 1</label>
                                                 <input name="service_text_1" type="text" class="form-control"
                                                     id="service_text_1"
@@ -529,7 +548,7 @@
 
 
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="icon_service_2" class="form-label">Service Icon 2</label>
                                                 <input name="icon_service_2" type="text" class="form-control"
                                                     placeholder="Icon menggunakan bootstrap icon" id="icon_service_2"
@@ -541,7 +560,20 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-6">
+
+                                            <div class="col-md-4">
+                                                <label for="icon_title_2" class="form-label">Judul Icon 2</label>
+                                                <input name="icon_title_2" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_title_2"
+                                                    value=" {{ old('icon_title_2', $Service->icon_title_2 ?? '') }}">
+                                                @error('icon_title_2')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-4">
                                                 <label for="service_text_2" class="form-label">Service Text 2</label>
                                                 <input name="service_text_2" type="text" class="form-control"
                                                     id="service_text_2"
@@ -556,7 +588,7 @@
                                         </div>
 
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="icon_service_3" class="form-label">Service Icon 3</label>
                                                 <input name="icon_service_3" type="text" class="form-control"
                                                     placeholder="Icon menggunakan bootstrap icon" id="icon_service_3"
@@ -568,7 +600,19 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <label for="icon_title_3" class="form-label">Judul Icon 3</label>
+                                                <input name="icon_title_3" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_title_3"
+                                                    value=" {{ old('icon_title_3', $Service->icon_title_3 ?? '') }}">
+                                                @error('icon_title_3')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-4">
                                                 <label for="service_text_3" class="form-label">Service Text 3</label>
                                                 <input name="service_text_3" type="text" class="form-control"
                                                     id="service_text_3"
@@ -582,7 +626,7 @@
 
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="icon_service_4" class="form-label">Service Icon 4</label>
                                                 <input name="icon_service_4" type="text" class="form-control"
                                                     placeholder="Icon menggunakan bootstrap icon" id="icon_service_4"
@@ -594,7 +638,19 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <label for="icon_title_4" class="form-label">Judul Icon 4</label>
+                                                <input name="icon_title_4" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_title_4"
+                                                    value=" {{ old('icon_title_4', $Service->icon_title_4 ?? '') }}">
+                                                @error('icon_title_4')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-4">
                                                 <label for="service_text_4" class="form-label">Service Text 4</label>
                                                 <input name="service_text_4" type="text" class="form-control"
                                                     id="service_text_4"
@@ -608,7 +664,7 @@
 
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="icon_service_5" class="form-label">Service Icon 5</label>
                                                 <input name="icon_service_5" type="text" class="form-control"
                                                     placeholder="Icon menggunakan bootstrap icon" id="icon_service_5"
@@ -620,7 +676,20 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-6">
+
+                                            <div class="col-md-4">
+                                                <label for="icon_title_5" class="form-label">Judul Icon 5</label>
+                                                <input name="icon_title_5" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_title_5"
+                                                    value=" {{ old('icon_title_5', $Service->icon_title_5 ?? '') }}">
+                                                @error('icon_title_5')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-4">
                                                 <label for="service_text_5" class="form-label">Service Text 5</label>
                                                 <input name="service_text_5" type="text" class="form-control"
                                                     id="service_text_5"
@@ -635,7 +704,7 @@
                                         </div>
 
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="icon_service_6" class="form-label">Service Icon 6</label>
                                                 <input name="icon_service_6" type="text" class="form-control"
                                                     placeholder="Icon menggunakan bootstrap icon" id="icon_service_6"
@@ -647,7 +716,19 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <label for="icon_title_6" class="form-label">Judul Icon 1</label>
+                                                <input name="icon_title_6" type="text" class="form-control"
+                                                    placeholder="Icon menggunakan bootstrap icon" id="icon_title_6"
+                                                    value=" {{ old('icon_title_6', $Service->icon_title_6 ?? '') }}">
+                                                @error('icon_title_6')
+                                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-4">
                                                 <label for="service_text_6" class="form-label">Service Text 6</label>
                                                 <input name="service_text_6" type="text" class="form-control"
                                                     id="service_text_6"

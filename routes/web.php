@@ -56,4 +56,5 @@ Route::controller(Pelanggan::class)->group(function () {
     Route::get('portfolio', 'portfolio')->name('portfolio-user');
     Route::get('about-us', 'aboutUs')->name('about-us');
     Route::get('portfolio-detail/{portfolio}', 'portfolioDetail')->name('portfolio-detail');
+    Route::get('our-services', 'ourServices')->name('our-services');
 });

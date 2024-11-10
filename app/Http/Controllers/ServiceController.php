@@ -30,7 +30,7 @@ class ServiceController extends Controller
     {
         $validatedData =  $request->validate([
             'service_title' => 'required|max:255',
-            'service_desc' => 'required|max:255',
+            'service_desc' => 'required',
             'icon_service_1' => 'nullable|string',
             'service_text_1' => 'nullable|string|max:255',
             'icon_service_2' => 'nullable|string',
@@ -43,7 +43,12 @@ class ServiceController extends Controller
             'service_text_5' => 'nullable|string|max:255',
             'icon_service_6' => 'nullable|string',
             'service_text_6' => 'nullable|string|max:255',
-
+            'icon_title_1' => 'nullable|string|max:255',
+            'icon_title_2' => 'nullable|string|max:255',
+            'icon_title_3' => 'nullable|string|max:255',
+            'icon_title_4' => 'nullable|string|max:255',
+            'icon_title_5' => 'nullable|string|max:255',
+            'icon_title_6' => 'nullable|string|max:255',
         ]);
 
         $Service = Service::firstOrNew();
@@ -61,6 +66,12 @@ class ServiceController extends Controller
         $Service->service_text_5 = $validatedData['service_text_5'];
         $Service->icon_service_6 = $validatedData['icon_service_6'];
         $Service->service_text_6 = $validatedData['service_text_6'];
+        $Service->icon_title_1 = $validatedData['icon_title_1'];
+        $Service->icon_title_2 = $validatedData['icon_title_2'];
+        $Service->icon_title_3 = $validatedData['icon_title_3'];
+        $Service->icon_title_4 = $validatedData['icon_title_4'];
+        $Service->icon_title_5 = $validatedData['icon_title_5'];
+        $Service->icon_title_6 = $validatedData['icon_title_6'];
 
 
         $Service->save();
