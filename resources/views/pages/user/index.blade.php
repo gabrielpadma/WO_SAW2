@@ -298,57 +298,28 @@
 
                 <div class="row gy-4">
 
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="pricing-item">
-                            <h3>Free</h3>
-                            <h4><sup>$</sup>0<span> / month</span></h4>
-                            <ul>
-                                <li>Aida dere</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li class="na">Pharetra massa</li>
-                                <li class="na">Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div><!-- End Pricing Item -->
+                    @foreach ($WeddingPackages as $package)
+                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="pricing-item">
+                                @if ($package->is_recommend)
+                                    <span class="recommended-badge">Recommended</span>
+                                @endif
 
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="pricing-item recommended">
-                            <span class="recommended-badge">Recommended</span>
-                            <h3>Business</h3>
-                            <h4><sup>$</sup>19<span> / month</span></h4>
-                            <ul>
-                                <li>Aida dere</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li>Pharetra massa</li>
-                                <li class="na">Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
+                                <h3>{{ $package->package_title }}</h3>
+                                <h4><sup>Rp</sup>{{ $package->price }}</h4>
+                                <ul>
+                                    @foreach ($package->features as $feature)
+                                        <li>{{ $feature }}</li>
+                                    @endforeach
+                                </ul>
+                                <div class="btn-wrap">
+                                    <a href="#" class="btn-buy"> <i class="bi bi-whatsapp me-2"></i>Hubungi
+                                        Kami
+                                        Sekarang</a>
+                                </div>
                             </div>
-                        </div>
-                    </div><!-- End Pricing Item -->
-
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="pricing-item">
-                            <h3>Developer</h3>
-                            <h4><sup>$</sup>29<span> / month</span></h4>
-                            <ul>
-                                <li>Aida dere</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li>Pharetra massa</li>
-                                <li>Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div><!-- End Pricing Item -->
+                        </div><!-- End Pricing Item -->
+                    @endforeach
 
                 </div>
 

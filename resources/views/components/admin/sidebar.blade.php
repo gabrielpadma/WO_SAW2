@@ -136,7 +136,7 @@
                 </li>
 
                 <li>
-                    <a href="icons-boxicons.html">
+                    <a href="{{ route('wedding-package.index') }}">
                         <i class="bi bi-circle"></i><span>Paket Pernikahan</span>
                     </a>
                 </li>
