@@ -1,0 +1,24 @@
+Cara install web
+
+1.Install Laragon https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe
+
+2.Install composer https://getcomposer.org/download/
+
+3.Install Git https://git-scm.com/download/win
+
+4.Buka Terminal, jalankan terminal ketik "git clone https://github.com/gabrielpadma/WO_SAW2.git" tanpa tanda petik
+
+5.kl sudah buka foldernya dan buka terminal, jalankan composer install
+
+6. jalankan cp .env.example .env
+
+7. ketik php artisan key:generate
+
+8. buka file .env ganti DB_CONNECTION=sqlite ke mysql dan sesuaikan nama databasenya
+
+9. jalankan php artisan migrate
+
+10. buka laragon jalankan mysql
+
+11. kembali ke vscode jalankan php artisan serve
+

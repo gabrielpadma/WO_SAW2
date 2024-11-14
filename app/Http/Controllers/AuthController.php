@@ -6,6 +6,7 @@ use App\Models\AboutUs;
 use App\Models\HeroPageContent;
 use App\Models\Service;
 use App\Models\Testimonial;
+use App\Models\WeddingPackage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,13 @@ class AuthController extends Controller
         $AboutUs = AboutUs::first();
         $Service = Service::first();
         $Testimonials = Testimonial::get();
-        return view('pages.user.index', compact('title', 'heroData', 'AboutUs', 'Service', 'Testimonials'));
+        $WeddingPackages = WeddingPackage::all()->map(function ($package) {
+            $package->features =  json_decode($package->features, true);
+            $package->price = number_format($package->price, 0, ',', '.');
+            return $package;
+        });
+
+        return view('pages.user.index', compact('title', 'heroData', 'AboutUs', 'Service', 'Testimonials', 'WeddingPackages'));
     }
 
 

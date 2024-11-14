@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware('checkAuth')->group(function () {
     Route::resource('wedding-package', WeddingPackageController::class);
 });
 
+
 Route::resource('user', Pelanggan::class);
 Route::controller(Pelanggan::class)->group(function () {
     Route::get('portfolio', 'portfolio')->name('portfolio-user');
