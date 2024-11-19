@@ -132,14 +132,6 @@
         </x-modal>
 
 
-        @if ($errors->any())
-            <script>
-                const myModal = new bootstrap.Modal(document.getElementById('modalTambahData'));
-                myModal.show();
-            </script>
-        @endif
-
-
 
         <script>
             $(document).ready(function() {

@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\User;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -19,7 +20,7 @@ class Pelanggan extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('checkAuth', ['store', 'edit']),
+            new Middleware('checkAuth', ['edit']),
         ];
     }
 
@@ -55,6 +56,23 @@ class Pelanggan extends Controller implements HasMiddleware
 
 
 
+    public function lowongan()
+    {
+        $title = 'Lowongan Pekerjaan';
+        $vacancies = Vacancy::all();
+        return view('pages.user.lowongan', compact('title', 'vacancies'));
+    }
+
+
+
+    public function daftarLamaran(Vacancy $vacancy)
+    {
+        $title = 'Daftar Lamaran';
+        return view('pages.user.daftar-lowongan', compact('title', 'vacancy'));
+    }
+
+
+
     public function portfolioDetail(Portfolio $portfolio)
     {
 
@@ -64,6 +82,10 @@ class Pelanggan extends Controller implements HasMiddleware
 
         return view('pages.user.portfolio-detail', compact('breadcrumbs', 'title', 'portfolio'));
     }
+
+
+
+
 
 
     /**
@@ -92,7 +114,6 @@ class Pelanggan extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        // Lakukan validasi
         $validatedData = $request->validate([
             'name' => 'required|string|max:100|min:3',
             'email_daftar_akun' => 'required|email|unique:users,email|max:255',

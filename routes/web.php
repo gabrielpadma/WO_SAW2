@@ -60,4 +60,6 @@ Route::controller(Pelanggan::class)->group(function () {
     Route::get('about-us', 'aboutUs')->name('about-us');
     Route::get('portfolio-detail/{portfolio}', 'portfolioDetail')->name('portfolio-detail');
     Route::get('our-services', 'ourServices')->name('our-services');
+    Route::get('lowongan', 'lowongan')->name('lowongan');
+    Route::get('daftar-lamaran/{vacancy}', 'daftarLamaran')->middleware('checkAuth')->name('daftar-lamaran');
 });

@@ -26,7 +26,7 @@
                 <li class="dropdown"><a href="#"><span>Lowongan</span> <i
                             class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
-                        <li><a href="#">Daftar Lowongan</a></li>
+                        <li><a href="{{ route('lowongan') }}">Daftar Lowongan</a></li>
                         <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
