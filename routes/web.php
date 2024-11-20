@@ -62,4 +62,5 @@ Route::controller(Pelanggan::class)->group(function () {
     Route::get('our-services', 'ourServices')->name('our-services');
     Route::get('lowongan', 'lowongan')->name('lowongan');
     Route::get('daftar-lamaran/{vacancy}', 'daftarLamaran')->middleware('checkAuth')->name('daftar-lamaran');
+    Route::post('daftar-lamaran/{vacancy}', 'simpanLamaran')->middleware('checkAuth')->name('simpan-lamaran');
 });

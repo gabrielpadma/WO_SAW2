@@ -79,8 +79,52 @@ class Pelanggan extends Controller implements HasMiddleware
         $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Portfolio'], ['text' => 'Portfolio Detail']];
         $title = 'Portfolio';
         $portfolio = $portfolio->load(['portfolio_details']);
-
         return view('pages.user.portfolio-detail', compact('breadcrumbs', 'title', 'portfolio'));
+    }
+
+
+    public function simpanLamaran(Request $request, Vacancy $vacancy)
+    {
+
+        $validatedData = $request->validate([
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string',
+            'jenis_kelamin' => 'required|string',
+            'usia' => 'required|integer',
+            'status_pernikahan' => 'required|string',
+            'provinsi' => 'required|string',
+            'kota' => 'required|string',
+            'no_hp' => 'required',
+            'asal_sekolah' => 'required|string',
+            'foto' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_ijazah' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_cv' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_keterangan_sehat' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_keterangan_skck' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+        ]);
+
+        dd($validatedData);
+
+
+        if ($request->hasFile('berkas_persyaratan')) {
+            $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
+            $validatedData['berkas_persyaratan'] = $filePath;
+        }
+
+        $Vacancy = Vacancy::create($validatedData);
+        if ($Vacancy) {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data berhasil ditambahkan',
+                'icon' => 'success',
+                'title' => 'Success'
+            ]);
+        } else {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data gagal ditambahkan',
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
     }
 
 
