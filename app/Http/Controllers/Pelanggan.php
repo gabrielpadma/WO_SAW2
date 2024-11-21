@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\User;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -19,7 +20,7 @@ class Pelanggan extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('checkAuth', ['store', 'edit']),
+            new Middleware('checkAuth', ['edit']),
         ];
     }
 
@@ -55,15 +56,80 @@ class Pelanggan extends Controller implements HasMiddleware
 
 
 
+    public function lowongan()
+    {
+        $title = 'Lowongan Pekerjaan';
+        $vacancies = Vacancy::all();
+        return view('pages.user.lowongan', compact('title', 'vacancies'));
+    }
+
+
+
+    public function daftarLamaran(Vacancy $vacancy)
+    {
+        $title = 'Daftar Lamaran';
+        return view('pages.user.daftar-lowongan', compact('title', 'vacancy'));
+    }
+
+
+
     public function portfolioDetail(Portfolio $portfolio)
     {
 
         $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Portfolio'], ['text' => 'Portfolio Detail']];
         $title = 'Portfolio';
         $portfolio = $portfolio->load(['portfolio_details']);
-
         return view('pages.user.portfolio-detail', compact('breadcrumbs', 'title', 'portfolio'));
     }
+
+
+    public function simpanLamaran(Request $request, Vacancy $vacancy)
+    {
+
+        $validatedData = $request->validate([
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string',
+            'jenis_kelamin' => 'required|string',
+            'usia' => 'required|integer',
+            'status_pernikahan' => 'required|string',
+            'provinsi' => 'required|string',
+            'kota' => 'required|string',
+            'no_hp' => 'required',
+            'asal_sekolah' => 'required|string',
+            'foto' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_ijazah' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_cv' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_keterangan_sehat' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_keterangan_skck' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+        ]);
+
+        dd($validatedData);
+
+
+        if ($request->hasFile('berkas_persyaratan')) {
+            $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
+            $validatedData['berkas_persyaratan'] = $filePath;
+        }
+
+        $Vacancy = Vacancy::create($validatedData);
+        if ($Vacancy) {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data berhasil ditambahkan',
+                'icon' => 'success',
+                'title' => 'Success'
+            ]);
+        } else {
+            return redirect()->route('vacancy.index')->with('swal', [
+                'message' => 'Data gagal ditambahkan',
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
+    }
+
+
+
+
 
 
     /**
@@ -92,7 +158,6 @@ class Pelanggan extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        // Lakukan validasi
         $validatedData = $request->validate([
             'name' => 'required|string|max:100|min:3',
             'email_daftar_akun' => 'required|email|unique:users,email|max:255',

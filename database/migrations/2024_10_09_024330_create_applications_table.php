@@ -21,13 +21,17 @@ return new class extends Migration
             $table->string('jurusan');
             $table->string('status_pernikahan');
             $table->string('agama');
+            $table->string('jenis_kelamin');
             $table->string('alamat');
             $table->string('provinsi');
             $table->string('kota');
             $table->string('no_hp');
             $table->string('asal_sekolah');
             $table->string('lampiran_ijazah');
+            $table->string('lampiran_cv');
             $table->string('lampiran_ktp');
+            $table->string('lampiran_keterangan_sehat');
+            $table->string('lampiran_skck');
             $table->decimal('total_score', 5, 2)->default(0);
             $table->enum('status', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
