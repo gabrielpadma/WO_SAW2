@@ -103,13 +103,34 @@ class Pelanggan extends Controller implements HasMiddleware
             'lampiran_keterangan_skck' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
         ]);
 
-        dd($validatedData);
-
-
-        if ($request->hasFile('berkas_persyaratan')) {
-            $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
-            $validatedData['berkas_persyaratan'] = $filePath;
+        if ($request->hasFile('foto')) {
+            $filePath = $request->file('foto')->store('foto-lamaran', 'public');
+            $validatedData['foto'] = $filePath;
         }
+        if ($request->hasFile('lampiran_ijazah')) {
+            $filePath = $request->file('lampiran_ijazah')->store('lampiran/lampiran-ijazah', 'public');
+            $validatedData['lampiran_ijazah'] = $filePath;
+        }
+        if ($request->hasFile('lampiran_cv')) {
+            $filePath = $request->file('lampiran_cv')->store('lampiran/lampiran-cv', 'public');
+            $validatedData['lampiran_cv'] = $filePath;
+        }
+        if ($request->hasFile('lampiran_keterangan_sehat')) {
+            $filePath = $request->file('lampiran_keterangan_sehat')->store('lampiran/lampiran-keterangan-sehat', 'public');
+            $validatedData['lampiran_keterangan_sehat'] = $filePath;
+        }
+        if ($request->hasFile('lampiran_keterangan_skck')) {
+            $filePath = $request->file('lampiran_keterangan_skck')->store('lampiran/lampiran-keterangan-skck', 'public');
+            $validatedData['lampiran_keterangan_skck'] = $filePath;
+        }
+
+        $validatedData['user_id'] = $request->user()->id;
+        $validatedData['vacancy_id'] = $vacancy->id;
+        $validatedData['status'] = 'pending';
+
+
+
+
 
         $Vacancy = Vacancy::create($validatedData);
         if ($Vacancy) {

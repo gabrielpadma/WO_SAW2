@@ -32,8 +32,8 @@ return new class extends Migration
             $table->string('lampiran_ktp');
             $table->string('lampiran_keterangan_sehat');
             $table->string('lampiran_skck');
-            $table->decimal('total_score', 5, 2)->default(0);
-            $table->enum('status', ['pending', 'diterima', 'ditolak'])->default('pending');
+            $table->decimal('total_score', 5, 2)->default(0)->nullable();
+            $table->enum('status', ['pending', 'diterima', 'ditolak'])->default('pending')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('vacancy_id')->constrained()->onDelete('cascade');
 
