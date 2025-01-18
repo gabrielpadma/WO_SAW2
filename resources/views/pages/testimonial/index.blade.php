@@ -134,6 +134,34 @@
 
         <script>
             $(document).ready(function() {
+
+
+
+
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Testimonials',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Testimonials',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Testimonials',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Testimonials',
+                        }
+                    ]
+                });
+
+
                 tinymce.init({
                     selector: '#testimonial_desc',
                     height: 200,

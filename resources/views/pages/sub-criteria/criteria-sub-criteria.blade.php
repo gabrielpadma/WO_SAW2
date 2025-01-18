@@ -103,7 +103,8 @@
                 <div class="mb-3">
                     <label for="value" class="form-label">Bobot Sub Criteria</label>
                     <input type="number" @class(['form-control ', 'is-invalid' => $errors->has('value')]) id="value" name="value"
-                        aria-describedby="value" required value="{{ old('value') }}">
+                        aria-describedby="value" required value="{{ old('value') }}" min="1" max="100">
+                    <p class="small text-danger">Nilai sub kriteria memiliki rentang 1-100</p>
                     @error('value')
                         <div id="validationServerPasswordFeedback" class="invalid-feedback">
                             {{ $message }}
@@ -128,6 +129,29 @@
 
         <script>
             $(document).ready(function() {
+
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Sub Criteria',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Sub Criteria',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Sub Criteria',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Sub Criteria',
+                        }
+                    ]
+                });
 
                 $('.btn-hapus').on('click', function(e) {
                     e.preventDefault();

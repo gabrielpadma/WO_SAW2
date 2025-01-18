@@ -27,17 +27,22 @@
                             class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
                         <li><a href="{{ route('lowongan') }}">Daftar Lowongan</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
-                                    class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="#">Deep Dropdown 1</a></li>
-                                <li><a href="#">Deep Dropdown 2</a></li>
-                                <li><a href="#">Deep Dropdown 3</a></li>
-                                <li><a href="#">Deep Dropdown 4</a></li>
-                                <li><a href="#">Deep Dropdown 5</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Pengunguman Lowongan</a></li>
+
+
+
+
+                        @auth
+                            <li><a href="{{ route('pengumuman') }}">Pengunguman
+                                    Lowongan</a></li>
+                        @endauth
+                        @guest
+
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Pengunguman
+                                    Lowongan</a></li>
+                        @endguest
+
+
+
 
                     </ul>
                 </li>
@@ -72,6 +77,9 @@
                                     Password</a>
                             </li>
                             <li>
+                                <a href="{{ route('data-diri') }}">Data Diri</a>
+                            </li>
+                            <li>
                                 <form method="post" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item" id="btnLogout"
@@ -80,7 +88,7 @@
                                     </button>
                                 </form>
                             </li>
-                            <li><a href="#">Dropdown 4</a></li>
+
                         </ul>
                     </li>
                 @endauth

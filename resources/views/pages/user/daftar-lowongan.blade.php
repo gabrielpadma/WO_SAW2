@@ -21,6 +21,16 @@
         {{ $title }}
     </x-slot>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <main class="main">
         <div class="page-title light-background">
             <div class="container">
@@ -50,6 +60,18 @@
                                 <label for="user_name" class="form-label">Nama Pelamar</label>
                                 <input type="text" class="form-control" id="user_name" aria-describedby="namaPelamar"
                                     value="{{ auth()->user()->name }}" readonly disabled>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="alamat" class="form-label">Alamat</label>
+                                <input type="text" @class(['form-control ', 'is-invalid' => $errors->has('alamat')]) id="alamat"
+                                    aria-describedby="alamat" name="alamat" value="{{ old('alamat') }}" required>
+                                @error('alamat')
+                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
@@ -96,6 +118,24 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="agama" class="form-label">Agama</label>
+                                <select @class(['form-select ', 'is-invalid' => $errors->has('agama')]) id="agama" name="agama" required>
+                                    <option value="">--Pilih--</option>
+                                    @foreach (App\AgamaEnum::cases() as $agama)
+                                        <option value="{{ $agama->value }}"
+                                            {{ old('agama') == $agama->value ? 'selected' : '' }}>
+                                            {{ \Illuminate\Support\Str::headline($agama->value) }}</option>
+                                    @endforeach
+                                </select>
+
+                                @error('agama')
+                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                                 @foreach (App\JenisKelamin::cases() as $jen_kel)
                                     <div class="form-check form-check-inline">
@@ -131,8 +171,11 @@
 
                             <div class="mb-3">
                                 <label for="status_pernikahan" class="form-label">Status Pernikahan</label>
-                                <select class="form-select" aria-label="Default select example" name="status_pernikahan"
-                                    required>
+                                <select @class([
+                                    'form-select',
+                                    'is-invalid' => $errors->has('status_pernikahan'),
+                                ]) aria-label="Default select example"
+                                    name="status_pernikahan" required>
                                     <option value="">-Pilih Status-</option>
                                     @foreach (App\StatusPernikahanEnum::cases() as $status_nikah)
                                         <option value="{{ $status_nikah->value }}"
@@ -151,7 +194,8 @@
                             <div class="mb-3">
                                 <label for="provinsi" class="form-label">Provinsi</label>
                                 <input type="text" @class(['form-control ', 'is-invalid' => $errors->has('provinsi')]) id="provinsi"
-                                    aria-describedby="provinsi" name="provinsi" value="{{ old('provinsi') }}" required>
+                                    aria-describedby="provinsi" name="provinsi" value="{{ old('provinsi') }}"
+                                    required>
                                 @error('provinsi')
                                     <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                         {{ $message }}
@@ -172,7 +216,7 @@
                             <div class="mb-3">
                                 <label for="no_hp" class="form-label">No Hp</label>
                                 <input type="text" @class(['form-control ', 'is-invalid' => $errors->has('no_hp')]) id="no_hp"
-                                    aria-describedby="no_hp" name="no_hp" value="" required>
+                                    aria-describedby="no_hp" name="no_hp" value="{{ old('no_hp') }}" required>
                                 <small id="phone-error" style="color: red; display: none;">Nomor telepon tidak
                                     valid</small>
                                 @error('no_hp')
@@ -183,15 +227,24 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="asal_sekolah" @class([
-                                    'form-control ',
-                                    'is-invalid' => $errors->has('asal_sekolah'),
-                                ])>Asal Sekolah / Universitas
+                                <label for="asal_sekolah" @class(['form-label ', 'is-invalid' => $errors->has('asal_sekolah')])>Asal Sekolah / Universitas
                                 </label>
                                 <input type="text" class="form-control" id="asal_sekolah"
                                     aria-describedby="asal_sekolah" name="asal_sekolah"
                                     value="{{ old('asal_sekolah') }}" required>
                                 @error('asal_sekolah')
+                                    <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="jurusan" @class(['form-label ', 'is-invalid' => $errors->has('jurusan')])>Jurusan
+                                </label>
+                                <input type="text" class="form-control" id="jurusan" aria-describedby="jurusan"
+                                    name="jurusan" value="{{ old('jurusan') }}" required>
+                                @error('jurusan')
                                     <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -247,15 +300,15 @@
 
 
                             <div class="mb-3">
-                                <label for="lampiran_keterangan_skck" class="form-label">Lampiran SKCK</label>
+                                <label for="lampiran_skck" class="form-label">Lampiran SKCK</label>
                                 <input @class([
                                     'form-control ',
-                                    'is-invalid' => $errors->has('lampiran_keterangan_skck'),
-                                ]) type="file" id="lampiran_keterangan_skck"
-                                    name="lampiran_keterangan_skck" required>
+                                    'is-invalid' => $errors->has('lampiran_skck'),
+                                ]) type="file" id="lampiran_skck"
+                                    name="lampiran_skck" required>
                                 <div class="form-text">Lampiran dengan SKCK dengan file pdf. Ukuran file maksimal
                                     1MB</div>
-                                @error('lampiran_keterangan_skck')
+                                @error('lampiran_skck')
                                     <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                         {{ $message }}
                                     </div>

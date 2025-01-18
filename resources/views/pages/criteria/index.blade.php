@@ -159,6 +159,30 @@
         <script>
             $(document).ready(function() {
 
+
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Criteria',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Criteria',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Criteria',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Criteria',
+                        }
+                    ]
+                });
+
                 tinymce.init({
                     selector: '#deskripsi_lowongan',
                     height: 200,

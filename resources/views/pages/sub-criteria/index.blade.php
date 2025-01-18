@@ -60,6 +60,29 @@
         <script>
             $(document).ready(function() {
 
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Sub Criteria',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Sub Criteria',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Sub Criteria',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Sub Criteria',
+                        }
+                    ]
+                });
+
                 tinymce.init({
                     selector: '#deskripsi_lowongan',
                     height: 200,

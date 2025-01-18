@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->integer('usia');
-            $table->string('pendidikan_terakhir');
             $table->string('jurusan');
             $table->string('status_pernikahan');
             $table->string('agama');

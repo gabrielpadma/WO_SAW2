@@ -2,17 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Dashboard';
-        return view('pages.admin.dashboard', compact('title'));
+        $totalPelamar = Application::all()->count();
+
+
+        $filter = $request->input('filter', 'today');
+
+        // Query untuk total pelamar berdasarkan filter
+        switch ($filter) {
+            case 'month':
+                $totalPelamar = Application::whereYear('created_at', now()->year)
+                    ->whereMonth('created_at', now()->month)
+                    ->count();
+                break;
+            case 'year':
+                $totalPelamar = Application::whereYear('created_at', now()->year)->count();
+                break;
+            default: // 'today'
+                $totalPelamar = Application::whereDate('created_at', now()->toDateString())->count();
+                break;
+        }
+
+
+        $totalAlternatifBelumDiisi = Application::doesntHave('applicant_scores')->count();
+        $totalAlternatifDiisi = Application::has('applicant_scores')->count();
+        $statusCounts = Application::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $totalUser = User::all()->count();
+
+
+        $recentApplicant = Application::with(['user', 'applicant_scores', 'vacancy'])->latest()->take(5)->get();
+
+
+        return view('pages.admin.dashboard', compact('title', 'totalPelamar', 'filter', 'totalAlternatifBelumDiisi', 'totalAlternatifDiisi', 'statusCounts', 'totalUser', 'recentApplicant'));
     }
 
     public function ubahPassword()

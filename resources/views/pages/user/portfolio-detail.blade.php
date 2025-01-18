@@ -72,19 +72,20 @@
                 }
               </script>
                     <div class="swiper-wrapper align-items-center" style="max-height: 400px">
-                        @php
-                            $images = [];
 
-                            for ($i = 1; $i <= 4; $i++) {
-                                $image = 'detail_image' . $i;
-                                $imagePath = $portfolio->portfolio_details->$image ?? null;
+                        @foreach ($portfolio->portfolio_details as $pt)
+                            @php
+                                $images = [];
+                                for ($i = 1; $i <= 4; $i++) {
+                                    $image = 'detail_image' . $i;
+                                    $imagePath = $pt->$image ?? null;
 
-                                if ($imagePath && Storage::exists('public/' . $imagePath)) {
-                                    $images[] = $imagePath;
+                                    if ($imagePath && Storage::exists('public/' . $imagePath)) {
+                                        $images[] = $imagePath;
+                                    }
                                 }
-                            }
-                        @endphp
-
+                            @endphp
+                        @endforeach
                         @foreach ($images as $imagePath)
                             <div class="swiper-slide">
                                 <img src="{{ Storage::url($imagePath) }}" alt="Portfolio Image">

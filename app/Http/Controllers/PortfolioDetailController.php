@@ -44,6 +44,7 @@ class PortfolioDetailController extends Controller
         $PortfolioDetail = PortfolioDetail::firstOrNew();
         $PortfolioDetail->portfolio_id = $portfolio->id;
 
+
         for ($i = 1; $i <= 5; $i++) {
             $imagePath = "detail_image{$i}";
             if ($request->hasFile($imagePath)) {

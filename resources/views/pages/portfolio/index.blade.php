@@ -203,7 +203,28 @@
         <script>
             $(document).ready(function() {
 
-
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Portfolio',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Portfolio',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Portfolio',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Portfolio',
+                        }
+                    ]
+                });
 
                 tinymce.init({
                     selector: '#portfolio_detail_desc',

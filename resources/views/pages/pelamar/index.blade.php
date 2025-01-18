@@ -5,40 +5,27 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Lowongan</h1>
+            <h1>Data Pelamar</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Lowongan</li>
+                    <li class="breadcrumb-item active">Data Pelamar</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-        <button type="button" class="btn btn-primary btn-icon-split ms-2 mb-3" data-bs-toggle="modal"
-            data-bs-target="#modalTambahData">
-            <i class="bi bi-plus-lg"></i>
-            <span>
-                Tambah Lowongan
-            </span>
-
-        </button>
-
-
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Tabel Lowongan</h5>
-
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Judul Lowongan</th>
-                                        <th>Deskripsi Lowongan</th>
-                                        <th>Berkas Lowongan</th>
+                                        <th>Jumlah Pelamar</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">Tanggal Dibuat</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -48,25 +35,13 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $vacancy->judul_lowongan }}</td>
-                                            <td>{!! $vacancy->deskripsi_lowongan !!}</td>
-                                            <td><a href="{{ Storage::url($vacancy->berkas_persyaratan) }}"
-                                                    target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
-                                            </td>
+                                            <td>{{ $vacancy->applications_count }}</td>
+
                                             <td>{{ $vacancy->created_at->format('d-m-Y H:i') }}</td>
                                             <td class="d-flex gap-1">
-                                                <a href="{{ route('vacancy.edit', ['vacancy' => $vacancy->id]) }}"
+                                                <a href="{{ route('data-lamaran', ['vacancy' => $vacancy->id]) }}"
                                                     class="btn btn-primary btn-circle"><i
-                                                        class="bi bi-pencil-square"></i></a>
-                                                <form
-                                                    action="{{ route('vacancy.destroy', ['vacancy' => $vacancy->id]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-circle btn-hapus">
-                                                        <i class="bi bi-trash3"></i>
-                                                    </button>
-                                                </form>
-
+                                                        class="bi bi-info-square"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -141,21 +116,21 @@
                     dom: 'Bfrtip', // Mengaktifkan tombol export
                     buttons: [{
                             extend: 'excelHtml5',
-                            title: 'Data Lowongan',
+                            title: 'Data Pelamar',
                         },
                         {
                             extend: 'csvHtml5',
-                            title: 'Data Lowongan',
+                            title: 'Data Pelamar',
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Data Lowongan',
+                            title: 'Data Pelamar',
                             orientation: 'portrait',
                             pageSize: 'A4',
                         },
                         {
                             extend: 'print',
-                            title: 'Data Lowongan',
+                            title: 'Data Pelamar',
                         }
                     ]
                 });

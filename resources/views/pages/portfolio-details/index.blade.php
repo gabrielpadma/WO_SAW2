@@ -14,7 +14,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Detail Portfolio {{ $portfolio->portfolio_title }}</h1>
+            <h1>Detail Portfolio {{ $portfolio?->portfolio_title }}</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -56,73 +56,80 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($portfolio->portfolio_details as $detail)
+                                        @if ($portfolio?->portfolio_details && $portfolio->portfolio_details->count() > 0)
+
+                                            @foreach ($portfolio->portfolio_details as $detail)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+
+                                                    <td>
+                                                        @if ($detail->detail_image1 && Storage::exists('public/' . $detail->detail_image1))
+                                                            <a href="{{ Storage::url($detail->detail_image1) }}"
+                                                                target="_blank">
+                                                                <i class="bi bi-file-earmark-text-fill"></i>
+                                                            </a>
+                                                        @else
+                                                            <span>-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($detail->detail_image2 && Storage::exists('public/' . $detail->detail_image2))
+                                                            <a href="{{ Storage::url($detail->detail_image2) }}"
+                                                                target="_blank">
+                                                                <i class="bi bi-file-earmark-text-fill"></i>
+                                                            </a>
+                                                        @else
+                                                            <span>-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($detail->detail_image3 && Storage::exists('public/' . $detail->detail_image3))
+                                                            <a href="{{ Storage::url($detail->detail_image3) }}"
+                                                                target="_blank">
+                                                                <i class="bi bi-file-earmark-text-fill"></i>
+                                                            </a>
+                                                        @else
+                                                            <span>-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($detail->detail_image4 && Storage::exists('public/' . $detail->detail_image4))
+                                                            <a href="{{ Storage::url($detail->detail_image4) }}"
+                                                                target="_blank">
+                                                                <i class="bi bi-file-earmark-text-fill"></i>
+                                                            </a>
+                                                        @else
+                                                            <span>-</span>
+                                                        @endif
+                                                    </td>
+
+                                                    <td class="d-flex gap-1">
+                                                        <a href="{{ route('portfolio.portfolio-detail.edit', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
+                                                            class="btn btn-primary btn-circle">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </a>
+
+                                                        <form
+                                                            action="{{ route('portfolio.portfolio-detail.destroy', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-danger btn-circle btn-hapus">
+                                                                <i class="bi bi-trash3"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-
-                                                <td>
-                                                    @if ($detail->detail_image1 && Storage::exists('public/' . $detail->detail_image1))
-                                                        <a href="{{ Storage::url($detail->detail_image1) }}"
-                                                            target="_blank">
-                                                            <i class="bi bi-file-earmark-text-fill"></i>
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-
-                                                    @if ($detail->detail_image2 && Storage::exists('public/' . $detail->detail_image2))
-                                                        <a href="{{ Storage::url($detail->detail_image2) }}"
-                                                            target="_blank">
-                                                            <i class="bi bi-file-earmark-text-fill"></i>
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($detail->detail_image3 && Storage::exists('public/' . $detail->detail_image3))
-                                                        <a href="{{ Storage::url($detail->detail_image3) }}"
-                                                            target="_blank">
-                                                            <i class="bi bi-file-earmark-text-fill"></i>
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($detail->detail_image4 && Storage::exists('public/' . $detail->detail_image4))
-                                                        <a href="{{ Storage::url($detail->detail_image4) }}"
-                                                            target="_blank">
-                                                            <i class="bi bi-file-earmark-text-fill"></i>
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </td>
-
-
-                                                <td class="d-flex gap-1">
-                                                    <a href="{{ route('portfolio.portfolio-detail.edit', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
-                                                        class="btn btn-primary btn-circle"><i
-                                                            class="bi bi-pencil-square"></i></a>
-
-                                                    <form
-                                                        action="{{ route('portfolio.portfolio-detail.destroy', ['portfolio' => $portfolio->id, 'portfolio_detail' => $detail->id]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-danger btn-circle btn-hapus">
-                                                            <i class="bi bi-trash3"></i>
-                                                        </button>
-                                                    </form>
-
-                                                </td>
+                                                <td colspan="6" class="text-center">Data tidak tersedia.</td>
                                             </tr>
-                                        @endforeach
+                                        @endif
                                     </tbody>
+
+
                                 </table>
                             </div>
                             <!-- End Table with stripped rows -->
@@ -206,6 +213,30 @@
 
         <script>
             $(document).ready(function() {
+
+
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Detail Portfolio',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Detail Portfolio',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Detail Portfolio',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Detail Portfolio',
+                        }
+                    ]
+                });
 
                 tinymce.init({
                     selector: '#portfolio_detail_desc',

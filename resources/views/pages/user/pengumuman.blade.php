@@ -24,11 +24,11 @@
     <main class="main">
         <div class="page-title light-background">
             <div class="container">
-                <h1>Lowongan</h1>
+                <h1>Pengumuman</h1>
                 <nav class="breadcrumbs">
                     <ol>
-                        <li><a href="index.html">Lowongan</a></li>
-                        <li class="current">Semua Lowongan</li>
+                        <li><a href="{{ url('/') }}">Home</a></li>
+                        <li class="current">Semua Pengumuman</li>
                     </ol>
                 </nav>
             </div>
@@ -46,40 +46,32 @@
                                     <th>No</th>
                                     <th>Judul Lowongan</th>
                                     <th>Deskripsi Lowongan</th>
-                                    <th>Persyaratan</th>
-                                    <th data-type="date" data-format="YYYY/DD/MM">Tanggal Upload</th>
+                                    <th>Status</th>
+                                    <th data-type="date" data-format="YYYY/DD/MM">Terakhir Update</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($vacancies as $vacancy)
+                                @foreach ($user->applications as $application)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $vacancy->judul_lowongan }}</td>
-                                        <td>{!! $vacancy->deskripsi_lowongan !!}</td>
-                                        <td><a href="{{ Storage::url($vacancy->berkas_persyaratan) }}" target="blank"><i
-                                                    class="bi bi-file-earmark-text-fill"></i></a>
+                                        <td>{{ $application->vacancy->judul_lowongan }}</td>
+                                        <td>{!! $application->vacancy->deskripsi_lowongan !!}</td>
+                                        <td><span
+                                                class="badge rounded-pill bg-{{ ($application->status == 'pending' ? 'warning' : $application->status == 'ditolak') ? 'danger' : 'success' }}">{{ $application->status }}</span>
                                         </td>
-                                        <td>{{ $vacancy->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $application->updated_at->format('d-m-Y') }}</td>
 
                                         @auth
-
-                                            @if (in_array($vacancy->id, $userApplications))
+                                            @if ($application->status == 'diterima')
                                                 <td class="d-flex gap-1">
-                                                    <button type="button" class="btn btn-primary btn-circle"
-                                                        data-bs-container="body" data-bs-toggle="popover"
-                                                        data-bs-placement="top"
-                                                        data-bs-content="Anda sudah mendaftar lowongan ini">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </button>
+                                                    <a href="{{ route('detail-pengumuman', ['application' => $application->id]) }}"
+                                                        class="btn btn-primary btn-circle"><i
+                                                            class="bi bi-info-circle"></i></a>
+
                                                 </td>
                                             @else
-                                                <td class="d-flex gap-1">
-                                                    <a href="{{ route('daftar-lamaran', ['vacancy' => $vacancy->id]) }}"
-                                                        class="btn btn-primary btn-circle"><i
-                                                            class="bi bi-pencil-square"></i></a>
-
-                                                </td>
+                                                <td>-</td>
                                             @endif
                                         @endauth
                                         @guest

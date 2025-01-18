@@ -157,6 +157,30 @@
 
         <script>
             $(document).ready(function() {
+
+                $('.datatable').DataTable({
+                    dom: 'Bfrtip', // Mengaktifkan tombol export
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            title: 'Data Paket Wedding',
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data Paket Wedding',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data Paket Wedding',
+                            orientation: 'portrait',
+                            pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Data Paket Wedding',
+                        }
+                    ]
+                });
+
                 $('.btn-hapus').on('click', function(e) {
                     e.preventDefault();
                     Swal.fire({

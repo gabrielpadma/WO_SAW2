@@ -16,15 +16,11 @@
                 <div class="widget">
                     <h3 class="widget-heading">Navigation</h3>
                     <ul class="list-unstyled float-start me-5">
-                        <li><a href="#">Overview</a></li>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Find Buyers</a></li>
+                        <li><a href="{{ route('portfolio-user') }}">Portfolio</a></li>
+                        <li><a href="{{ route('about-us') }}">Tentang Kami</a></li>
+                        <li><a href="{{ route('our-services') }}">Layanan</a></li>
                     </ul>
-                    <ul class="list-unstyled float-start">
-                        <li><a href="#">Overview</a></li>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Services</a></li>
-                    </ul>
+
                 </div>
             </div>
 

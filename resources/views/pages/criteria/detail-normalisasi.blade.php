@@ -26,7 +26,7 @@
                             <p>Bobot criteria yang sudah dinormalisasi dengan rumus Bobot Ternormalisasi bobot ke i =
                                 bobot ke i / total bobot </p>
                             <!-- Table with stripped rows -->
-                            <table class="table datatable">
+                            <table id="example1" class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -70,6 +70,34 @@
                 </div>
             </div>
         </section>
+
+
+        <script>
+            $(document).ready(function() {
+                // $('.datatable').DataTable({
+                //     dom: 'Bfrtip', // Mengaktifkan tombol export
+                //     buttons: [{
+                //             extend: 'excelHtml5',
+                //             title: 'Data Normalisasi Criteria',
+                //         },
+                //         {
+                //             extend: 'csvHtml5',
+                //             title: 'Data Normalisasi Criteria',
+                //         },
+                //         {
+                //             extend: 'pdfHtml5',
+                //             title: 'Data Normalisasi Criteria',
+                //             orientation: 'portrait',
+                //             pageSize: 'A4',
+                //         },
+                //         {
+                //             extend: 'print',
+                //             title: 'Data Normalisasi Criteria',
+                //         }
+                //     ]
+                // });
+            });
+        </script>
 
 
     </main>

@@ -28,4 +28,10 @@ class Criteria extends Model
     {
         return $this->belongsTo(Vacancy::class, 'vacancy_id');
     }
+
+
+    public function matriks_keputusan(): HasMany
+    {
+        return $this->hasMany(MatriksKeputusan::class, 'criteria_id');
+    }
 }

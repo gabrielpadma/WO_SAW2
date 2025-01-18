@@ -11,19 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('applicant_scores', function (Blueprint $table) {
+        Schema::create('application_scores', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('criteria_id');
-            $table->unsignedBigInteger('sub_criteria_id')->nullable();
-            $table->unsignedBigInteger('vacancy_id');
-            $table->integer('raw_score');
-            // $table->decimal('weighted_score', 5, 2);
-
+            $table->string('nilai');
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
             $table->foreign('criteria_id')->references('id')->on('criteria')->onDelete('cascade');
-            $table->foreign('sub_criteria_id')->references('id')->on('sub_criteria')->onDelete('cascade');
-            $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('applicant_scores');
+        Schema::dropIfExists('application_scores');
     }
 };

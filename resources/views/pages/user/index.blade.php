@@ -112,8 +112,9 @@
                             class="col-sm-12 col-md-5 col-lg-4 col-xl-4 order-lg-2 offset-xl-1 mb-4 d-flex align-items-center">
                             <div class="img-wrap text-center text-md-left" data-aos="fade-up" data-aos-delay="100">
                                 <div class="img">
-                                    <img src="{{ Storage::url($AboutUs->mission_image) }}" alt="circle image"
-                                        style="background-size:cover;background-position:center;" class="img-fluid">
+                                    <img src="{{ $AboutUs?->mission_image ? Storage::url($AboutUs?->mission_image) : '' }}"
+                                        alt="circle image" style="background-size:cover;background-position:center;"
+                                        class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -122,9 +123,9 @@
                             <div class="px-3">
                                 <span class="content-subtitle">Misi Kami</span>
                                 <h2 class="content-title text-start">
-                                    {{ $AboutUs->mission_title }}
+                                    {{ $AboutUs?->mission_title }}
                                 </h2>
-                                {!! $AboutUs->mission_desc !!}
+                                {!! $AboutUs?->mission_desc !!}
                                 <p>
                                     <a href="{{ route('about-us') }}" class="btn-get-started">Get Started</a>
                                 </p>
@@ -190,21 +191,21 @@
 
                     <div class="col-lg-5">
                         <div class="images-overlap d-flex justify-content-center">
-                            <img src="{{ Storage::url($AboutUs->why_us_image) }}" alt="student" class="img-fluid img-1"
-                                style="background-size: cover" data-aos="fade-up">
+                            <img src="{{ Storage::url($AboutUs?->why_us_image) }}" alt="student"
+                                class="img-fluid img-1" style="background-size: cover" data-aos="fade-up">
                         </div>
                     </div>
 
                     <div class="col-lg-4 ps-lg-5">
                         <span class="content-subtitle">Kenapa Memilih Kami</span>
-                        <h2 class="content-title">{{ $AboutUs->why_us_title }}</h2>
-                        {!! $AboutUs->why_us_desc !!}
+                        <h2 class="content-title">{{ $AboutUs?->why_us_title }}</h2>
+                        {!! $AboutUs?->why_us_desc !!}
                         <div class="row mb-5 count-numbers">
 
                             <!-- Start Stats Item -->
                             <div class="col-4 counter" data-aos="fade-up" data-aos-delay="100">
                                 <span data-purecounter-separator="true" data-purecounter-start="0"
-                                    data-purecounter-end="{{ $AboutUs->total_project }}" data-purecounter-duration="1"
+                                    data-purecounter-end="{{ $AboutUs?->total_project }}" data-purecounter-duration="1"
                                     class="purecounter number"></span>
                                 <span class="d-block">Total Project</span>
                             </div>
@@ -213,7 +214,7 @@
                             <!-- Start Stats Item -->
                             <div class="col-4 counter" data-aos="fade-up" data-aos-delay="200">
                                 <span data-purecounter-separator="true" data-purecounter-start="0"
-                                    data-purecounter-end="{{ $AboutUs->total_vendor }}" data-purecounter-duration="1"
+                                    data-purecounter-end="{{ $AboutUs?->total_vendor }}" data-purecounter-duration="1"
                                     class="purecounter number"></span>
                                 <span class="d-block">Total Vendor</span>
                             </div>
@@ -222,8 +223,8 @@
                             <!-- Start Stats Item -->
                             <div class="col-4 counter" data-aos="fade-up" data-aos-delay="300">
                                 <span data-purecounter-separator="true" data-purecounter-start="0"
-                                    data-purecounter-end="{{ $AboutUs->team_members }}" data-purecounter-duration="1"
-                                    class="purecounter number"></span>
+                                    data-purecounter-end="{{ $AboutUs?->team_members }}"
+                                    data-purecounter-duration="1" class="purecounter number"></span>
                                 <span class="d-block">Anggota Team</span>
                             </div>
                             <!-- End Stats Item -->
@@ -243,9 +244,9 @@
                     <div class="col-md-6 col-lg-4">
                         <span class="content-subtitle">Layanan Kami</span>
                         <h2 class="content-title">
-                            {{ $Service->service_title }}
+                            {{ $Service?->service_title }}
                         </h2>
-                        {!! $Service->service_desc !!}
+                        {!! $Service?->service_desc !!}
                         <p>
                             <a href="#" class="btn btn-get-started"> <i class="bi bi-whatsapp me-2"></i>Hubungi
                                 Kami
@@ -261,18 +262,18 @@
                                     $objIconTitle = 'icon_title_' . $i;
                                 @endphp
 
-                                @if (is_null($Service->$objIconService) && is_null($Service->$objServiceText) && is_null($Service->$objIconTitle))
+                                @if (is_null($Service?->$objIconService) && is_null($Service?->$objServiceText) && is_null($Service?->$objIconTitle))
                                     @continue
                                 @endif
                                 <div class="col-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="services-item" data-aos="fade-up" data-aos-delay="">
                                         <div class="services-icon">
-                                            <i class="{{ $Service->$objIconService }}"></i>
+                                            <i class="{{ $Service?->$objIconService }}"></i>
                                         </div>
                                         <div>
-                                            <h3>{{ $Service->$objIconTitle }}</h3>
+                                            <h3>{{ $Service?->$objIconTitle }}</h3>
                                             <p>
-                                                {{ $Service->$objServiceText }}
+                                                {{ $Service?->$objServiceText }}
                                             </p>
                                         </div>
                                     </div>

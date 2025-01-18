@@ -22,4 +22,9 @@ class Vacancy extends Model
     {
         return $this->hasMany(Criteria::class, 'vacancy_id');
     }
+
+    public function matriks_keputusan(): HasMany
+    {
+        return $this->hasMany(MatriksKeputusan::class, 'vacancy_id');
+    }
 }
