@@ -15,11 +15,11 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Data Pelamar</h1>
+            <h1>Kelola User</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Data Pelamar</li>
+                    <li class="breadcrumb-item active">Kelola User</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -28,7 +28,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Tabel Pelamar</h5>
+                            <h5 class="card-title">Tabel User</h5>
                             <!-- Table with stripped rows -->
                             <div class="overflow-auto">
                                 <table class="table datatable">
@@ -41,52 +41,41 @@
                                             <th>Alamat</th>
                                             <th>No Hp</th>
                                             <th>Email</th>
-                                            <th data-type="date" data-format="YYYY/DD/MM">Tanggal Melamar</th>
-                                            <th>Status</th>
+                                            <th data-type="date" data-format="YYYY/DD/MM">Tanggal Daftar</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($vacancy->applications as $application)
+                                        @foreach ($Users as $user)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $application->user->name }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($application->tanggal_lahir)->format('d-m-Y') }}
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($user->tanggal_lahir)->format('d-m-Y') }}
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($application->tanggal_lahir)->age }} tahun
+                                                <td>{{ \Carbon\Carbon::parse($user->tanggal_lahir)->age }} tahun
                                                 </td>
-                                                <td>{{ $application->alamat }}</td>
-                                                <td>{{ $application->no_hp }}</td>
-                                                <td>{{ $application->user->email }}</td>
-                                                <td>{{ $vacancy->created_at->format('d-m-Y H:i') }}</td>
-                                                <td>
-                                                    @if ($application->applicant_scores->count() > 0)
-                                                        <span class="badge bg-success">Data alternatif sudah
-                                                            diisi</span>
-                                                    @else
-                                                        <span class="badge bg-warning">Data alternatif belum
-                                                            diisi</span>
-                                                    @endif
-                                                </td>
+                                                <td>{{ $user->alamat }}</td>
+                                                <td>{{ $user->no_hp }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
                                                 <td class="d-flex gap-1">
                                                     <button data-bs-toggle="modal"
-                                                        data-bs-target="#detail-pelamar-{{ $application->id }}"
+                                                        data-bs-target="#detail-pelamar-{{ $user->id }}"
                                                         class="btn btn-primary btn-circle" data-toggle="tooltip"
                                                         data-placement="top" title="Detail Pelamar"><i
                                                             class="bi bi-zoom-in"></i></button>
 
 
-                                                    <a href="{{ route('seleksi-pelamar', ['vacancy' => $vacancy->id, 'application' => $application->id]) }}"
+                                                    <a href="{{ route('ubah-password-pengguna', ['user' => $user->id]) }}"
                                                         class="btn btn-success btn-circle" data-toggle="tooltip"
                                                         data-placement="top" title="Seleksi Pelamar"><i
                                                             class="bi bi-pencil-square"></i></a>
 
 
-                                                    <form
-                                                        action="{{ route('hapus-pelamar', ['application' => $application->id]) }}"
+                                                    <form action="{{ route('hapus-pengguna', ['user' => $user->id]) }}"
                                                         method="POST">
                                                         @csrf
-                                                        @method('DELETE')
+
                                                         <button type="submit"
                                                             class="btn btn-danger btn-circle btn-hapus">
                                                             <i class="bi bi-trash3"></i>
@@ -95,11 +84,11 @@
 
 
                                                     <x-modal title="Detail Pelamar"
-                                                        idModal="detail-pelamar-{{ $application->id }}">
+                                                        idModal="detail-pelamar-{{ $user->id }}">
                                                         <div class="bordered-wrapper border">
                                                             <div
                                                                 class="img-wrapper d-flex justify-content-center py-3 px-3">
-                                                                <img src="{{ Storage::url($application->user->foto) }}"
+                                                                <img src="{{ Storage::url($user->foto) }}"
                                                                     class="card-img-top img-fluid custom-img"
                                                                     alt="...">
                                                             </div>
@@ -109,73 +98,73 @@
                                                                         <tr>
                                                                             <th scope="row">Nama Lengkap</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->name }}</td>
+                                                                            <td>{{ $user->name }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Tempat, Tgl. Lahir</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->tempat_lahir }},{{ \Carbon\Carbon::parse($application->user->tanggal_lahir)->format('d-m-Y') }}
+                                                                            <td>{{ $user->tempat_lahir }},{{ \Carbon\Carbon::parse($user->tanggal_lahir)->format('d-m-Y') }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Usia</th>
                                                                             <td>:</td>
-                                                                            <td>{{ \Carbon\Carbon::parse($application->user->tanggal_lahir)->age }}
+                                                                            <td>{{ \Carbon\Carbon::parse($user->tanggal_lahir)->age }}
                                                                                 tahun
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Jenis Kelamin</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->jenis_kelamin }}
+                                                                            <td>{{ $user->jenis_kelamin }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Status Pernikahan</th>
                                                                             <td>:</td>
-                                                                            <td>{{ ($application->user->status_pernikahan == 'belum_menikah' ? 'Belum Menikah' : $application->user->status_pernikahan == 'menikah') ? 'Menikah' : 'Duda' }}
+                                                                            <td>{{ ($user->status_pernikahan == 'belum_menikah' ? 'Belum Menikah' : $user->status_pernikahan == 'menikah') ? 'Menikah' : 'Duda' }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Agama</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->agama }}</td>
+                                                                            <td>{{ $user->agama }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Alamat</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->alamat }}</td>
+                                                                            <td>{{ $user->alamat }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Provinsi</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->provinsi }}</td>
+                                                                            <td>{{ $user->provinsi }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Kota</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->kota }}</td>
+                                                                            <td>{{ $user->kota }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">No Hp</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->no_hp }}</td>
+                                                                            <td>{{ $user->no_hp }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Asal Sekolah</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->asal_sekolah }}
+                                                                            <td>{{ $user->asal_sekolah }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Jurusan</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $application->user->jurusan }}</td>
+                                                                            <td>{{ $user->jurusan }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th scope="row">Lampiran Ijazah</th>
                                                                             <td>:</td>
-                                                                            <td><a href="{{ Storage::url($application->user->lampiran_ijazah) }}"
+                                                                            <td><a href="{{ Storage::url($user->lampiran_ijazah) }}"
                                                                                     target="blank"><i
                                                                                         class="bi bi-file-earmark-text-fill"></i></a>
                                                                             </td>
@@ -183,7 +172,7 @@
                                                                         <tr>
                                                                             <th scope="row">Lampiran CV</th>
                                                                             <td>:</td>
-                                                                            <td><a href="{{ Storage::url($application->user->lampiran_cv) }}"
+                                                                            <td><a href="{{ Storage::url($user->lampiran_cv) }}"
                                                                                     target="blank"><i
                                                                                         class="bi bi-file-earmark-text-fill"></i></a>
                                                                             </td>
@@ -191,7 +180,7 @@
                                                                         <tr>
                                                                             <th scope="row">Lampiran KTP</th>
                                                                             <td>:</td>
-                                                                            <td><a href="{{ Storage::url($application->user->lampiran_ktp) }}"
+                                                                            <td><a href="{{ Storage::url($user->lampiran_ktp) }}"
                                                                                     target="blank"><i
                                                                                         class="bi bi-file-earmark-text-fill"></i></a>
                                                                             </td>
@@ -200,7 +189,7 @@
                                                                             <th scope="row">Lampiran Keterangan Sehat
                                                                             </th>
                                                                             <td>:</td>
-                                                                            <td><a href="{{ Storage::url($application->user->lampiran_keterangan_sehat) }}"
+                                                                            <td><a href="{{ Storage::url($user->lampiran_keterangan_sehat) }}"
                                                                                     target="blank"><i
                                                                                         class="bi bi-file-earmark-text-fill"></i></a>
                                                                             </td>
@@ -209,18 +198,12 @@
                                                                             <th scope="row">Lampiran Keterangan SKCK
                                                                             </th>
                                                                             <td>:</td>
-                                                                            <td><a href="{{ Storage::url($application->user->lampiran_skck) }}"
+                                                                            <td><a href="{{ Storage::url($user->lampiran_skck) }}"
                                                                                     target="blank"><i
                                                                                         class="bi bi-file-earmark-text-fill"></i></a>
                                                                             </td>
                                                                         </tr>
-                                                                        <tr>
-                                                                            <th scope="row">Status</th>
-                                                                            <td>:</td>
-                                                                            <td>{{ $application->user->status }}
 
-                                                                            </td>
-                                                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

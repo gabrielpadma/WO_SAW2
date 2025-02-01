@@ -52,11 +52,25 @@ class CriteriaController extends Controller
             ->orderBy('vacancies.judul_lowongan')
             ->select('criteria.*')
             ->get();
+        $formattedCriteria = [];
+        $currentId = null;
+        $counter = 1;
+
+        foreach ($allCriteria as $crit) {
+            if ($currentId != $crit->vacancy_id) {
+                $currentId = $crit->vacancy_id;
+                $counter = 1;
+            }
+
+            $crit->alias = "C$counter";
+            $counter++;
+            $formattedCriteria[] = $crit;
+        }
 
         $allVacancies = Vacancy::all();
 
 
-        return view('pages.criteria.index', compact('title', 'allCriteria',  'allVacancies'));
+        return view('pages.criteria.index', compact('title', 'formattedCriteria',  'allVacancies'));
     }
 
 

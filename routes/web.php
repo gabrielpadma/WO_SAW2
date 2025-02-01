@@ -34,8 +34,20 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(AdminController::class)->middleware('checkAuth')->group(function () {
     Route::get('admin/dashboard', 'index')->name('dashboard');
-    Route::get('admin/ubah-password', 'ubahPassword')->name('ubah-password-admin');
+    Route::get('admin/edit-info-akun', 'editInfoAkun')->name('edit-info-akun');
     Route::post('admin/proses-ubah-password/{user}', 'prosesUbahPassword')->name('proses-password-admin');
+    Route::post('admin/edit-akun-admin', 'prosesEditAkunAdmin')->name('proses-edit-akun-admin');
+    Route::get('admin/kelola-admin', 'kelolaAdmin')->name('kelola-admin');
+    Route::post('admin/simpan-admin', 'simpanAdmin')->name('simpan-admin');
+    Route::post('admin/hapus-admin/{admin}', 'hapusAdmin')->name('hapus-admin');
+    Route::get('admin/edit-admin/{admin}', 'editAdmin')->name('edit-admin');
+    Route::post('admin/proses-edit-admin/{admin}', 'prosesEditAdmin')->name('proses-edit-admin');
+
+
+    Route::get('admin/kelola-pengguna', 'kelolaPengguna')->name('kelola-pengguna');
+    Route::get('admin/ubah-password-pengguna/{user}', 'ubahPasswordPengguna')->name('ubah-password-pengguna');
+    Route::post('admin/proses-ubah-password-pengguna/{user}', 'prosesUbahPasswordPengguna')->name('proses-ubah-password-pengguna');
+    Route::post('admin/hapus-pengguna/{user}', 'hapusPengguna')->name('hapus-pengguna');
 });
 
 
@@ -81,6 +93,7 @@ Route::controller(Pelanggan::class)->group(function () {
     Route::get('daftar-lamaran/{vacancy}', 'daftarLamaran')->middleware('checkAuth')->name('daftar-lamaran');
     Route::post('daftar-lamaran/{vacancy}', 'simpanLamaran')->middleware('checkAuth')->name('simpan-lamaran');
     Route::get('data-diri', 'dataDiri')->middleware('checkAuth')->name('data-diri');
+    Route::post('data-diri', 'simpanDataDiri')->middleware('checkAuth')->name('simpan-data-diri');
 
 
     Route::get('pengumuman', 'pengumuman')->middleware('checkAuth')->name('pengumuman');

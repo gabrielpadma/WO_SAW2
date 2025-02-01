@@ -46,10 +46,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($allCriteria as $criteria)
+                                    @foreach ($formattedCriteria as $criteria)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>C{{ $loop->iteration }}</td>
+                                            <td>{{ $criteria->alias }}</td>
                                             <td>{{ $criteria->nama_criteria }}</td>
                                             <td>{{ $criteria->vacancy->judul_lowongan }}</td>
                                             <td>{{ $criteria->bobot }}</td>

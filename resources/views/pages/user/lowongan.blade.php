@@ -75,9 +75,13 @@
                                                 </td>
                                             @else
                                                 <td class="d-flex gap-1">
-                                                    <a href="{{ route('daftar-lamaran', ['vacancy' => $vacancy->id]) }}"
-                                                        class="btn btn-primary btn-circle"><i
-                                                            class="bi bi-pencil-square"></i></a>
+                                                    <form class='lamar-form'
+                                                        action="{{ route('simpan-lamaran', ['vacancy' => $vacancy->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        <button class="btn btn-primary btn-lamar" type="submit"><i
+                                                                class="bi bi-pencil-square"></i></button>
+                                                    </form>
 
                                                 </td>
                                             @endif
@@ -114,7 +118,29 @@
             var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
             var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
                 return new bootstrap.Popover(popoverTriggerEl)
-            })
+            });
+
+
+
+            $('.btn-lamar').on('click', function(e) {
+                e.preventDefault();
+                const form = $(this).closest('form');
+                Swal.fire({
+                    title: 'Apakah anda ingin melamar lowongan ini ?',
+                    text: "Pastikan berkas sudah lengkap !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Logout !'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit form secara manual
+                        form.submit();
+                    }
+                });
+
+            });
         </script>
     @endpush
 

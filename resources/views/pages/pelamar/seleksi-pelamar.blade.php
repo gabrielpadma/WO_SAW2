@@ -32,34 +32,36 @@
                             <p class="fw-bold">Nama : {{ $application->user->name }}</p>
                             <div class="lampiran-wrapper d-flex gap-2 mb-4">
 
-                                @if (Storage::disk('public')->exists($application->lampiran_ijazah))
+
+                                @if (
+                                    $application->user?->lampiran_ijazah != null &&
+                                        Storage::disk('public')->exists($application->user?->lampiran_ijazah))
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ Storage::url($application->lampiran_ijazah) }}" target="blank"
+                                        href="{{ Storage::url($application->user?->lampiran_ijazah) }}" target="blank"
                                         role="button">Lampiran Ijazah</a>
                                 @endif
-                                @if (Storage::disk('public')->exists($application->lampiran_cv))
+                                @if ($application->user?->lampiran_cv != null && Storage::disk('public')->exists($application->user?->lampiran_cv))
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ Storage::url($application->lampiran_cv) }}" target="blank"
+                                        href="{{ Storage::url($application->user?->lampiran_cv) }}" target="blank"
                                         role="button">Lampiran CV</a>
                                 @endif
-                                @if (Storage::disk('public')->exists($application->lampiran_ktp))
+                                @if ($application->user?->lampiran_ktp != null && Storage::disk('public')->exists($application->user?->lampiran_ktp))
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ Storage::url($application->lampiran_ktp) }}" target="blank"
+                                        href="{{ Storage::url($application->user?->lampiran_ktp) }}" target="blank"
                                         role="button">Lampiran KTP</a>
                                 @endif
-                                @if (Storage::disk('public')->exists($application->lampiran_keterangan_sehat))
+                                @if (
+                                    $application->user?->lampiran_keterangan_sehat != null &&
+                                        Storage::disk('public')->exists($application->user?->lampiran_keterangan_sehat))
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ Storage::url($application->lampiran_keterangan_sehat) }}"
+                                        href="{{ Storage::url($application->user?->lampiran_keterangan_sehat) }}"
                                         target="blank" role="button">Lampiran Keterangan Sehat</a>
                                 @endif
-                                @if (Storage::disk('public')->exists($application->lampiran_skck))
+                                @if ($application->user?->lampiran_skck != null && Storage::disk('public')->exists($application->user?->lampiran_skck))
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ Storage::url($application->lampiran_skck) }}" target="blank"
+                                        href="{{ Storage::url($application->user?->lampiran_skck) }}" target="blank"
                                         role="button">Lampiran SKCK</a>
                                 @endif
-
-
-
 
                             </div>
 

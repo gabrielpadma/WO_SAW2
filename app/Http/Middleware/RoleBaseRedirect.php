@@ -33,7 +33,7 @@ class RoleBaseRedirect
         } else {
             $role = Auth::user()->role;
 
-            if ($role === 'admin' && $request->routeIs('loginAdminView')) {
+            if (($role === 'admin' || $role == 'superadmin') && $request->routeIs('loginAdminView')) {
                 return redirect()->route('dashboard');
             }
 

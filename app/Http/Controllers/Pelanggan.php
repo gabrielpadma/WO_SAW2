@@ -87,15 +87,17 @@ class Pelanggan extends Controller implements HasMiddleware
     }
 
 
-    public function simpanLamaran(Request $request, Vacancy $vacancy)
-    {
 
+
+    public function simpanDataDiri(Request $request)
+    {
         $validatedData = $request->validate([
             'tanggal_lahir' => 'required|date',
             'tempat_lahir' => 'required|string',
+            'email' => 'required|email',
+            'name' => 'required',
             'alamat' => 'required|string',
             'jenis_kelamin' => 'required|string',
-            'usia' => 'required|integer',
             'status_pernikahan' => 'required|string',
             'provinsi' => 'required|string',
             'kota' => 'required|string',
@@ -103,43 +105,127 @@ class Pelanggan extends Controller implements HasMiddleware
             'asal_sekolah' => 'required|string',
             'jurusan' => 'required|string',
             'agama' => 'required|string',
-            'foto' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
-            'lampiran_ijazah' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
-            'lampiran_cv' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
-            'lampiran_keterangan_sehat' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
-            'lampiran_skck' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
-            'lampiran_ktp' => 'required|mimes:pdf,jpeg,png,jpg|max:1048',
+            'foto' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_ijazah' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_cv' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_keterangan_sehat' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_skck' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
+            'lampiran_ktp' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
         ]);
 
+        $User = Auth::user();
+
+        // Simpan file baru atau gunakan file lama
         if ($request->hasFile('foto')) {
             $filePath = $request->file('foto')->store('foto-lamaran', 'public');
             $validatedData['foto'] = $filePath;
+        } else {
+            $validatedData['foto'] = $User->foto; // Gunakan file lama
         }
+
         if ($request->hasFile('lampiran_ijazah')) {
             $filePath = $request->file('lampiran_ijazah')->store('lampiran/lampiran-ijazah', 'public');
             $validatedData['lampiran_ijazah'] = $filePath;
+        } else {
+            $validatedData['lampiran_ijazah'] = $User->lampiran_ijazah;
         }
+
         if ($request->hasFile('lampiran_cv')) {
             $filePath = $request->file('lampiran_cv')->store('lampiran/lampiran-cv', 'public');
             $validatedData['lampiran_cv'] = $filePath;
+        } else {
+            $validatedData['lampiran_cv'] = $User->lampiran_cv;
         }
+
         if ($request->hasFile('lampiran_keterangan_sehat')) {
             $filePath = $request->file('lampiran_keterangan_sehat')->store('lampiran/lampiran-keterangan-sehat', 'public');
             $validatedData['lampiran_keterangan_sehat'] = $filePath;
+        } else {
+            $validatedData['lampiran_keterangan_sehat'] = $User->lampiran_keterangan_sehat;
         }
+
         if ($request->hasFile('lampiran_skck')) {
             $filePath = $request->file('lampiran_skck')->store('lampiran/lampiran-skck', 'public');
             $validatedData['lampiran_skck'] = $filePath;
+        } else {
+            $validatedData['lampiran_skck'] = $User->lampiran_skck;
         }
+
         if ($request->hasFile('lampiran_ktp')) {
             $filePath = $request->file('lampiran_ktp')->store('lampiran/lampiran-ktp', 'public');
             $validatedData['lampiran_ktp'] = $filePath;
+        } else {
+            $validatedData['lampiran_ktp'] = $User->lampiran_ktp;
         }
+
+        // Update data
+        $updateStatus = $User->update($validatedData);
+
+        if ($updateStatus) {
+            dd('berhasil');
+        } else {
+            dd('gagal');
+        }
+    }
+
+
+
+    public function simpanLamaran(Request $request, Vacancy $vacancy)
+    {
+
+        $missingFields = [];
+
+        if (!Auth::user()->tanggal_lahir) {
+            $missingFields[] = 'Tanggal Lahir';
+        }
+        if (!Auth::user()->tempat_lahir) {
+            $missingFields[] = 'Tempat Lahir';
+        }
+        if (!Auth::user()->alamat) {
+            $missingFields[] = 'Alamat';
+        }
+        if (!Auth::user()->jenis_kelamin) {
+            $missingFields[] = 'Jenis Kelamin';
+        }
+
+        if (!Auth::user()->status_pernikahan) {
+            $missingFields[] = 'Status Pernikahan';
+        }
+
+        if (!Auth::user()->foto) {
+            $missingFields[] = 'Foto';
+        }
+        if (!Auth::user()->lampiran_ijazah) {
+            $missingFields[] = 'Lampiran Ijazah';
+        }
+        if (!Auth::user()->lampiran_cv) {
+            $missingFields[] = 'Lampiran CV';
+        }
+        if (!Auth::user()->lampiran_keterangan_sehat) {
+            $missingFields[] = 'Lampiran Keterangan Sehat';
+        }
+        if (!Auth::user()->lampiran_skck) {
+            $missingFields[] = 'Lampiran SKCK';
+        }
+        if (!Auth::user()->lampiran_ktp) {
+            $missingFields[] = 'Lampiran KTP';
+        }
+
+
+        if (count($missingFields) > 0) {
+
+            return redirect('/')->with('swal', [
+                'message' =>  'Data berikut belum lengkap: ' . implode(', ', $missingFields),
+                'icon' => 'error',
+                'title' => 'Error'
+            ]);
+        }
+
+
 
         $validatedData['user_id'] = $request->user()->id;
         $validatedData['vacancy_id'] = $vacancy->id;
         $validatedData['status'] = 'pending';
-
 
 
         $Application = Application::create($validatedData);
@@ -169,6 +255,15 @@ class Pelanggan extends Controller implements HasMiddleware
         return view('pages.user.pengumuman', compact('title', 'user'));
     }
 
+
+
+    public function dataDiri()
+    {
+        $title = 'Data Diri';
+        $breadcrumbs = [['link' => route('user.index'), 'text' => 'Home'], ['text' => 'Data Diri']];
+        $User = Auth::user();
+        return view('pages.user.data-diri', compact('breadcrumbs', 'title', 'User'));
+    }
 
 
 

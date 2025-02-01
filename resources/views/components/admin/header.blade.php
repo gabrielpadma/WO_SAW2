@@ -204,9 +204,9 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('ubah-password-admin') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('edit-info-akun') }}">
                             <i class="bi bi-gear"></i>
-                            <span>Ubah Password</span>
+                            <span>Edit Akun</span>
                         </a>
                     </li>
                     <li>

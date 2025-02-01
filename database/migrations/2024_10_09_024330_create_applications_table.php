@@ -13,24 +13,6 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->string('foto');
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->integer('usia');
-            $table->string('jurusan');
-            $table->string('status_pernikahan');
-            $table->string('agama');
-            $table->string('jenis_kelamin');
-            $table->string('alamat');
-            $table->string('provinsi');
-            $table->string('kota');
-            $table->string('no_hp');
-            $table->string('asal_sekolah');
-            $table->string('lampiran_ijazah');
-            $table->string('lampiran_cv');
-            $table->string('lampiran_ktp');
-            $table->string('lampiran_keterangan_sehat');
-            $table->string('lampiran_skck');
             $table->decimal('total_score', 5, 2)->default(0)->nullable();
             $table->enum('status', ['pending', 'diterima', 'ditolak'])->default('pending')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

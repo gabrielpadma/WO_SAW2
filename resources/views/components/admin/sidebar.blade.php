@@ -30,6 +30,26 @@
         </li><!-- End Components Nav -->
 
         <li class="nav-item">
+            <a class="nav-link {{ Request::is('admin/kelola-admin') || Request::is('admin/kelola-pengguna') ? '' : 'collapsed' }}"
+                data-bs-target="#nav-admin" data-bs-toggle="collapse" href="#">
+                <i class="bi-people"></i><span>Kelola User</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="nav-admin" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('kelola-admin') }}">
+                        <i class="bi bi-circle"></i><span>Kelola Admin</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('kelola-pengguna') }}">
+                        <i class="bi bi-circle"></i><span>Kelola Pengguna</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item">
             <a class="nav-link {{ Request::is('admin/vacancy') || Request::is('admin/pelamar') ? '' : 'collapsed' }}"
                 data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Lamaran</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -50,7 +70,8 @@
         </li><!-- End Forms Nav -->
 
         <li class="nav-item">
-            <a class="nav-link {{ Request::is('admin/penilaian') ? '' : 'collapsed' }}" href="{{ route('penilaian') }}">
+            <a class="nav-link {{ Request::is('admin/penilaian') ? '' : 'collapsed' }}"
+                href="{{ route('penilaian') }}">
                 <i class="bi bi-layout-text-window-reverse"></i><span>Penilaian</span>
             </a>
         </li><!-- End Profile Page Nav -->
