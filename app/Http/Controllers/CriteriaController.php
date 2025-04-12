@@ -46,32 +46,12 @@ class CriteriaController extends Controller
      */
     public function index()
     {
-
         $title = 'Criteria';
-        $allCriteria = Criteria::join('vacancies', 'criteria.vacancy_id', '=', 'vacancies.id')
-            ->orderBy('vacancies.judul_lowongan')
-            ->select('criteria.*')
-            ->get();
-        $formattedCriteria = [];
-        $currentId = null;
-        $counter = 1;
+        $allVacancies = Vacancy::with(['periode.criterias'])->get();
 
-        foreach ($allCriteria as $crit) {
-            if ($currentId != $crit->vacancy_id) {
-                $currentId = $crit->vacancy_id;
-                $counter = 1;
-            }
-
-            $crit->alias = "C$counter";
-            $counter++;
-            $formattedCriteria[] = $crit;
-        }
-
-        $allVacancies = Vacancy::all();
-
-
-        return view('pages.criteria.index', compact('title', 'formattedCriteria',  'allVacancies'));
+        return view('pages.criteria.index', compact('title', 'allVacancies'));
     }
+
 
 
     public function detailNormalisasi(Vacancy $vacancy)
@@ -113,20 +93,23 @@ class CriteriaController extends Controller
             'nama_criteria' => 'required|string|max:255',
             'bobot' => 'required|numeric',
             'jenis_criteria' => 'required',
-            'vacancy_id' => 'required'
+            'periode_id' => 'required'
         ]);
 
+
+        $periode_id = $request->input('periode_id');
+        $vacancy_id = $request->input('vacancy_id');
 
         $Criteria = Criteria::create($validatedData);
         // $this->_normalizeWeights();
         if ($Criteria) {
-            return redirect()->route('criteria.index')->with('swal', [
+            return redirect()->route('detail-periode', ['vacancy' => $vacancy_id, 'periode' => $periode_id])->with('swal', [
                 'message' => 'Data berhasil ditambahkan',
                 'icon' => 'success',
                 'title' => 'Success'
             ]);
         } else {
-            return redirect()->route('criteria.index')->with('swal', [
+            return redirect()->route('detail-periode', ['vacancy' => $vacancy_id, 'periode' => $periode_id])->with('swal', [
                 'message' => 'Data gagal ditambahkan',
                 'icon' => 'error',
                 'title' => 'Error'
@@ -149,7 +132,7 @@ class CriteriaController extends Controller
     {
         $title = 'Edit Criteria';
         $allVacancies = Vacancy::all();
-        $criterion = $criterion->load(['vacancy']);
+        $criterion = $criterion->load(['periode.vacancy']);
         return view('pages.criteria.edit', compact('title', 'criterion', 'allVacancies'));
     }
 
@@ -158,11 +141,12 @@ class CriteriaController extends Controller
      */
     public function update(Request $request, Criteria $criterion)
     {
+
+        $criterion->load(['periode.vacancy']);
         $validator = Validator::make($request->all(), [
             'nama_criteria' => 'required|string|max:255',
             'bobot' => 'required',
             'jenis_criteria' => 'required',
-            'vacancy_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -176,10 +160,10 @@ class CriteriaController extends Controller
 
 
         $validatedData = $validator->validated();
-        $condition = $criterion->update(attributes: $validatedData);
+        $condition = $criterion->update($validatedData);
 
         if ($condition) {
-            return redirect()->route('criteria.index')->with('swal', [
+            return redirect()->route('detail-periode', ['vacancy' => $criterion->periode->vacancy->id, 'periode' => $criterion->periode->id])->with('swal', [
                 'message' => 'Data berhasil diupdate',
                 'icon' => 'success',
                 'title' => 'Success'
@@ -212,5 +196,23 @@ class CriteriaController extends Controller
                 'title' => 'Error'
             ]);
         }
+    }
+
+    public function copyCriteria(Request $request)
+    {
+        $periodeId = $request->input('periode_id');
+        $vacancyId = $request->input('vacancy_id');
+        $periode_vacancy = $request->input('periode_vacancy');
+
+        $criterias = Criteria::where('periode_id', '=', $periode_vacancy)->get();
+
+        foreach ($criterias as $criteria) {
+            $newCriteria = $criteria->replicate();
+
+            $newCriteria->periode_id = $periodeId;
+            $newCriteria->save();
+        }
+
+        return back()->with('swal', ['message' => 'Criteria berhasil disalin', 'icon' => 'success', 'title' => 'Success']);
     }
 }

@@ -5,7 +5,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Pengaturan Pengumuman ke Pelamar</h1>
+            <h1>Pengaturan Seleksi Pelamar</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -18,7 +18,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header bg-primary text-white fw-bold">
-                            Pengumuman ke Pelamar
+                            Pengumuman Seleksi Pelamar
                         </div>
                         <div class="card-body">
                             <p class="text-dark fw-bold mt-2">Terakhir Update : {{ $Pengumuman?->updated_at ?? '-' }}

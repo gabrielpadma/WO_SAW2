@@ -16,7 +16,7 @@ class SubCriteriaController extends Controller
     public function index(Criteria $criterion)
     {
         $title = 'Sub Criteria ' . $criterion->nama_criteria;
-        $allSubCriteria = $criterion->load(['sub_criterias'])->sub_criterias;
+        $allSubCriteria = $criterion->load(['sub_criterias', 'periode.vacancy'])->sub_criterias;
 
         return view('pages.sub-criteria.criteria-sub-criteria', compact('title', 'allSubCriteria', 'criterion'));
     }

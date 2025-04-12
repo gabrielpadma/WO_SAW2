@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v13.1.1 (64 bit)
-MySQL - 8.0.30 : Database - weddingorganizersaw
+MySQL - 8.0.30 : Database - weddingorganizersaw2
 *********************************************************************
 */
 
@@ -12,9 +12,9 @@ MySQL - 8.0.30 : Database - weddingorganizersaw
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`weddingorganizersaw` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`weddingorganizersaw2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-USE `weddingorganizersaw`;
+USE `weddingorganizersaw2`;
 
 /*Table structure for table `about_us` */
 
@@ -64,15 +64,15 @@ CREATE TABLE `applicant_scores` (
   CONSTRAINT `applicant_scores_criteria_id_foreign` FOREIGN KEY (`criteria_id`) REFERENCES `criteria` (`id`) ON DELETE CASCADE,
   CONSTRAINT `applicant_scores_ibfk_1` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`) ON DELETE CASCADE,
   CONSTRAINT `applicant_scores_sub_criteria_id_foreign` FOREIGN KEY (`sub_criteria_id`) REFERENCES `sub_criteria` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applicant_scores` */
 
 insert  into `applicant_scores`(`id`,`application_id`,`criteria_id`,`vacancy_id`,`sub_criteria_id`,`raw_score`,`created_at`,`updated_at`) values 
-(1,1,1,1,2,90,'2024-12-14 08:16:15','2024-12-14 08:16:15'),
-(2,1,2,1,12,100,'2024-12-14 08:16:15','2024-12-14 14:06:36'),
-(3,1,3,1,20,100,'2024-12-14 08:16:15','2024-12-14 13:50:50'),
-(4,1,4,1,14,60,'2024-12-14 08:16:15','2024-12-14 14:07:39');
+(1,1,1,1,1,100,'2024-12-14 08:16:15','2025-01-18 13:36:03'),
+(2,1,2,1,10,40,'2024-12-14 08:16:15','2025-01-18 13:36:03'),
+(3,1,3,1,18,40,'2024-12-14 08:16:15','2025-01-18 13:36:03'),
+(4,1,4,1,15,80,'2024-12-14 08:16:15','2025-01-18 13:36:03');
 
 /*Table structure for table `applications` */
 
@@ -80,24 +80,6 @@ DROP TABLE IF EXISTS `applications`;
 
 CREATE TABLE `applications` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tempat_lahir` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggal_lahir` date NOT NULL,
-  `usia` int NOT NULL,
-  `jurusan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status_pernikahan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `agama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jenis_kelamin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `kota` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `asal_sekolah` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lampiran_ijazah` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lampiran_cv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lampiran_ktp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lampiran_keterangan_sehat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lampiran_skck` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_score` decimal(5,2) DEFAULT '0.00',
   `status` enum('pending','diterima','ditolak') COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
   `user_id` bigint unsigned NOT NULL,
@@ -109,13 +91,12 @@ CREATE TABLE `applications` (
   KEY `applications_vacancy_id_foreign` (`vacancy_id`),
   CONSTRAINT `applications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `applications_vacancy_id_foreign` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications` */
 
-insert  into `applications`(`id`,`foto`,`tempat_lahir`,`tanggal_lahir`,`usia`,`jurusan`,`status_pernikahan`,`agama`,`jenis_kelamin`,`alamat`,`provinsi`,`kota`,`no_hp`,`asal_sekolah`,`lampiran_ijazah`,`lampiran_cv`,`lampiran_ktp`,`lampiran_keterangan_sehat`,`lampiran_skck`,`total_score`,`status`,`user_id`,`vacancy_id`,`created_at`,`updated_at`) values 
-(1,'foto-lamaran/PYEmUoYQhsbo6lttZehr3sio0GSQIVmFvoHboKUw.jpg','Sampit','2024-11-23',20,'Seni Budaya','belum_menikah','kristen_protestan','Laki-Laki','rahasia','Kalimantan Tengah','Palangka Raya','082983929120','Universitas Manado Raya','lampiran/lampiran-ijazah/BBO0kHiZrvEe2pVtCrkt2YXI8WTa4w5jNoqXdDWs.pdf','lampiran/lampiran-cv/rAmYPUhoesUMJ2l9BJLTdhIHnkYh6glfVGr14pv2.pdf','lampiran/lampiran-ktp/fdoWpq5fkF72D8J0VOaQSE6QeqQBn77OcxxxHSGJ.pdf','lampiran/lampiran-keterangan-sehat/O1j1ngHeTqwSte5WsZ6s7KU8az0eb20X9lIg6sNI.pdf','lampiran/lampiran-skck/4xwCWfTE8yFI9KzwMgXmhHBMhqlQoQKeANYnXoQT.pdf',0.98,'ditolak',2,1,'2025-01-23 15:27:43','2024-12-20 05:06:16'),
-(3,'foto-lamaran/EEwo4wPPosdenjJCQn3BScKHMiCnPmETG5VQ4NPI.png','Bogor','1964-10-11',60,'Teknik keteknikan','menikah','kristen_protestan','Laki-Laki','rahasia','Kalimantan Tengah','Palangka Raya','082251644179','Universitas Pasundan Bogor','lampiran/lampiran-ijazah/WFCNnJ2QTqiKDqW0LjiLJat05NKcNEB9tbPUCK1A.png','lampiran/lampiran-cv/c86qbJnPtAAf0zf0CTKfnXoi33XKWI42SRBovsZu.png','lampiran/lampiran-ktp/VQzoZYoJ4kMFIvMYe4ByyrSIdcnL0lhkwe8afCJg.png','lampiran/lampiran-keterangan-sehat/FffpIkZ7vwPlEzfAWtIdnDRr2ZwLHL24eyQRqoWY.png','lampiran/lampiran-skck/lkqkKsLDAmQzb6N2yxRXkt6ONqLeqsJRtSzDx6oy.png',0.00,'pending',4,2,'2025-01-03 04:26:11','2025-01-03 04:26:11');
+insert  into `applications`(`id`,`total_score`,`status`,`user_id`,`vacancy_id`,`created_at`,`updated_at`) values 
+(1,0.87,'ditolak',2,1,'2025-01-23 15:27:43','2025-01-10 13:46:07');
 
 /*Table structure for table `cache` */
 
@@ -158,7 +139,7 @@ CREATE TABLE `criteria` (
   PRIMARY KEY (`id`),
   KEY `criteria_vacancy_id_foreign` (`vacancy_id`),
   CONSTRAINT `criteria_vacancy_id_foreign` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `criteria` */
 
@@ -166,7 +147,9 @@ insert  into `criteria`(`id`,`nama_criteria`,`vacancy_id`,`bobot`,`jenis_criteri
 (1,'Seleksi Berkas',1,3.00,'benefit','2024-12-08 01:16:00','2024-12-11 12:34:18'),
 (2,'Tes Psikotes',1,4.00,'benefit','2024-12-08 01:16:46','2024-12-11 12:34:28'),
 (3,'Tes Kemampuan Dasar',1,3.00,'benefit','2024-12-11 12:35:00','2024-12-11 12:39:19'),
-(4,'Pengalaman Kerja',1,5.00,'benefit','2024-12-11 12:39:43','2024-12-11 12:39:43');
+(4,'Pengalaman Kerja',1,5.00,'benefit','2024-12-11 12:39:43','2024-12-11 12:39:43'),
+(5,'Tes Kriteria 1',2,5.00,'benefit','2025-01-29 04:26:59','2025-01-29 04:26:59'),
+(6,'Kriteria 2',2,4.00,'cost','2025-01-29 04:27:32','2025-01-29 04:27:32');
 
 /*Table structure for table `failed_jobs` */
 
@@ -266,15 +249,15 @@ CREATE TABLE `matriks_keputusan` (
   CONSTRAINT `matriks_keputusan_applicant_id_foreign` FOREIGN KEY (`applicant_id`) REFERENCES `applications` (`id`) ON DELETE CASCADE,
   CONSTRAINT `matriks_keputusan_criteria_id_foreign` FOREIGN KEY (`criteria_id`) REFERENCES `criteria` (`id`) ON DELETE CASCADE,
   CONSTRAINT `matriks_keputusan_vacancy_id_foreign` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `matriks_keputusan` */
 
 insert  into `matriks_keputusan`(`id`,`vacancy_id`,`applicant_id`,`criteria_id`,`hasil`,`created_at`,`updated_at`) values 
-(1,1,1,1,0.9,'2024-12-20 05:50:37','2024-12-20 05:50:37'),
+(1,1,1,1,1,'2024-12-20 05:50:37','2025-01-10 13:46:07'),
 (3,1,1,2,1,'2024-12-20 05:50:37','2024-12-20 05:50:37'),
 (5,1,1,3,1,'2024-12-20 05:50:37','2024-12-20 05:50:37'),
-(7,1,1,4,1,'2024-12-20 05:50:37','2024-12-20 05:50:37');
+(7,1,1,4,0.6,'2024-12-20 05:50:37','2025-01-10 13:46:07');
 
 /*Table structure for table `migrations` */
 
@@ -439,9 +422,8 @@ CREATE TABLE `sessions` (
 /*Data for the table `sessions` */
 
 insert  into `sessions`(`id`,`user_id`,`ip_address`,`user_agent`,`payload`,`last_activity`) values 
-('bMits3gj0NbOs07OocavM70DImfArWNY3sMExo7J',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiN1AybVJtb3owSlJPWjNWQ2JQU3kzWHg4Nk9oVkZ2Q21ERGFzUVFCaCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wZWxhbWFyIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1735988630),
-('E9AQqeZ4kCMii0vT9vl6uFbdsbiLJVDGQP7juihj',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTWZLTUNmVDJKYnBVRkU3cFh0M0VSanlNQVVwVmlaRjI5aVRGVW54MyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXRhLWxhbWFyYW4vMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==',1736157383),
-('u13E1BuQRxegVlJuHREuvjX62J6sqANylAizwTYX',3,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0','YTo0OntzOjY6Il90b2tlbiI7czo0MDoicGU1N3Q3cDlpMjVBeGNIY0tOM0paandsTTMzWldQM3Q4TUxDYWpuQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb3dvbmdhbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7fQ==',1735987117);
+('cgdfGxVYulyJvKEekNMPjAp3RDxtW9s8fiWLfoAp',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRkxPZkMzMGxkV1huVjA3MjdhZklzS2dNQjJUYmpNNFdoTEYybWFaVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wZW5ndW11bWFuIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1738485883),
+('UIez1sibEZa6xgYN2A9WQ6nDaMxTcWIPCdsPbvMd',2,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTHZRTjFnMUpKYWNXbFFvOE1ManE3VDNNUUVKOEM0Z0M2WnVuM1d4YiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==',1738485598);
 
 /*Table structure for table `sub_criteria` */
 
@@ -457,7 +439,7 @@ CREATE TABLE `sub_criteria` (
   PRIMARY KEY (`id`),
   KEY `sub_criteria_criteria_id_foreign` (`criteria_id`),
   CONSTRAINT `sub_criteria_criteria_id_foreign` FOREIGN KEY (`criteria_id`) REFERENCES `criteria` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `sub_criteria` */
 
@@ -476,7 +458,9 @@ insert  into `sub_criteria`(`id`,`criteria_id`,`sub_criteria_name`,`value`,`crea
 (17,3,'D (0 - 40)',10,'2024-12-11 12:53:20','2024-12-11 12:54:07'),
 (18,3,'C (40 - 60)',40,'2024-12-11 12:53:35','2024-12-11 12:54:47'),
 (19,3,'B (60 - 80)',80,'2024-12-11 12:55:13','2024-12-11 12:55:13'),
-(20,3,'A ( 80 -100 )',100,'2024-12-11 12:55:23','2024-12-11 12:55:23');
+(20,3,'A ( 80 -100 )',100,'2024-12-11 12:55:23','2024-12-11 12:55:23'),
+(21,5,'D (0 - 30)',60,'2025-01-29 04:28:09','2025-01-29 04:28:09'),
+(22,6,'1-10',50,'2025-01-29 04:28:29','2025-01-29 04:28:29');
 
 /*Table structure for table `testimonials` */
 
@@ -506,22 +490,39 @@ CREATE TABLE `users` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tempat_lahir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tanggal_lahir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jenis_kelamin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agama` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_pernikahan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kota` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `asal_sekolah` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jurusan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lampiran_ijazah` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lampiran_cv` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lampiran_keterangan_sehat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lampiran_ktp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lampiran_skck` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`role`,`remember_token`,`created_at`,`updated_at`) values 
-(1,'Admin','admin@gmail.com','2024-11-23 09:19:25','$2y$12$JHLMroUdf68vvxPIm1khtu6Tg349dBucLLHIqgDZp9nXw621IUwya','admin','Ocx6dPzp0v8d3KH8JPaa0NRQqUfCJHRlpYn1IKTGYBk85spXI3MUOXPfQT3j','2024-11-23 09:19:25','2024-11-23 09:19:25'),
-(2,'User','user@gmail.com','2024-11-23 09:19:26','$2y$12$eKyNtUO27Bg5C3cSP6EbE.5ZjWnFawzIo3w.SOEoyUTKPq0rogGLC','user','kqdEzxlQq7BhQz91eD5KcbzyRGVsf5CwRSrQAW58JhtH3BpEkMG0rQYAabyW','2024-11-23 09:19:26','2024-11-23 09:19:26'),
-(3,'user2','user2@gmail.com',NULL,'$2y$12$EPlmKoDguaaqiWab5QkU/O8NOIpTYiRCn88Oiuy0gwuCbjgKbPAMu','user',NULL,'2024-12-14 13:12:01','2024-12-14 13:12:01'),
-(4,'user3','user3@gmail.com',NULL,'$2y$12$vT488A8F5ziWCEyztMYgcu7m1vNAAj2saUqQji2eyS6Xcegn5.9TG','user',NULL,'2025-01-03 04:24:27','2025-01-03 04:24:27');
+insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`role`,`alamat`,`foto`,`tempat_lahir`,`tanggal_lahir`,`jenis_kelamin`,`agama`,`status_pernikahan`,`provinsi`,`kota`,`no_hp`,`asal_sekolah`,`jurusan`,`lampiran_ijazah`,`lampiran_cv`,`lampiran_keterangan_sehat`,`lampiran_ktp`,`lampiran_skck`,`remember_token`,`created_at`,`updated_at`) values 
+(1,'Admin','admin@gmail.com','2024-11-23 09:19:25','$2y$12$JHLMroUdf68vvxPIm1khtu6Tg349dBucLLHIqgDZp9nXw621IUwya','superadmin','',NULL,'','','','','','','','0','','',NULL,NULL,NULL,NULL,NULL,'LS50l1kIPj74iLqF4p6AVeHEOCw528T98NSEVYN5MEKvZPj0X9XSDu0FfFHP','2024-11-23 09:19:25','2024-11-23 09:19:25'),
+(2,'User','user@gmail.com','2024-11-23 09:19:26','$2y$12$sn4eJ/75CH9NBW3SbrlDIexiyzPpJVP/yZXIPZy29N0SUqP8p6e3y','user','rahasia','foto-lamaran/bLveAGFaK15B5aUx28lRv81e25vtxyterjvMSpjC.png','Bogor','1999-11-05','Laki-Laki','kristen_protestan','menikah','Kalimantan Tengah','Palangka Raya','098139021','Rahasia','Rahasai','lampiran/lampiran-ijazah/XhpFDJ4VnDP3E2LUf86ivWTRb2iVS5u6oIKhxdWQ.png','lampiran/lampiran-cv/MPOEZS75KPUwdbcbQEX7E5kdHwfgI4JrJI1GU3Wf.png','lampiran/lampiran-keterangan-sehat/D2MmOwshWR1X6hnomzAupkIkvp4fLRLY3zuArFQM.png','lampiran/lampiran-ktp/1kcPGOSEluvWaTM4F4sNXytJQ4w1o9O6z2UKVRDs.png','lampiran/lampiran-skck/inHd432o5BngalzFzS4C13MynjSt03CJNIgWWnIF.png','a5fnKmpb0rJ3edktgdDsyRpD4zZmHqRqBJw6lzoWXVDs9qBNkFSFk0Na112k','2024-11-23 09:19:26','2025-02-02 08:39:21'),
+(6,'Tes Ubah3','admin1@gmail.com',NULL,'$2y$12$TJ64Y5K2A5RUlQ11k1wBc.HvJREr11fAO7mmLJeLZLQd7fSozBuXq','admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2025-01-30 13:44:19','2025-01-31 00:07:59'),
+(7,'admin321','admin2@gmail.com',NULL,'$2y$12$vJCHtIVLoi1eqfC8WfxbSO19D2mPIXEd4zRtYlvc4k2IeZ3WNcgxe','admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2025-01-30 13:44:34','2025-01-31 13:46:46');
 
 /*Table structure for table `vacancies` */
 

@@ -21,9 +21,9 @@ class ApplicantScore extends Model
         return $this->belongsTo(Criteria::class, 'criteria_id');
     }
 
-    public function vacancy(): BelongsTo
+    public function periode(): BelongsTo
     {
-        return $this->belongsTo(Vacancy::class, 'vacancy_id');
+        return $this->belongsTo(Periode::class, 'periode_id');
     }
 
     public function sub_criteria(): BelongsTo

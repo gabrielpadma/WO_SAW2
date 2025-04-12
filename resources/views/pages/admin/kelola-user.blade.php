@@ -68,7 +68,7 @@
 
                                                     <a href="{{ route('ubah-password-pengguna', ['user' => $user->id]) }}"
                                                         class="btn btn-success btn-circle" data-toggle="tooltip"
-                                                        data-placement="top" title="Seleksi Pelamar"><i
+                                                        data-placement="top" title="Ubah Password Pengguna"><i
                                                             class="bi bi-pencil-square"></i></a>
 
 
@@ -151,9 +151,9 @@
                                                                             <td>{{ $user->no_hp }}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th scope="row">Asal Sekolah</th>
+                                                                            <th scope="row">Pendidikan Terakhir</th>
                                                                             <td>:</td>
-                                                                            <td>{{ $user->asal_sekolah }}
+                                                                            <td>{{ $user->pendidikan_terakhir }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>

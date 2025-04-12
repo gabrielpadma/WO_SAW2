@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Periode;
 use App\Models\Vacancy;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class VacancyController extends Controller
 {
@@ -22,10 +25,7 @@ class VacancyController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +35,7 @@ class VacancyController extends Controller
         $validatedData = $request->validate([
             'judul_lowongan' => 'required|string|max:255',
             'deskripsi_lowongan' => 'required|string',
-            'berkas_persyaratan' => 'required|mimes:pdf,jpeg,png,jpg|max:2048',
+            'berkas_persyaratan' => 'mimes:pdf,jpeg,png,jpg|max:2048',
         ], [
             // Custom pesan kesalahan
             'judul_lowongan.required' => 'Judul lowongan wajib diisi.',
@@ -45,33 +45,49 @@ class VacancyController extends Controller
             'berkas_persyaratan.max' => 'Ukuran file maksimal 2MB.',
         ]);
 
-        if ($request->hasFile('berkas_persyaratan')) {
-            $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
-            $validatedData['berkas_persyaratan'] = $filePath;
-        }
 
-        $Vacancy = Vacancy::create($validatedData);
-        if ($Vacancy) {
-            return redirect()->route('vacancy.index')->with('swal', [
-                'message' => 'Data berhasil ditambahkan',
-                'icon' => 'success',
-                'title' => 'Success'
-            ]);
-        } else {
-            return redirect()->route('vacancy.index')->with('swal', [
-                'message' => 'Data gagal ditambahkan',
-                'icon' => 'error',
-                'title' => 'Error'
-            ]);
+        try {
+            if ($request->hasFile('berkas_persyaratan')) {
+                $filePath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
+                $validatedData['berkas_persyaratan'] = $filePath;
+            }
+
+            $Vacancy = Vacancy::create($validatedData);
+            if ($Vacancy) {
+
+                $validatedPeriode = $request->validate(['tanggal_periode' => ['required', 'date_format:Y-m', Rule::unique('periode')->where(function ($query) use ($Vacancy, $request) {
+                    $query->where('vacancy_id', $Vacancy->id)->where('tanggal_periode', $request->input('tanggal_periode') . '-01');
+                })]]);
+                $validatedPeriode['status'] = 0;
+                $validatedPeriode['vacancy_id'] = $Vacancy->id;
+                $validatedPeriode['tanggal_periode'] = Carbon::createFromFormat('Y-m', $validatedPeriode['tanggal_periode'])->startOfMonth();
+                Periode::create($validatedPeriode);
+
+
+                return redirect()->route('vacancy.index')->with('swal', [
+                    'message' => 'Data berhasil ditambahkan',
+                    'icon' => 'success',
+                    'title' => 'Success'
+                ]);
+            } else {
+                return redirect()->route('vacancy.index')->with('swal', [
+                    'message' => 'Data gagal ditambahkan',
+                    'icon' => 'error',
+                    'title' => 'Error'
+                ]);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('swal', ['message' => "Data gagal ditambahkan {$e->getMessage()}", 'icon' => 'error', 'title' => 'Error']);
         }
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource. untuk kelola PERIODE
      */
-    public function show(string $id)
+    public function show(Vacancy $vacancy)
     {
-        //
+        $title = "Periode Lowongan {$vacancy->name}";
+        return view('pages.vacancy.show', compact('title', 'vacancy'));
     }
 
     /**
@@ -80,6 +96,7 @@ class VacancyController extends Controller
     public function edit(Vacancy $vacancy)
     {
         $title = 'Edit Lowongan';
+        $vacancy = $vacancy->load(['periode']);
         return view('pages.vacancy.edit', compact('title', 'vacancy'));
     }
 

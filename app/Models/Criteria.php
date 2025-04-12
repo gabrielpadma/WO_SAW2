@@ -24,9 +24,9 @@ class Criteria extends Model
         return $this->hasMany(SubCriteria::class, 'criteria_id');
     }
 
-    public function vacancy(): BelongsTo
+    public function periode(): BelongsTo
     {
-        return $this->belongsTo(Vacancy::class, 'vacancy_id');
+        return $this->belongsTo(Periode::class, 'periode_id');
     }
 
 

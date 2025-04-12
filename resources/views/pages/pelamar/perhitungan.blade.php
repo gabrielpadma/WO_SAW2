@@ -5,7 +5,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Data Perhitungan Lowongan {{ $Vacancy->judul_lowongan }}</h1>
+            <h1>Data Perhitungan Lowongan {{ $vacancy->judul_lowongan }}</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -101,7 +101,7 @@
                                 vektor Bobot W</p>
                             <!-- Table with stripped rows -->
                             <form action="{{ route('simpan-saw') }}" method="post" id='formSimpanSAW'>
-                                <input type="hidden" name="vacancy_id" value={{ $Vacancy->id }}>
+                                <input type="hidden" name="periode_id" value={{ $periode->id }}>
                                 @csrf
                                 @foreach ($hasilSAW as $hasil)
                                     <input type="hidden" name="application_id[]" value="{{ $hasil->id }}">
@@ -109,25 +109,44 @@
                                 <table class="table datatable">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
+                                            <th>Ranking</th>
                                             <th>Alternatif</th>
-                                            <th>Status</th>
                                             <th>Hasil</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($hasilSAW as $key => $hasil)
+                                        @foreach ($groupedResults as $key => $hasil)
+                                            @php
+                                                $rowCount = $hasil->count();
+                                            @endphp
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $hasil->user->name }}</td>
+                                                <td rowspan="{{ $rowCount }}">{{ $loop->iteration }}</td>
+                                                <td>
+                                                    {{ $hasil[0]->user->name }}
+                                                </td>
+
+                                                <td>
+                                                    <input type="text"
+                                                        class="form-control @error('total_score.' . $key) is-invalid @enderror"
+                                                        id="total_score" name="total_score[]" placeholder=""
+                                                        value="{{ old('total_score.' . $key, $hasil[0]->saw_score) }}"
+                                                        readonly>
+                                                    @error('total_score.' . $key)
+                                                        <div class="invalid-feedback text-danger">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+
+                                                </td>
                                                 <td>
                                                     <select
                                                         class="form-select @error('status.' . $key) is-invalid @enderror"
                                                         aria-label="Default select example" name="status[]">
                                                         @foreach ($applicantStatus as $status)
                                                             <option value="{{ $status->value }}"
-                                                                {{ old('status.' . $key, $hasil->status ?? '') == $status->value ? 'selected' : '' }}
-                                                                {{ $status->value == $hasil->status ? 'selected' : '' }}>
+                                                                {{ old('status.' . $key, $hasil[0]->status ?? '') == $status->value ? 'selected' : '' }}
+                                                                {{ $status->value == $hasil[0]->status ? 'selected' : '' }}>
                                                                 {{ Illuminate\Support\Str::ucfirst($status->value) }}
                                                             </option>
                                                         @endforeach
@@ -138,20 +157,49 @@
                                                         </div>
                                                     @enderror
                                                 </td>
-                                                <td>
-                                                    <input type="text"
-                                                        class="form-control @error('total_score.' . $key) is-invalid @enderror"
-                                                        id="total_score" name="total_score[]" placeholder=""
-                                                        value="{{ old('total_score.' . $key, $hasil->saw_score) }}"
-                                                        readonly>
-                                                    @error('total_score.' . $key)
-                                                        <div class="invalid-feedback text-danger">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-
-                                                </td>
                                             </tr>
+
+                                            @for ($i = 1; $i < $rowCount; $i++)
+                                                <tr>
+
+                                                    <td>
+                                                        {{ $hasil[$i]->user->name }}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                            class="form-control @error('total_score.' . $key) is-invalid @enderror"
+                                                            id="total_score" name="total_score[]" placeholder=""
+                                                            value="{{ old('total_score.' . $key, $hasil[$i]->saw_score) }}"
+                                                            readonly>
+                                                        @error('total_score.' . $key)
+                                                            <div class="invalid-feedback text-danger">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+
+                                                    </td>
+
+                                                    <td>
+                                                        <select
+                                                            class="form-select @error('status.' . $key) is-invalid @enderror"
+                                                            aria-label="Default select example" name="status[]">
+                                                            @foreach ($applicantStatus as $status)
+                                                                <option value="{{ $status->value }}"
+                                                                    {{ old('status.' . $key, $hasil[$i]->status ?? '') == $status->value ? 'selected' : '' }}
+                                                                    {{ $status->value == $hasil[$i]->status ? 'selected' : '' }}>
+                                                                    {{ Illuminate\Support\Str::ucfirst($status->value) }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('status.' . $key)
+                                                            <div class="invalid-feedback text-danger">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </td>
+
+                                                </tr>
+                                            @endfor
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -171,6 +219,7 @@
 
         <script>
             $(document).ready(function() {
+                DataTable.ext.errMode = 'none'
                 $('.datatable').DataTable({
                     dom: 'Bfrtip', // Mengaktifkan tombol export
                     buttons: [{
@@ -191,7 +240,8 @@
                             extend: 'print',
                             title: 'Data Perhitungan SAW',
                         }
-                    ]
+                    ],
+
                 });
             });
         </script>

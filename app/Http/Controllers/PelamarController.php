@@ -7,7 +7,9 @@ use App\Models\ApplicantScore;
 use App\Models\Application;
 use App\Models\Criteria;
 use App\Models\MatriksKeputusan;
+use App\Models\Periode;
 use App\Models\Vacancy;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PelamarController extends Controller
@@ -16,18 +18,25 @@ class PelamarController extends Controller
     private function _changeToNormalizeWeight($criterias)
     {
         $totalWeight = $criterias->sum('bobot');
+        $criterias->load(['periode.vacancy']);
+        $currentId = null;
 
-        return $criterias->map(function ($criteria) use ($totalWeight) {
-            $normalizeWeight = round((float)$criteria->bobot / $totalWeight, 2);
-            return [
-                ...$criteria->toArray(),
-                'vacancy' => $criteria->vacancy->judul_lowongan,
-                'normalize_weight' => $normalizeWeight,
-                'normalize_precentage_weight' => round($normalizeWeight * 100, 2)
-            ];
-        });
+        $counter = 1;
+
+        foreach ($criterias as $criteria) {
+            $normalizeWeight = round((float)$criteria->bobot / $totalWeight, 4);
+            if ($currentId != $criteria->periode_id) {
+                $currentId = $criteria->periode_id;
+                $counter = 1;
+            }
+            $criteria->alias = "C$counter";
+            $counter++;
+            $criteria->normalize_weight = $normalizeWeight;
+            $criteria->normalize_precentage_weight = round($normalizeWeight * 100, 2);
+        };
+
+        return $criterias;
     }
-
 
 
     private function _normalizeScores($scores, $criteria)
@@ -42,10 +51,10 @@ class PelamarController extends Controller
             $max = $scoresByCriterion->max('raw_score');
             $min = $scoresByCriterion->min('raw_score');
 
-            $matriksNormalisasi[$key] = [
-                'criteria_name' => $criterion->nama_criteria,
-                'alternatif' => []
-            ];
+            // $matriksNormalisasi[$key] = [
+            //     'criteria_name' => $criterion->nama_criteria,
+            //     'alternatif' => []
+            // ];
 
             foreach ($scoresByCriterion as $score) {
                 $normalizedScore = 0;
@@ -121,21 +130,22 @@ class PelamarController extends Controller
 
 
 
-    function calculateSAW(Request $request)
+    function calculateSAW(Request $request, Vacancy $vacancy, Periode $periode)
     {
-        $title = 'Hitung SAW';
-        $vacancyId = $request->vacancy;
+        $namaPeriode = Carbon::parse($periode->tanggal_periode)->format('F Y');
+        $title = "Hitung SAW {$vacancy->judul_loongan} {$namaPeriode}";
 
-        $Vacancy = Vacancy::find($vacancyId);
-        $criteria = Criteria::with(['vacancy'])->where('vacancy_id', $vacancyId)->get();
+        $criteria = Criteria::with(['periode'])->where('periode_id', '=', $periode->id)->get();
 
         $normalizedWeight = $this->_changeToNormalizeWeight($criteria);
 
-        $applicantScores = ApplicantScore::with(['application.user'])->where('vacancy_id', $vacancyId)->get();
+        $applicantScores = ApplicantScore::with(['application.user'])->where('periode_id', $periode->id)->get();
         [$normalizedScores, $formattedMatrix] = $this->_normalizeScores($applicantScores, $criteria);
+
 
         // $weightedScores = $this->_calculateWeightedScores($normalizedScores, $criteria);
         $weightedScores = $this->_calculateWeightedScores($normalizedScores, $normalizedWeight);
+
         $finalScores = $this->_calculateFinalScores($weightedScores);
 
         $hasilSAW = collect($finalScores)->map(function ($value, $key) {
@@ -144,17 +154,24 @@ class PelamarController extends Controller
                 $application->saw_score = $value;
             }
             return $application;
-        })->filter();
+        })->filter()->sortByDesc('saw_score');
+
+        $groupedResults = $hasilSAW->groupBy('saw_score');
+
+        // Opsional: jika ingin mengurutkan group berdasarkan skor secara descending
+        $groupedResults = $hasilSAW->groupBy(function ($item) {
+            return (string) $item->saw_score;
+        });
 
         $applicantStatus = ApplicantStatusEnum::cases();
-        return view('pages.pelamar.perhitungan', compact('title', 'Vacancy', 'formattedMatrix', 'criteria', 'hasilSAW', 'applicantStatus', 'normalizedWeight'));
+        return view('pages.pelamar.perhitungan', compact('title', 'vacancy', 'formattedMatrix', 'criteria', 'hasilSAW', 'applicantStatus', 'normalizedWeight', 'periode', 'groupedResults'));
     }
 
 
     public function simpanSAW(Request $request)
     {
         $applicationIds = $request->input('application_id');
-        $idLowongan = $request->input('vacancy_id');
+        $idPeriode = $request->input('periode_id');
 
         $validatedData = $request->validate([
             'status' => 'required',
@@ -165,8 +182,8 @@ class PelamarController extends Controller
 
         try {
 
-            $criteria = Criteria::with(['vacancy'])->where('vacancy_id', $idLowongan)->get();
-            $applicantScores = ApplicantScore::with(['application.user'])->where('vacancy_id', $idLowongan)->get();
+            $criteria = Criteria::with(['periode'])->where('periode_id', $idPeriode)->get();
+            $applicantScores = ApplicantScore::with(['application.user'])->where('periode_id', $idPeriode)->get();
             [$normalizedScores] = $this->_normalizeScores($applicantScores, $criteria);
 
             foreach ($normalizedScores as $matrixPenentuan) {
@@ -175,12 +192,12 @@ class PelamarController extends Controller
                 }
                 MatriksKeputusan::updateOrCreate(
                     [
-                        'vacancy_id' => $idLowongan,
+                        'periode_id' => $idPeriode,
                         'applicant_id' => $matrixPenentuan['application_id'],
                         'criteria_id' => $matrixPenentuan['criteria_id'],
                     ],
                     [
-                        'vacancy_id' => $idLowongan,
+                        'periode_id' => $idPeriode,
                         'applicant_id' => $matrixPenentuan['application_id'],
                         'criteria_id' => $matrixPenentuan['criteria_id'],
                         'hasil' => $matrixPenentuan['normalized_score'],
@@ -212,6 +229,19 @@ class PelamarController extends Controller
     }
 
 
+    public function dataPeriodeLowonganLamaran(Request $request, Vacancy $vacancy)
+    {
+        $title = "Periode Lowongan {$vacancy->name}";
+        $vacancy->load(['periode.applications']);
+
+        foreach ($vacancy->periode as $periode) {
+            $periode->jumlahPelamar = $periode->applications->count();
+        }
+
+        return view('pages.pelamar.periode-pelamar', compact('title', 'vacancy'));
+    }
+
+
 
     public function penilaian()
     {
@@ -222,6 +252,19 @@ class PelamarController extends Controller
 
 
 
+
+    public function hitungSawPeriode(Vacancy $vacancy)
+    {
+        $title = "Periode {$vacancy->judul_lowongan}";
+
+        $vacancy->load(['periode.applications']);
+
+        foreach ($vacancy->periode as $periode) {
+            $periode->jumlahPelamar = $periode->applications->count();
+        }
+
+        return view('pages.pelamar.periode-hitung-saw', compact('title', 'vacancy'));
+    }
 
 
     /**
@@ -255,34 +298,41 @@ class PelamarController extends Controller
 
 
 
-    public function dataLamaran(Request $request, Vacancy $vacancy)
+    public function dataLamaran(Request $request, Vacancy $vacancy, Periode $periode)
     {
-        $vacancy = $vacancy->load(['applications.user', 'applications.applicant_scores']);
-        $title = 'Data Semua Pelamar' . $vacancy->nama;
-        return view('pages.pelamar.data-pelamar', compact('title', 'vacancy'));
+        // $vacancy = $vacancy->load(['applications.user', 'applications.applicant_scores']);
+
+        $applications = Application::with(['user', 'applicant_scores', 'periode', 'vacancy'])->where('periode_id', '=', $periode->id)->where('vacancy_id', '=', $vacancy->id)->get();
+
+        $tanggalPeriode = Carbon::parse($periode->tanggal_periode)->format('F Y');
+        $title = "Data Pelamar {$vacancy->judul_lowongan} Periode {$tanggalPeriode}";
+        return view('pages.pelamar.data-pelamar', compact('title', 'applications', 'vacancy', 'periode'));
     }
 
 
-    public function seleksiPelamar(Request $request, Vacancy $vacancy, Application $application)
+    public function seleksiPelamar(Request $request, Periode $periode, Application $application)
     {
-        $application = $application->load(['vacancy.criterias.sub_criterias', 'user']);
-        $criterias = $application->vacancy->criterias;
+        $application = $application->load(['periode.criterias.sub_criterias', 'user']);
+        $periode = $periode->load(['vacancy']);
+
+        $criterias = $application->periode->criterias;
+
         $normalizedCriterias = $this->_changeToNormalizeWeight($criterias);
 
-        $applicantScore = ApplicantScore::where('vacancy_id', $vacancy->id)
+        $applicantScore = ApplicantScore::where('periode_id', $periode->id)
             ->where('application_id', $application->id)
             ->get();
 
         $title = "Seleksi SAW " . $application->user->name;
-        return view('pages.pelamar.seleksi-pelamar', compact('title', 'application', 'normalizedCriterias', 'vacancy', 'applicantScore'));
+        return view('pages.pelamar.seleksi-pelamar', compact('title', 'application', 'normalizedCriterias', 'periode', 'applicantScore'));
     }
 
 
-    public function simpanDataAlternatif(Request $request, Vacancy $vacancy, Application $application)
+    public function simpanDataAlternatif(Request $request, Periode $periode, Application $application)
     {
 
         $validatedData = $request->validate([
-            'vacancy_id' => 'required|integer',
+            'periode_id' => 'required|integer',
             'application_id' => 'required|integer',
             'criteria_id' => 'required',
             'criteria_id.*' => 'required|min:1',
@@ -295,13 +345,13 @@ class PelamarController extends Controller
 
         foreach ($request->criteria_id as $key => $criteria) {
             $attributes = [
-                'vacancy_id' => $request->vacancy_id,
+                'periode_id' => $request->periode_id,
                 'application_id' => $request->application_id,
                 'criteria_id' => $criteria,
             ];
 
             $data = [
-                'vacancy_id' => $request->vacancy_id,
+                'periode_id' => $request->periode_id,
                 'application_id' => $request->application_id,
                 'criteria_id' => $criteria,
                 'sub_criteria_id' => $request->sub_criteria_id[$key], // Ambil dari sub_criteria_id
@@ -310,7 +360,7 @@ class PelamarController extends Controller
 
             ApplicantScore::updateOrCreate($attributes, $data);
         }
-        return redirect()->route('data-lamaran', ['vacancy' => $vacancy->id])->with('swal', [
+        return redirect()->route('data-lamaran.vacancy.periode.pelamar', ['vacancy' => $periode->vacancy->id, 'periode' => $periode->id])->with('swal', [
             'message' => 'Data Alternatif berhasil ditambah/diupdate',
             'icon' => 'success',
             'title' => 'Success'

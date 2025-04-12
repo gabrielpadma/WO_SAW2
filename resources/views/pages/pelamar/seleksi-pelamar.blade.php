@@ -18,7 +18,16 @@
             <h1>Input Penilaian {{ $application->user->name }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('vacancy.index') }}">Lowongan</a></li>
+                    <li class="breadcrumb-item ">{{ $periode->vacancy->id }}</li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('data-lamaran.vacancy.periode', ['vacancy' => $periode->vacancy->id]) }}">Periode</a>
+                    </li>
+                    <li class="breadcrumb-item ">{{ $periode->id }}</li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('data-lamaran.vacancy.periode.pelamar', ['vacancy' => $periode->vacancy->id, 'periode' => $periode->id]) }}">Pelamar</a>
+                    </li>
                     <li class="breadcrumb-item active">Input Data Alternatif</li>
                 </ol>
             </nav>
@@ -67,7 +76,7 @@
 
                             <!-- Table with stripped rows -->
                             <form action="" method="post">
-                                <input type="hidden" name="vacancy_id" value="{{ $vacancy->id }}">
+                                <input type="hidden" name="periode_id" value="{{ $periode->id }}">
                                 <input type="hidden" name="application_id" value="{{ $application->id }}">
                                 @csrf
                                 <table class="table datatable">
@@ -83,7 +92,9 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($application->vacancy?->criterias as $key => $criteria)
+                                        {{-- @dd($application->periode?->criterias) --}}
+
+                                        @foreach ($application->periode?->criterias as $key => $criteria)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $criteria?->nama_criteria }}
@@ -110,7 +121,7 @@
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
-
+                                                </td>
                                                 <td>
                                                     <ul>
                                                         @foreach ($criteria->sub_criterias as $sub_criteria)
@@ -119,7 +130,7 @@
                                                         @endforeach
                                                     </ul>
                                                 </td>
-                                                <td>{{ $normalizedCriterias[$loop->index]['normalize_weight'] }}</td>
+                                                <td>{{ $normalizedCriterias[$loop->index]->normalize_weight }}</td>
                                                 <td> <input type="text"
                                                         class="form-control nilai-alternatif @error('raw_score.' . $key) is-invalid @enderror"
                                                         readonly name="raw_score[]"

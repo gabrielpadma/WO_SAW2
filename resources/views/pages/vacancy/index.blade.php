@@ -19,8 +19,15 @@
             <span>
                 Tambah Lowongan
             </span>
-
         </button>
+
+
+        {{-- <a href="#" class="btn btn-primary btn-icon-split  ms-2 mb-3" role="button" aria-disabled="true"> <i
+                class="bi bi-plus-lg"></i>
+            <span>
+                Tambah Lowongan
+            </span></a> --}}
+
 
 
         <section class="section">
@@ -49,14 +56,24 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $vacancy->judul_lowongan }}</td>
                                             <td>{!! $vacancy->deskripsi_lowongan !!}</td>
-                                            <td><a href="{{ Storage::url($vacancy->berkas_persyaratan) }}"
-                                                    target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                            <td>
+                                                @if ($vacancy->berkas_persyaratan)
+                                                    <a href="{{ Storage::url($vacancy->berkas_persyaratan) }}"
+                                                        target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
+                                                @else
+                                                    -
+                                                @endif
+
                                             </td>
                                             <td>{{ $vacancy->created_at->format('d-m-Y H:i') }}</td>
                                             <td class="d-flex gap-1">
                                                 <a href="{{ route('vacancy.edit', ['vacancy' => $vacancy->id]) }}"
                                                     class="btn btn-primary btn-circle"><i
                                                         class="bi bi-pencil-square"></i></a>
+                                                <a href="{{ route('vacancy.show', ['vacancy' => $vacancy->id]) }}"
+                                                    class="btn btn-primary btn-secondary"><i
+                                                        class="bi bi-info-square"></i></a>
+
                                                 <form
                                                     action="{{ route('vacancy.destroy', ['vacancy' => $vacancy->id]) }}"
                                                     method="POST">
@@ -98,6 +115,23 @@
                         </div>
                     @enderror
                 </div>
+
+                <div class="mb-3">
+                    <label for="tanggal_periode" class="form-label">Periode</label>
+
+                    <input type="month" @class([
+                        'form-control ',
+                        'is-invalid' => $errors->has('tanggal_periode'),
+                    ]) id="tanggal_periode" name="tanggal_periode"
+                        aria-describedby="judulLowongan" required value="{{ old('tanggal_periode') }}">
+                    @error('tanggal_periode')
+                        <div id="validationServerPasswordFeedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+
                 <div class="mb-3">
                     <label for="deskripsi_lowongan" class="form-label">Deskripsi Lowongan</label>
                     <textarea id="deskripsi_lowongan" name="deskripsi_lowongan" required>
@@ -114,8 +148,7 @@
                     <input @class([
                         'form-control ',
                         'is-invalid' => $errors->has('berkas_persyaratan'),
-                    ]) type="file" id="attachment" name="berkas_persyaratan"
-                        required>
+                    ]) type="file" id="attachment" name="berkas_persyaratan">
                     <img id="attachment-preview" src="" alt="Preview Image"
                         style="display:none; margin-top:10px; max-width: 100%; height: auto;">
                     <embed id="pdf-preview" src="" type="application/pdf"
@@ -125,6 +158,8 @@
                             {{ $message }}
                         </div>
                     @enderror
+
+
 
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Submit</button>

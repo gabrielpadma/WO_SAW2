@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AboutUs;
 use App\Models\Application;
 use App\Models\Pengumuman;
+use App\Models\Periode;
 use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\Testimonial;
@@ -61,9 +62,14 @@ class Pelanggan extends Controller implements HasMiddleware
     public function lowongan()
     {
         $title = 'Lowongan Pekerjaan';
-        $vacancies = Vacancy::all();
-        $userApplications = Auth::user()?->applications?->pluck('vacancy_id')->toArray();
-        return view('pages.user.lowongan', compact('title', 'vacancies', 'userApplications'));
+        // $vacancies = Vacancy::whereHas('periode', function ($query) {
+        //     $query->where('status', '1');
+        // })->with(['periode'])->get();
+
+        $periodeVacancies = Periode::where('status', '1')->with('vacancy')->get();
+
+        $userApplications = Auth::user()?->applications?->pluck('periode_id')->toArray();
+        return view('pages.user.lowongan', compact('title', 'periodeVacancies', 'userApplications'));
     }
 
 
@@ -102,7 +108,7 @@ class Pelanggan extends Controller implements HasMiddleware
             'provinsi' => 'required|string',
             'kota' => 'required|string',
             'no_hp' => 'required',
-            'asal_sekolah' => 'required|string',
+            'pendidikan_terakhir' => 'required|string',
             'jurusan' => 'required|string',
             'agama' => 'required|string',
             'foto' => 'nullable|mimes:pdf,jpeg,png,jpg|max:1048',
@@ -162,18 +168,20 @@ class Pelanggan extends Controller implements HasMiddleware
         $updateStatus = $User->update($validatedData);
 
         if ($updateStatus) {
-            dd('berhasil');
+            return redirect()->back()->with('swal', ['icon' => 'success', 'title' => 'Success', 'message' => 'Ubah akun berhasil']);
         } else {
-            dd('gagal');
+            return redirect()->back()->with('swal', ['icon' => 'error', 'title' => 'Error', 'message' => 'Ubah akun gagal']);
         }
     }
 
 
 
-    public function simpanLamaran(Request $request, Vacancy $vacancy)
+    public function simpanLamaran(Request $request, Periode $periode)
     {
 
         $missingFields = [];
+        $periode->load(['vacancy']);
+
 
         if (!Auth::user()->tanggal_lahir) {
             $missingFields[] = 'Tanggal Lahir';
@@ -190,6 +198,9 @@ class Pelanggan extends Controller implements HasMiddleware
 
         if (!Auth::user()->status_pernikahan) {
             $missingFields[] = 'Status Pernikahan';
+        }
+        if (!Auth::user()->pendidikan_terakhir) {
+            $missingFields[] = 'Pendidikan Terakhir';
         }
 
         if (!Auth::user()->foto) {
@@ -214,8 +225,8 @@ class Pelanggan extends Controller implements HasMiddleware
 
         if (count($missingFields) > 0) {
 
-            return redirect('/')->with('swal', [
-                'message' =>  'Data berikut belum lengkap: ' . implode(', ', $missingFields),
+            return redirect()->route('data-diri')->with('swal', [
+                'message' =>  'Data diri belum lengkap: ' . implode(', ', $missingFields),
                 'icon' => 'error',
                 'title' => 'Error'
             ]);
@@ -224,7 +235,8 @@ class Pelanggan extends Controller implements HasMiddleware
 
 
         $validatedData['user_id'] = $request->user()->id;
-        $validatedData['vacancy_id'] = $vacancy->id;
+        $validatedData['vacancy_id'] = $periode->vacancy->id;
+        $validatedData['periode_id'] = $periode->id;
         $validatedData['status'] = 'pending';
 
 

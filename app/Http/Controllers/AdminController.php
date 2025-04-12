@@ -114,7 +114,7 @@ class AdminController extends Controller
             ->groupBy('status')
             ->pluck('total', 'status');
 
-        $totalUser = User::all()->count();
+        $totalUser = User::where('role', '=', 'user')->count();
         $recentApplicant = Application::with(['user', 'applicant_scores', 'vacancy'])->latest()->take(5)->get();
 
         return view('pages.admin.dashboard', compact('title', 'totalPelamar', 'filter', 'totalAlternatifBelumDiisi', 'totalAlternatifDiisi', 'statusCounts', 'totalUser', 'recentApplicant'));

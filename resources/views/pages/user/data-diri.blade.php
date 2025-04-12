@@ -128,7 +128,7 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                id="name" name="name" value={{ old('name', $User->name) }}
+                                id="name" name="name" value="{{ old('name', $User->name) }}"
                                 aria-describedby="UserName">
                             @error('name')
                                 <div class="invalid-feedback">
@@ -139,7 +139,7 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                id="email" name="email" value={{ old('email', $User->email) }}
+                                id="email" name="email" value="{{ old('email', $User->email) }}"
                                 aria-describedby="UserName">
                             @error('email')
                                 <div class="invalid-feedback">
@@ -151,7 +151,7 @@
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
                             <input type="text" class="form-control @error('alamat') is-invalid @enderror"
-                                id="alamat" name="alamat" value={{ old('alamat', $User->alamat) }}
+                                id="alamat" name="alamat" value="{{ old('alamat', $User->alamat) }}"
                                 aria-describedby="UserName">
                             @error('alamat')
                                 <div class="invalid-feedback">
@@ -188,7 +188,7 @@
                             <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
                             <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror"
                                 id="tempat_lahir" name="tempat_lahir"
-                                value={{ old('tempat_lahir', $User->tempat_lahir) }}
+                                value="{{ old('tempat_lahir', $User->tempat_lahir) }}"
                                 aria-describedby="tempat_lahir">
                             @error('tempat_lahir')
                                 <div class="invalid-feedback">
@@ -200,7 +200,7 @@
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
                             <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror"
                                 id="tanggal_lahir" name="tanggal_lahir"
-                                value={{ old('tanggal_lahir', $User->tanggal_lahir) }}
+                                value="{{ old('tanggal_lahir', $User->tanggal_lahir) }}"
                                 aria-describedby="tanggal_lahir">
                             @error('tanggal_lahir')
                                 <div class="invalid-feedback">
@@ -208,6 +208,7 @@
                                 </div>
                             @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="agama" class="form-label">Agama</label>
                             <select @class(['form-select ', 'is-invalid' => $errors->has('agama')]) id="agama" name="agama" required>
@@ -313,12 +314,21 @@
 
 
                         <div class="mb-3">
-                            <label for="asal_sekolah" @class(['form-label ', 'is-invalid' => $errors->has('asal_sekolah')])>Asal Sekolah / Universitas
-                            </label>
-                            <input type="text" class="form-control" id="asal_sekolah"
-                                aria-describedby="asal_sekolah" name="asal_sekolah"
-                                value="{{ old('asal_sekolah', $User->asal_sekolah) }}" required>
-                            @error('asal_sekolah')
+                            <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
+                            <select @class([
+                                'form-select ',
+                                'is-invalid' => $errors->has('pendidikan_terakhir'),
+                            ]) id="pendidikan_terakhir"
+                                name="pendidikan_terakhir" required>
+                                <option value="">--Pilih--</option>
+                                @foreach (App\PendidikanTerakhirEnum::cases() as $pendidikan)
+                                    <option value="{{ $pendidikan->value }}"
+                                        {{ old('pendidikan_terakhir', $User->pendidikan_terakhir) == $pendidikan->value ? 'selected' : '' }}>
+                                        {{ $pendidikan->value }}</option>
+                                @endforeach
+                            </select>
+
+                            @error('pendidikan_terakhir')
                                 <div id="validationServerPasswordFeedback" class="invalid-feedback">
                                     {{ $message }}
                                 </div>

@@ -47,24 +47,26 @@
                                     <th>Judul Lowongan</th>
                                     <th>Deskripsi Lowongan</th>
                                     <th>Persyaratan</th>
+                                    <th>Periode</th>
                                     <th data-type="date" data-format="YYYY/DD/MM">Tanggal Upload</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($vacancies as $vacancy)
+                                @foreach ($periodeVacancies as $periode)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $vacancy->judul_lowongan }}</td>
-                                        <td>{!! $vacancy->deskripsi_lowongan !!}</td>
-                                        <td><a href="{{ Storage::url($vacancy->berkas_persyaratan) }}" target="blank"><i
-                                                    class="bi bi-file-earmark-text-fill"></i></a>
+                                        <td>{{ $periode->vacancy->judul_lowongan }}</td>
+                                        <td>{!! $periode->vacancy->deskripsi_lowongan !!}</td>
+                                        <td><a href="{{ Storage::url($periode->vacancy->berkas_persyaratan) }}"
+                                                target="blank"><i class="bi bi-file-earmark-text-fill"></i></a>
                                         </td>
-                                        <td>{{ $vacancy->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($periode->tanggal_periode)->format('F Y') }}</td>
+                                        <td>{{ $periode->vacancy->created_at->format('d-m-Y') }}</td>
 
                                         @auth
 
-                                            @if (in_array($vacancy->id, $userApplications))
+                                            @if (in_array($periode->id, $userApplications))
                                                 <td class="d-flex gap-1">
                                                     <button type="button" class="btn btn-primary btn-circle"
                                                         data-bs-container="body" data-bs-toggle="popover"
@@ -76,7 +78,7 @@
                                             @else
                                                 <td class="d-flex gap-1">
                                                     <form class='lamar-form'
-                                                        action="{{ route('simpan-lamaran', ['vacancy' => $vacancy->id]) }}"
+                                                        action="{{ route('simpan-lamaran', ['periode' => $periode->id]) }}"
                                                         method="post">
                                                         @csrf
                                                         <button class="btn btn-primary btn-lamar" type="submit"><i
@@ -132,7 +134,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Logout !'
+                    confirmButtonText: 'Daftar !'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Submit form secara manual

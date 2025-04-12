@@ -20,12 +20,6 @@
                         <i class="bi bi-circle"></i><span>Criteria</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('criteria-subcriteria.index') }}">
-                        <i class="bi bi-circle"></i><span>Sub Criteria</span>
-                    </a>
-                </li>
-
             </ul>
         </li><!-- End Components Nav -->
 
@@ -50,7 +44,7 @@
         </li><!-- End Components Nav -->
 
         <li class="nav-item">
-            <a class="nav-link {{ Request::is('admin/vacancy') || Request::is('admin/pelamar') ? '' : 'collapsed' }}"
+            <a class="nav-link {{ Request::is('admin/vacancy') || Request::is('admin/pelamar') || Request::routeIs('vacancy.show') || Request::routeIs('edit-periode') ? '' : 'collapsed' }}"
                 data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Lamaran</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -78,7 +72,7 @@
         <li class="nav-item">
             <a class="nav-link {{ Request::is('admin/pengumuman') ? '' : 'collapsed' }}"
                 href="{{ route('pengumuman.index') }}">
-                <i class="bi bi-megaphone"></i><span>Setting Pengumuman</span>
+                <i class="bi bi-megaphone"></i><span>Pengumuman Seleksi Pelamar</span>
             </a>
         </li><!-- End Profile Page Nav -->
 

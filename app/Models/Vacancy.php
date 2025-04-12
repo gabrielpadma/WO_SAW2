@@ -18,13 +18,18 @@ class Vacancy extends Model
         return $this->hasMany(Application::class, 'vacancy_id');
     }
 
-    public function criterias(): HasMany
-    {
-        return $this->hasMany(Criteria::class, 'vacancy_id');
-    }
+    // public function criterias(): HasMany
+    // {
+    //     return $this->hasMany(Criteria::class, 'vacancy_id');
+    // }
 
     public function matriks_keputusan(): HasMany
     {
         return $this->hasMany(MatriksKeputusan::class, 'vacancy_id');
+    }
+
+    public function periode(): HasMany
+    {
+        return $this->hasMany(Periode::class, 'vacancy_id');
     }
 }

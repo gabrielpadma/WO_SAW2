@@ -39,7 +39,7 @@
 
                                             <td>{{ $vacancy->created_at->format('d-m-Y H:i') }}</td>
                                             <td class="d-flex gap-1">
-                                                <a href="{{ route('data-lamaran', ['vacancy' => $vacancy->id]) }}"
+                                                <a href="{{ route('data-lamaran.vacancy.periode', ['vacancy' => $vacancy->id]) }}"
                                                     class="btn btn-primary btn-circle"><i
                                                         class="bi bi-info-square"></i></a>
                                             </td>

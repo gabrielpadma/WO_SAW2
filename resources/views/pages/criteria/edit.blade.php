@@ -27,26 +27,6 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group mb-3">
-                                            <label for="vacancy_id" class="form-label">Lowongan</label>
-                                            <select name="vacancy_id" id="vacancy_id" @class(['form-control ', 'is-invalid' => $errors->has('vacancy_id')])
-                                                required>
-                                                <option value="">-- Pilih Lowongan --</option>
-                                                @foreach ($allVacancies as $vacancy)
-                                                    <option value="{{ $vacancy->id }}"
-                                                        {{ old('vacancy_id', $criterion->vacancy->id) == $vacancy->id ? 'selected' : '' }}>
-                                                        {{ ucfirst($vacancy->judul_lowongan) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('vacancy_id')
-                                                <div id="validationServerPasswordFeedback" class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group mb-3">
@@ -126,56 +106,6 @@
                     menubar: false, // Menyembunyikan menubar (opsional)
 
                 });
-
-                $('#attachment').on('change', function(event) {
-                    const file = event.target.files[0];
-
-                    // Hapus elemen preview yang ada sebelumnya
-                    $('#attachment-preview').remove();
-                    $('#pdf-preview').remove();
-
-                    if (file) {
-                        const fileType = file.type;
-
-                        if (fileType.startsWith('image/')) {
-                            // Preview untuk gambar
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                // Tambahkan elemen gambar baru
-                                const imgEl = $('<img>', {
-                                    id: 'attachment-preview',
-                                    src: e.target.result,
-                                    class: 'attachment-preview',
-                                    css: {
-                                        'max-width': '25%',
-                                        'height': 'auto',
-                                        'margin-top': '10px'
-                                    }
-                                }); // Menambahkannya ke dalam form group
-                                $('.berkas_persyaratan').html(imgEl);
-                            };
-                            reader.readAsDataURL(file);
-                        } else if (fileType === 'application/pdf') {
-                            // Preview untuk PDF
-                            const fileURL = URL.createObjectURL(file);
-
-                            // Tambahkan elemen PDF baru
-                            const embedEl = $('<embed>', {
-                                id: 'pdf-preview',
-                                src: fileURL,
-                                type: 'application/pdf',
-                                class: 'pdf-preview',
-                                css: {
-                                    'width': '25%',
-                                    'height': '500px',
-                                    'margin-top': '10px'
-                                }
-                            }); // Menambahkannya ke dalam form group
-                            $('.berkas_persyaratan').html(embedEl);
-                        }
-                    }
-                });
-
             });
         </script>
 
